@@ -4,826 +4,541 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#070b12">
-<title>Modelos Atômicos 3D</title>
+<title>Modelos Atômicos</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;background:#070b12;color:#e8eaf0;font-family:'Syne',sans-serif;touch-action:pan-y}
+html,body{width:100%;height:100%;overflow:hidden;background:#070b12;color:#e8eaf0;font-family:'Syne',sans-serif}
 
-/* Loader */
-#loader{position:fixed;inset:0;background:#070b12;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s}
-.ld-ring{width:52px;height:52px;border:3px solid rgba(255,255,255,.08);border-top-color:#4361ee;border-radius:50%;animation:spin .75s linear infinite}
-.ld-logo{font-size:22px;font-weight:800;letter-spacing:2px;margin-bottom:28px;color:rgba(255,255,255,.85)}
-.ld-logo span{color:#4361ee}
-.ld-txt{margin-top:16px;font-size:10px;letter-spacing:4px;color:#4b5563;font-family:'Space Mono',monospace}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* Barra de progresso */
 #prog{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.05);z-index:200}
 #pf{height:100%;width:0;background:#4361ee;transition:width .4s ease,background .4s ease}
 
-/* Carrossel */
 #wrap{position:fixed;inset:0;overflow:hidden}
 #track{display:flex;height:100%;will-change:transform;transition:transform .42s cubic-bezier(.4,0,.2,1)}
 
-/* Slide base */
 .slide{flex:0 0 100vw;width:100vw;height:100%;display:flex;flex-direction:column;overflow:hidden}
 
-/* Área do canvas 3D */
 .canvas-area{
   flex:0 0 42%;position:relative;overflow:hidden;
-  background:radial-gradient(ellipse at 50% 55%, rgba(var(--cor-rgb),.12) 0%, #070b12 70%);
+  background:radial-gradient(ellipse at 50% 55%, rgba(var(--cor-rgb),.1) 0%, #070b12 72%);
 }
 @media(min-height:700px){.canvas-area{flex:0 0 44%}}
-@media(min-height:900px){.canvas-area{flex:0 0 46%}}
-/* Desktop */
 @media(min-width:768px){
   .slide{flex-direction:row}
-  .canvas-area{flex:0 0 48%;height:100%}
+  .canvas-area{flex:0 0 50%;height:100%}
 }
 
-.canvas3d{position:absolute;inset:0;width:100%;height:100%;display:block}
+.canvas2d{position:absolute;inset:0;width:100%;height:100%;display:block}
 
 .badge{
   position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:8px;
-  background:rgba(0,0,0,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:6px 14px;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:6px 14px;z-index:2;
 }
 .bnum{font-family:'Space Mono',monospace;font-size:10px;color:#6b7280}
 .bnome{font-size:12px;font-weight:700;color:var(--cor)}
-.ano-tag{
-  position:absolute;bottom:12px;right:14px;
-  font-family:'Space Mono',monospace;font-size:10px;
-  color:rgba(255,255,255,.22);letter-spacing:2px;
-}
+.ano-tag{position:absolute;bottom:12px;right:14px;font-family:'Space Mono',monospace;font-size:10px;color:rgba(255,255,255,.22);letter-spacing:2px;z-index:2}
 
-/* Linha divisória luminosa */
-.divider{
-  height:1px;background:linear-gradient(90deg,transparent,var(--cor),transparent);
-  opacity:.3;flex-shrink:0;
-}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--cor),transparent);opacity:.3;flex-shrink:0}
 @media(min-width:768px){
   .divider{display:none}
-  .canvas-area::after{
-    content:'';position:absolute;top:0;right:0;width:1px;height:100%;
-    background:linear-gradient(180deg,transparent,var(--cor),transparent);
-    opacity:.3;
-  }
+  .canvas-area::after{content:'';position:absolute;top:0;right:0;width:1px;height:100%;background:linear-gradient(180deg,transparent,var(--cor),transparent);opacity:.3}
 }
 
-/* Área de informações */
-.info-area{
-  flex:1;overflow-y:auto;padding:20px 18px 100px;
-  display:flex;flex-direction:column;gap:16px;
-  scrollbar-width:none;
-}
+.info-area{flex:1;overflow-y:auto;padding:20px 18px 100px;display:flex;flex-direction:column;gap:14px;scrollbar-width:none}
 .info-area::-webkit-scrollbar{display:none}
 @media(min-width:768px){.info-area{padding:28px 32px 40px}}
 
-.subtitulo{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--cor);font-family:'Space Mono',monospace;margin-bottom:4px}
-.titulo{font-size:26px;font-weight:800;line-height:1.1;letter-spacing:-.5px}
-@media(min-width:768px){.titulo{font-size:32px}}
-.desc{font-size:13.5px;line-height:1.8;color:rgba(232,234,240,.78)}
+.subtitulo{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--cor);font-family:'Space Mono',monospace;margin-bottom:4px}
+.titulo{font-size:25px;font-weight:800;line-height:1.1;letter-spacing:-.4px}
+@media(min-width:768px){.titulo{font-size:30px}}
+.desc{font-size:13px;line-height:1.8;color:rgba(232,234,240,.75)}
 
-/* Contexto histórico */
-.contexto-box{
-  background:rgba(255,255,255,.04);border-left:2px solid var(--cor);
-  border-radius:0 8px 8px 0;padding:10px 14px;
-}
-.contexto-box p{font-size:12.5px;color:rgba(232,234,240,.6);line-height:1.6;font-style:italic}
+.contexto-box{background:rgba(255,255,255,.04);border-left:2px solid var(--cor);border-radius:0 8px 8px 0;padding:10px 14px}
+.contexto-box p{font-size:12px;color:rgba(232,234,240,.55);line-height:1.6;font-style:italic}
 
-/* Características */
 .bloco-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--cor);font-family:'Space Mono',monospace;margin-bottom:10px}
-.chars{list-style:none;display:flex;flex-direction:column;gap:9px}
-.chars li{font-size:13px;display:flex;gap:9px;line-height:1.55;align-items:flex-start}
+.chars{list-style:none;display:flex;flex-direction:column;gap:8px}
+.chars li{font-size:12.5px;display:flex;gap:9px;line-height:1.55;align-items:flex-start}
 .ck{color:var(--cor);flex-shrink:0;font-size:9px;margin-top:4px}
 
-/* Limitações */
-.lim-box{
-  background:rgba(255,70,50,.06);border:1px solid rgba(255,70,50,.18);
-  border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;
-}
+.lim-box{background:rgba(255,70,50,.06);border:1px solid rgba(255,70,50,.18);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
 .lim-i{color:#ff5040;flex-shrink:0;font-size:14px;margin-top:1px}
-.lim-box p{font-size:12.5px;color:rgba(232,234,240,.68);line-height:1.65}
+.lim-box p{font-size:12px;color:rgba(232,234,240,.65);line-height:1.65}
 
-/* Legado */
-.legado-box{
-  background:rgba(var(--cor-rgb),.06);border:1px solid rgba(var(--cor-rgb),.22);
-  border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;
-}
+.legado-box{background:rgba(var(--cor-rgb),.06);border:1px solid rgba(var(--cor-rgb),.22);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
 .legado-i{color:var(--cor);flex-shrink:0;font-size:14px;margin-top:1px}
-.legado-box p{font-size:12.5px;color:rgba(232,234,240,.68);line-height:1.65}
+.legado-box p{font-size:12px;color:rgba(232,234,240,.65);line-height:1.65}
 
-/* Navegação — dots */
 #nav-bar{
   position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
   display:flex;align-items:center;gap:8px;
-  background:rgba(7,11,18,.85);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  border:1px solid rgba(255,255,255,.1);
-  padding:10px 20px;border-radius:99px;z-index:200;
-  box-shadow:0 8px 32px rgba(0,0,0,.4);
+  background:rgba(7,11,18,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(255,255,255,.1);padding:10px 20px;border-radius:99px;z-index:200;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
 }
-.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .3s;flex-shrink:0}
-.dot.active{background:var(--cor, #4361ee);transform:scale(1.45);box-shadow:0 0 8px var(--cor, #4361ee)}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer;transition:all .3s;flex-shrink:0}
+.dot.active{background:var(--cor,#4361ee);transform:scale(1.45);box-shadow:0 0 8px var(--cor,#4361ee)}
 
-/* Setas desktop */
-.nav-arrow{
-  display:none;position:fixed;top:50%;transform:translateY(-50%);
-  background:rgba(7,11,18,.7);border:1px solid rgba(255,255,255,.1);
-  border-radius:50%;width:44px;height:44px;font-size:20px;
-  color:rgba(255,255,255,.6);cursor:pointer;
-  align-items:center;justify-content:center;
-  transition:all .2s;z-index:200;
-}
+.nav-arrow{display:none;position:fixed;top:50%;transform:translateY(-50%);background:rgba(7,11,18,.7);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:44px;height:44px;font-size:20px;color:rgba(255,255,255,.6);cursor:pointer;align-items:center;justify-content:center;transition:all .2s;z-index:200}
 .nav-arrow:hover{background:rgba(67,97,238,.3);color:#fff}
-#arr-l{left:16px}
-#arr-r{right:16px}
+#arr-l{left:16px} #arr-r{right:16px}
 @media(min-width:768px){.nav-arrow{display:flex}}
 </style>
 </head>
 <body>
 
-<div id="loader">
-  <div class="ld-logo">ÁTOMO<span>3D</span></div>
-  <div class="ld-ring"></div>
-  <div class="ld-txt">CARREGANDO MODELOS…</div>
-</div>
-
 <div id="prog"><div id="pf"></div></div>
-
-<div id="wrap">
-  <div id="track">
+<div id="wrap"><div id="track">
 <div class="slide" id="slide-democrito" style="--cor:#00f5d4;--cor-rgb:0,245,212">
   <div class="canvas-area">
-    <canvas id="canvas-democrito" class="canvas3d"></canvas>
-    <div class="badge">
-      <span class="bnum">01/07</span>
-      <span class="bnome">Demócrito</span>
-    </div>
+    <canvas id="c-democrito" class="canvas2d"></canvas>
+    <div class="badge"><span class="bnum">01/07</span><span class="bnome">Demócrito</span></div>
     <div class="ano-tag">460–370 a.C.</div>
   </div>
   <div class="divider"></div>
   <div class="info-area">
-    <div>
-      <div class="subtitulo">O Filósofo do Átomo</div>
-      <h2 class="titulo">Demócrito</h2>
-    </div>
-    <p class="desc">O filósofo grego Demócrito propôs que toda a matéria era composta de partículas indivisíveis chamadas <b>átomos</b> (do grego <i>atomos</i> = indivisível). Ele imaginou que entre os átomos haveria apenas o <b>vazio</b>.</p>
+    <div><div class="subtitulo">O Filósofo do Átomo</div><h2 class="titulo">Demócrito</h2></div>
+    <p class="desc">O filósofo grego Demócrito propôs que toda a matéria era composta de partículas indivisíveis chamadas <b>átomos</b> (do grego <i>atomos</i> = indivisível). Ele imaginou que entre os átomos existiria apenas o <b>vazio</b>.</p>
     <div class="contexto-box"><p>📍 Grécia Antiga, escola atomista fundada por Leucipo. Ideia puramente filosófica, sem instrumentos científicos.</p></div>
-    <div class="bloco">
-      <div class="bloco-label">Características</div>
-      <ul class="chars"><li><span class="ck">✦</span>Átomos são indivisíveis e eternos</li><li><span class="ck">✦</span>Existem diferentes formas e tamanhos de átomos</li><li><span class="ck">✦</span>Átomos se movem livremente no vazio</li><li><span class="ck">✦</span>Todas as propriedades da matéria vêm dos átomos</li></ul>
-    </div>
-    <div class="lim-box">
-      <span class="lim-i">⚠</span>
-      <p>Sem base experimental. Aristóteles rejeitou a ideia, atrasando o desenvolvimento da física atômica por quase 2.000 anos.</p>
-    </div>
-    <div class="legado-box">
-      <span class="legado-i">★</span>
-      <p>Primeiro a usar o conceito de átomo — a base de toda a química moderna.</p>
-    </div>
+    <div class="bloco"><div class="bloco-label">Características</div><ul class="chars"><li><span class="ck">✦</span>Átomos são indivisíveis e eternos</li><li><span class="ck">✦</span>Existem diferentes formas e tamanhos</li><li><span class="ck">✦</span>Átomos se movem livremente no vazio</li><li><span class="ck">✦</span>Modelo puramente filosófico</li></ul></div>
+    <div class="lim-box"><span class="lim-i">⚠</span><p>Sem base experimental. Aristóteles rejeitou a ideia, atrasando o desenvolvimento por quase 2.000 anos.</p></div>
+    <div class="legado-box"><span class="legado-i">★</span><p>Primeiro a usar o conceito de átomo — base de toda a química moderna.</p></div>
   </div>
 </div>
 <div class="slide" id="slide-dalton" style="--cor:#f72585;--cor-rgb:247,37,133">
   <div class="canvas-area">
-    <canvas id="canvas-dalton" class="canvas3d"></canvas>
-    <div class="badge">
-      <span class="bnum">02/07</span>
-      <span class="bnome">John Dalton</span>
-    </div>
+    <canvas id="c-dalton" class="canvas2d"></canvas>
+    <div class="badge"><span class="bnum">02/07</span><span class="bnome">John Dalton</span></div>
     <div class="ano-tag">1803</div>
   </div>
   <div class="divider"></div>
   <div class="info-area">
-    <div>
-      <div class="subtitulo">A Teoria Atômica Científica</div>
-      <h2 class="titulo">John Dalton</h2>
-    </div>
+    <div><div class="subtitulo">A Teoria Atômica Científica</div><h2 class="titulo">John Dalton</h2></div>
     <p class="desc">Dalton retomou o átomo com base científica. Sua <b>Teoria Atômica</b> foi a primeira com suporte experimental, fundamentada nas leis de conservação da massa e das proporções definidas.</p>
     <div class="contexto-box"><p>📍 Revolução Industrial na Inglaterra. Dalton era meteorologista e chegou ao átomo estudando a composição dos gases.</p></div>
-    <div class="bloco">
-      <div class="bloco-label">Características</div>
-      <ul class="chars"><li><span class="ck">✦</span>Átomos são esferas maciças e indivisíveis</li><li><span class="ck">✦</span>Átomos do mesmo elemento são idênticos em massa</li><li><span class="ck">✦</span>Compostos formam-se pela união de átomos diferentes</li><li><span class="ck">✦</span>Reações químicas apenas reorganizam átomos</li></ul>
-    </div>
-    <div class="lim-box">
-      <span class="lim-i">⚠</span>
-      <p>Não explicava eletricidade, luz emitida por gases aquecidos, nem a existência de partículas subatômicas.</p>
-    </div>
-    <div class="legado-box">
-      <span class="legado-i">★</span>
-      <p>Fundou a química moderna como ciência quantitativa. A tabela atômica das massas vem daí.</p>
-    </div>
+    <div class="bloco"><div class="bloco-label">Características</div><ul class="chars"><li><span class="ck">✦</span>Átomos são esferas maciças e indivisíveis</li><li><span class="ck">✦</span>Átomos do mesmo elemento são idênticos em massa</li><li><span class="ck">✦</span>Compostos = união de átomos diferentes</li><li><span class="ck">✦</span>Reações químicas apenas reorganizam átomos</li></ul></div>
+    <div class="lim-box"><span class="lim-i">⚠</span><p>Não explicava eletricidade, luz emitida por gases nem partículas subatômicas.</p></div>
+    <div class="legado-box"><span class="legado-i">★</span><p>Fundou a química moderna como ciência quantitativa.</p></div>
   </div>
 </div>
 <div class="slide" id="slide-thomson" style="--cor:#7209b7;--cor-rgb:114,9,183">
   <div class="canvas-area">
-    <canvas id="canvas-thomson" class="canvas3d"></canvas>
-    <div class="badge">
-      <span class="bnum">03/07</span>
-      <span class="bnome">J.J. Thomson</span>
-    </div>
+    <canvas id="c-thomson" class="canvas2d"></canvas>
+    <div class="badge"><span class="bnum">03/07</span><span class="bnome">J.J. Thomson</span></div>
     <div class="ano-tag">1897</div>
   </div>
   <div class="divider"></div>
   <div class="info-area">
-    <div>
-      <div class="subtitulo">Pudim de Passas</div>
-      <h2 class="titulo">J.J. Thomson</h2>
-    </div>
-    <p class="desc">Com a descoberta do <b>elétron</b> em tubos de raios catódicos, Thomson provou que o átomo <b>é divisível</b>. Propôs o modelo do Pudim de Passas: carga positiva difusa com elétrons embutidos.</p>
-    <div class="contexto-box"><p>📍 Era da eletricidade. Experimentos com tubos de vidro a vácuo revelaram raios catódicos — partículas de carga negativa.</p></div>
-    <div class="bloco">
-      <div class="bloco-label">Características</div>
-      <ul class="chars"><li><span class="ck">✦</span>Átomo contém elétrons de carga negativa</li><li><span class="ck">✦</span>Carga positiva distribuída uniformemente na esfera</li><li><span class="ck">✦</span>Elétrons ficam embutidos na carga positiva</li><li><span class="ck">✦</span>Átomo é eletricamente neutro no total</li></ul>
-    </div>
-    <div class="lim-box">
-      <span class="lim-i">⚠</span>
-      <p>O experimento de Rutherford (1909) derrubou este modelo ao mostrar que a carga positiva é concentrada em um núcleo minúsculo.</p>
-    </div>
-    <div class="legado-box">
-      <span class="legado-i">★</span>
-      <p>Primeira prova experimental de que o átomo tem estrutura interna. Thomson ganhou o Nobel em 1906.</p>
-    </div>
+    <div><div class="subtitulo">Pudim de Passas</div><h2 class="titulo">J.J. Thomson</h2></div>
+    <p class="desc">Com a descoberta do <b>elétron</b> em tubos de raios catódicos, Thomson provou que o átomo <b>é divisível</b>. Propôs o Pudim de Passas: esfera de carga positiva com elétrons embutidos.</p>
+    <div class="contexto-box"><p>📍 Era da eletricidade. Experimentos com tubos de vidro a vácuo revelaram os raios catódicos.</p></div>
+    <div class="bloco"><div class="bloco-label">Características</div><ul class="chars"><li><span class="ck">✦</span>Átomo contém elétrons de carga negativa</li><li><span class="ck">✦</span>Carga positiva distribuída uniformemente</li><li><span class="ck">✦</span>Elétrons embutidos na carga positiva</li><li><span class="ck">✦</span>Átomo é eletricamente neutro</li></ul></div>
+    <div class="lim-box"><span class="lim-i">⚠</span><p>Derrubado por Rutherford (1909), que mostrou a carga positiva concentrada em um núcleo minúsculo.</p></div>
+    <div class="legado-box"><span class="legado-i">★</span><p>Primeira prova de que o átomo tem estrutura interna. Nobel de 1906.</p></div>
   </div>
 </div>
 <div class="slide" id="slide-rutherford" style="--cor:#f77f00;--cor-rgb:247,127,0">
   <div class="canvas-area">
-    <canvas id="canvas-rutherford" class="canvas3d"></canvas>
-    <div class="badge">
-      <span class="bnum">04/07</span>
-      <span class="bnome">Rutherford</span>
-    </div>
+    <canvas id="c-rutherford" class="canvas2d"></canvas>
+    <div class="badge"><span class="bnum">04/07</span><span class="bnome">Rutherford</span></div>
     <div class="ano-tag">1911</div>
   </div>
   <div class="divider"></div>
   <div class="info-area">
-    <div>
-      <div class="subtitulo">Experimento da Folha de Ouro</div>
-      <h2 class="titulo">Rutherford</h2>
-    </div>
-    <p class="desc">No <b>Experimento da Folha de Ouro</b>, Rutherford bombardeou ouro com partículas alfa. A maioria atravessou, mas algumas desviaram drasticamente — provando a existência de um <b>núcleo</b> pequeno, denso e positivo.</p>
-    <div class="contexto-box"><p>📍 Universidade de Manchester. Rutherford, Geiger e Marsden esperavam desvios pequenos. O resultado os surpreendeu.</p></div>
-    <div class="bloco">
-      <div class="bloco-label">Características</div>
-      <ul class="chars"><li><span class="ck">✦</span>Núcleo central pequeno, denso e positivo</li><li><span class="ck">✦</span>Núcleo concentra quase toda a massa do átomo</li><li><span class="ck">✦</span>Elétrons orbitam ao redor do núcleo</li><li><span class="ck">✦</span>O átomo é majoritariamente espaço vazio</li></ul>
-    </div>
-    <div class="lim-box">
-      <span class="lim-i">⚠</span>
-      <p>Pela física clássica, elétrons em órbita irradiariam energia e colidiriam com o núcleo em apenas ~10⁻⁸ segundos.</p>
-    </div>
-    <div class="legado-box">
-      <span class="legado-i">★</span>
-      <p>Descoberta do núcleo atômico. Base de toda a física nuclear e dos reatores atômicos.</p>
-    </div>
+    <div><div class="subtitulo">Experimento da Folha de Ouro</div><h2 class="titulo">Rutherford</h2></div>
+    <p class="desc">No <b>Experimento da Folha de Ouro</b>, bombardeou ouro com partículas alfa. A maioria atravessou, mas algumas desviaram drasticamente — provando a existência de um <b>núcleo</b> pequeno, denso e positivo.</p>
+    <div class="contexto-box"><p>📍 Universidade de Manchester. O resultado surpreendeu até o próprio Rutherford.</p></div>
+    <div class="bloco"><div class="bloco-label">Características</div><ul class="chars"><li><span class="ck">✦</span>Núcleo central pequeno, denso e positivo</li><li><span class="ck">✦</span>Núcleo concentra quase toda a massa</li><li><span class="ck">✦</span>Elétrons orbitam ao redor do núcleo</li><li><span class="ck">✦</span>Átomo é majoritariamente espaço vazio</li></ul></div>
+    <div class="lim-box"><span class="lim-i">⚠</span><p>Pela física clássica, elétrons irradiariam energia e colidiriam com o núcleo em ~10⁻⁸ s.</p></div>
+    <div class="legado-box"><span class="legado-i">★</span><p>Descoberta do núcleo atômico. Base de toda a física nuclear.</p></div>
   </div>
 </div>
 <div class="slide" id="slide-bohr" style="--cor:#4361ee;--cor-rgb:67,97,238">
   <div class="canvas-area">
-    <canvas id="canvas-bohr" class="canvas3d"></canvas>
-    <div class="badge">
-      <span class="bnum">05/07</span>
-      <span class="bnome">Niels Bohr</span>
-    </div>
+    <canvas id="c-bohr" class="canvas2d"></canvas>
+    <div class="badge"><span class="bnum">05/07</span><span class="bnome">Niels Bohr</span></div>
     <div class="ano-tag">1913</div>
   </div>
   <div class="divider"></div>
   <div class="info-area">
-    <div>
-      <div class="subtitulo">Órbitas Quantizadas</div>
-      <h2 class="titulo">Niels Bohr</h2>
-    </div>
-    <p class="desc">Bohr aplicou a nascente <b>teoria quântica</b> ao modelo de Rutherford. Elétrons só podem existir em <b>órbitas fixas com energias definidas</b>. Saltos entre órbitas emitem ou absorvem luz de frequência exata.</p>
-    <div class="contexto-box"><p>📍 Copenhagen, Dinamarca. Bohr trabalhou com Rutherford em Manchester e se inspirou na teoria quântica de Planck e Einstein.</p></div>
-    <div class="bloco">
-      <div class="bloco-label">Características</div>
-      <ul class="chars"><li><span class="ck">✦</span>Elétrons em órbitas circulares fixas (níveis de energia)</li><li><span class="ck">✦</span>Cada órbita tem energia quantizada e bem definida</li><li><span class="ck">✦</span>Salto para órbita menor → emissão de fóton de luz</li><li><span class="ck">✦</span>Explica com precisão o espectro de emissão do Hidrogênio</li></ul>
-    </div>
-    <div class="lim-box">
-      <span class="lim-i">⚠</span>
-      <p>Falha para átomos com mais de um elétron. Não explica a forma dos orbitais nem o Princípio da Incerteza de Heisenberg.</p>
-    </div>
-    <div class="legado-box">
-      <span class="legado-i">★</span>
-      <p>Introduziu a quantização de energia nos átomos. Bohr ganhou o Nobel em 1922 por esse modelo.</p>
-    </div>
+    <div><div class="subtitulo">Órbitas Quantizadas</div><h2 class="titulo">Niels Bohr</h2></div>
+    <p class="desc">Bohr aplicou a <b>teoria quântica</b> ao modelo de Rutherford. Elétrons só existem em <b>órbitas fixas com energias definidas</b>. Saltos entre órbitas emitem ou absorvem fótons de luz.</p>
+    <div class="contexto-box"><p>📍 Copenhagen. Bohr trabalhou com Rutherford em Manchester e se inspirou na teoria quântica de Planck.</p></div>
+    <div class="bloco"><div class="bloco-label">Características</div><ul class="chars"><li><span class="ck">✦</span>Elétrons em órbitas circulares fixas</li><li><span class="ck">✦</span>Cada órbita tem energia quantizada</li><li><span class="ck">✦</span>Salto para órbita menor → emissão de fóton</li><li><span class="ck">✦</span>Explica o espectro de emissão do Hidrogênio</li></ul></div>
+    <div class="lim-box"><span class="lim-i">⚠</span><p>Falha para átomos com mais de um elétron. Não explica orbitais nem o Princípio da Incerteza.</p></div>
+    <div class="legado-box"><span class="legado-i">★</span><p>Introduziu a quantização de energia nos átomos. Nobel de 1922.</p></div>
   </div>
 </div>
 <div class="slide" id="slide-sommerfeld" style="--cor:#e9c46a;--cor-rgb:233,196,106">
   <div class="canvas-area">
-    <canvas id="canvas-sommerfeld" class="canvas3d"></canvas>
-    <div class="badge">
-      <span class="bnum">06/07</span>
-      <span class="bnome">Sommerfeld</span>
-    </div>
+    <canvas id="c-sommerfeld" class="canvas2d"></canvas>
+    <div class="badge"><span class="bnum">06/07</span><span class="bnome">Sommerfeld</span></div>
     <div class="ano-tag">1916</div>
   </div>
   <div class="divider"></div>
   <div class="info-area">
-    <div>
-      <div class="subtitulo">Órbitas Elípticas e Relatividade</div>
-      <h2 class="titulo">Sommerfeld</h2>
-    </div>
-    <p class="desc">Sommerfeld aprimorou Bohr adicionando <b>órbitas elípticas</b> e efeitos relativísticos para explicar a <b>estrutura fina</b> dos espectros atômicos — pequenas divisões das linhas espectrais que Bohr não conseguia explicar.</p>
-    <div class="contexto-box"><p>📍 Munique, Alemanha. A Primeira Guerra Mundial ocorria. Sommerfeld foi mentor de Heisenberg, Pauli e outros gigantes da física quântica.</p></div>
-    <div class="bloco">
-      <div class="bloco-label">Características</div>
-      <ul class="chars"><li><span class="ck">✦</span>Órbitas elípticas além das circulares de Bohr</li><li><span class="ck">✦</span>Novo número quântico azimutal (l) além do principal (n)</li><li><span class="ck">✦</span>Correções relativísticas para elétrons em alta velocidade</li><li><span class="ck">✦</span>Explica o desdobramento de linhas espectrais</li></ul>
-    </div>
-    <div class="lim-box">
-      <span class="lim-i">⚠</span>
-      <p>Ainda baseado em trajetórias definidas, incompatível com o Princípio da Incerteza. Não explica o spin do elétron.</p>
-    </div>
-    <div class="legado-box">
-      <span class="legado-i">★</span>
-      <p>Transição entre o modelo clássico e a mecânica quântica moderna. Lançou as bases dos números quânticos.</p>
-    </div>
+    <div><div class="subtitulo">Órbitas Elípticas e Relatividade</div><h2 class="titulo">Sommerfeld</h2></div>
+    <p class="desc">Sommerfeld aprimorou Bohr adicionando <b>órbitas elípticas</b> e efeitos relativísticos para explicar a <b>estrutura fina</b> dos espectros atômicos.</p>
+    <div class="contexto-box"><p>📍 Munique. Sommerfeld foi mentor de Heisenberg, Pauli e outros gigantes da física quântica.</p></div>
+    <div class="bloco"><div class="bloco-label">Características</div><ul class="chars"><li><span class="ck">✦</span>Órbitas elípticas além das circulares</li><li><span class="ck">✦</span>Número quântico azimutal (l)</li><li><span class="ck">✦</span>Correções relativísticas para elétrons rápidos</li><li><span class="ck">✦</span>Explica o desdobramento de linhas espectrais</li></ul></div>
+    <div class="lim-box"><span class="lim-i">⚠</span><p>Ainda baseado em trajetórias definidas. Não explica o spin do elétron.</p></div>
+    <div class="legado-box"><span class="legado-i">★</span><p>Transição entre o modelo clássico e a mecânica quântica moderna.</p></div>
   </div>
 </div>
 <div class="slide" id="slide-quantum" style="--cor:#06d6a0;--cor-rgb:6,214,160">
   <div class="canvas-area">
-    <canvas id="canvas-quantum" class="canvas3d"></canvas>
-    <div class="badge">
-      <span class="bnum">07/07</span>
-      <span class="bnome">Modelo Quântico</span>
-    </div>
+    <canvas id="c-quantum" class="canvas2d"></canvas>
+    <div class="badge"><span class="bnum">07/07</span><span class="bnome">Modelo Quântico</span></div>
     <div class="ano-tag">1926</div>
   </div>
   <div class="divider"></div>
   <div class="info-area">
-    <div>
-      <div class="subtitulo">A Nuvem de Probabilidade</div>
-      <h2 class="titulo">Modelo Quântico</h2>
-    </div>
-    <p class="desc">Schrödinger, Heisenberg e De Broglie desenvolveram a <b>Mecânica Quântica</b>. O elétron não tem posição ou trajetória definida — existe como uma <b>nuvem de probabilidade</b> descrita pela função de onda ψ.</p>
-    <div class="contexto-box"><p>📍 Europa pós-guerra, 1925–1927. Em apenas dois anos, mentes como Einstein, Bohr, Heisenberg e Schrödinger redefiniriam a física para sempre.</p></div>
-    <div class="bloco">
-      <div class="bloco-label">Características</div>
-      <ul class="chars"><li><span class="ck">✦</span>Princípio da Incerteza: Δx·Δp ≥ ℏ/2 (posição e momento não são precisos ao mesmo tempo)</li><li><span class="ck">✦</span>Elétron tem natureza dual: onda e partícula</li><li><span class="ck">✦</span>Orbitais s, p, d, f — regiões de alta probabilidade de encontrar o elétron</li><li><span class="ck">✦</span>4 números quânticos: n (nível), l (forma), mₗ (orientação), mₛ (spin)</li></ul>
-    </div>
-    <div class="lim-box">
-      <span class="lim-i">⚠</span>
-      <p>Modelo atual — extremamente preciso. Matematicamente muito complexo; para sistemas grandes usa-se aproximações.</p>
-    </div>
-    <div class="legado-box">
-      <span class="legado-i">★</span>
-      <p>Base de toda a química moderna, eletrônica, semicondutores, lasers, ressonância magnética e tecnologia quântica.</p>
-    </div>
+    <div><div class="subtitulo">A Nuvem de Probabilidade</div><h2 class="titulo">Modelo Quântico</h2></div>
+    <p class="desc">Schrödinger, Heisenberg e De Broglie desenvolveram a <b>Mecânica Quântica</b>. O elétron não tem posição definida — existe como <b>nuvem de probabilidade</b> descrita pela função de onda ψ.</p>
+    <div class="contexto-box"><p>📍 Europa 1925–1927. Em dois anos, Einstein, Bohr e Heisenberg redefiniriam a física para sempre.</p></div>
+    <div class="bloco"><div class="bloco-label">Características</div><ul class="chars"><li><span class="ck">✦</span>Princípio da Incerteza: Δx·Δp ≥ ℏ/2</li><li><span class="ck">✦</span>Elétron tem natureza dual: onda e partícula</li><li><span class="ck">✦</span>Orbitais s, p, d, f — regiões de probabilidade</li><li><span class="ck">✦</span>4 números quânticos: n, l, mₗ, mₛ</li></ul></div>
+    <div class="lim-box"><span class="lim-i">⚠</span><p>Modelo atual — extremamente preciso. Matematicamente muito complexo.</p></div>
+    <div class="legado-box"><span class="legado-i">★</span><p>Base de toda a eletrônica, lasers, semicondutores e tecnologia quântica.</p></div>
   </div>
-</div></div>
-</div>
-
+</div></div></div>
 <div id="nav-bar"><span class="dot active" data-idx="0" style="--cor:#00f5d4"></span><span class="dot " data-idx="1" style="--cor:#f72585"></span><span class="dot " data-idx="2" style="--cor:#7209b7"></span><span class="dot " data-idx="3" style="--cor:#f77f00"></span><span class="dot " data-idx="4" style="--cor:#4361ee"></span><span class="dot " data-idx="5" style="--cor:#e9c46a"></span><span class="dot " data-idx="6" style="--cor:#06d6a0"></span></div>
-
-<button class="nav-arrow" id="arr-l" aria-label="Anterior">‹</button>
-<button class="nav-arrow" id="arr-r" aria-label="Próximo">›</button>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
-  crossorigin="anonymous"
-  onload="window._threeOk=true; appInit();"
-  onerror="onThreeError()">
-</script>
+<button class="nav-arrow" id="arr-l">‹</button>
+<button class="nav-arrow" id="arr-r">›</button>
 
 <script>
-var MODELOS = [{"id": "democrito", "tipo": "esfera_solida", "cor": "#00f5d4"}, {"id": "dalton", "tipo": "esfera_dalton", "cor": "#f72585"}, {"id": "thomson", "tipo": "pudim_passas", "cor": "#7209b7"}, {"id": "rutherford", "tipo": "rutherford", "cor": "#f77f00"}, {"id": "bohr", "tipo": "bohr", "cor": "#4361ee"}, {"id": "sommerfeld", "tipo": "sommerfeld", "cor": "#e9c46a"}, {"id": "quantum", "tipo": "quantum", "cor": "#06d6a0"}];
+
+// ── Canvas 2D — sem dependências externas ─────────────────────────────────────
+var _animHandles = {};
+
+function startCanvas(id, tipo, cor) {
+  var canvas = document.getElementById('c-' + id);
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var t = 0;
+  var particles = buildParticles(tipo, cor);
+  var RAF = null;
+
+  function resize() {
+    canvas.width  = canvas.offsetWidth  || canvas.parentElement.offsetWidth  || 280;
+    canvas.height = canvas.offsetHeight || canvas.parentElement.offsetHeight || 220;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function loop() {
+    RAF = requestAnimationFrame(loop);
+    t += 0.016;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var cx = canvas.width / 2, cy = canvas.height / 2;
+    drawModel(ctx, tipo, cor, cx, cy, canvas.width, canvas.height, t);
+  }
+  if (_animHandles[id]) cancelAnimationFrame(_animHandles[id]);
+  RAF = requestAnimationFrame(loop);
+  _animHandles[id] = RAF;
+}
+
+function hex2rgb(hex) {
+  var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return [r, g, b];
+}
+
+function drawGlow(ctx, x, y, r, cor, alpha) {
+  var grad = ctx.createRadialGradient(x, y, 0, x, y, r);
+  var rgb = hex2rgb(cor);
+  grad.addColorStop(0,   'rgba('+rgb+','+alpha+')');
+  grad.addColorStop(0.5, 'rgba('+rgb+','+(alpha*0.4)+')');
+  grad.addColorStop(1,   'rgba('+rgb+',0)');
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
+  ctx.fillStyle = grad; ctx.fill();
+}
+
+function drawSphere(ctx, x, y, r, cor, emissive) {
+  var grad = ctx.createRadialGradient(x-r*0.3, y-r*0.3, r*0.05, x, y, r);
+  var rgb = hex2rgb(cor);
+  grad.addColorStop(0,   'rgba('+rgb.map(v=>Math.min(255,v+80))+',1)');
+  grad.addColorStop(0.5, 'rgba('+rgb+',1)');
+  grad.addColorStop(1,   'rgba('+rgb.map(v=>Math.max(0,v-60))+',1)');
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
+  ctx.fillStyle = grad; ctx.fill();
+  if (emissive) {
+    ctx.beginPath(); ctx.arc(x, y, r*1.35, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba('+hex2rgb(cor)+','+(emissive*0.18)+')';
+    ctx.fill();
+  }
+}
+
+function drawOrbit(ctx, cx, cy, rx, ry, rot, cor, alpha) {
+  ctx.save();
+  ctx.translate(cx, cy); ctx.rotate(rot);
+  ctx.beginPath(); ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI*2);
+  ctx.strokeStyle = 'rgba('+hex2rgb(cor)+','+alpha+')';
+  ctx.lineWidth = 1.2; ctx.stroke();
+  ctx.restore();
+}
+
+function drawElectron(ctx, cx, cy, rx, ry, rot, ang, cor, r) {
+  var ex = cx + rx * Math.cos(ang);
+  var ey = cy + ry * Math.sin(ang);
+  // rotacionar
+  var dx = ex - cx, dy = ey - cy;
+  var nx = dx * Math.cos(rot) - dy * Math.sin(rot) + cx;
+  var ny = dx * Math.sin(rot) + dy * Math.cos(rot) + cy;
+  drawGlow(ctx, nx, ny, r*3.5, cor, 0.55);
+  drawSphere(ctx, nx, ny, r, cor, 0);
+  return { x: nx, y: ny };
+}
+
+// ── Demócrito: esfera grande + partículas ao redor ──
+function drawDemocrito(ctx, cor, cx, cy, W, H, t) {
+  var R = Math.min(W, H) * 0.28;
+  drawGlow(ctx, cx, cy, R*2.2, cor, 0.12);
+  drawSphere(ctx, cx, cy, R, cor, 0.4);
+  // grade wireframe sobre a esfera
+  ctx.save();
+  ctx.globalAlpha = 0.09;
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 1;
+  for (var i = 0; i < 6; i++) {
+    var a = i / 6 * Math.PI;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, R, R * Math.abs(Math.cos(a + t*0.3)), a + t*0.3, 0, Math.PI*2);
+    ctx.stroke();
+  }
+  ctx.restore();
+  // partículas orbitando
+  for (var i = 0; i < 32; i++) {
+    var baseAng = i / 32 * Math.PI * 2 + t * 0.4;
+    var dist = R * (1.55 + 0.35 * Math.sin(i * 2.3 + t));
+    var px = cx + dist * Math.cos(baseAng);
+    var py = cy + dist * Math.sin(baseAng) * 0.45;
+    var pr = 2 + Math.sin(i + t*1.5) * 1;
+    var alpha = 0.4 + 0.4 * Math.sin(i * 1.7 + t);
+    ctx.beginPath(); ctx.arc(px, py, pr, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba('+hex2rgb(cor)+','+alpha+')'; ctx.fill();
+  }
+}
+
+// ── Dalton: esfera maciça + latitudes ──
+function drawDalton(ctx, cor, cx, cy, W, H, t) {
+  var R = Math.min(W, H) * 0.28;
+  drawGlow(ctx, cx, cy, R*1.8, cor, 0.14);
+  drawSphere(ctx, cx, cy, R, cor, 0.3);
+  ctx.save(); ctx.globalAlpha = 0.18; ctx.strokeStyle = '#fff'; ctx.lineWidth = 1;
+  for (var i = 0; i < 5; i++) {
+    var lat = (i / 4 - 0.5) * Math.PI;
+    var ry = R * Math.cos(lat);
+    var yy = cy + R * Math.sin(lat);
+    ctx.beginPath(); ctx.ellipse(cx, yy, ry, ry * 0.25, t*0.2, 0, Math.PI*2); ctx.stroke();
+  }
+  for (var j = 0; j < 4; j++) {
+    var rot = j / 4 * Math.PI + t*0.15;
+    ctx.beginPath(); ctx.ellipse(cx, cy, R*0.5, R, rot, 0, Math.PI*2); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// ── Thomson: esfera translúcida + elétrons pulsando ──
+function drawThomson(ctx, cor, cx, cy, W, H, t) {
+  var R = Math.min(W, H) * 0.28;
+  drawGlow(ctx, cx, cy, R*2.0, cor, 0.1);
+  // esfera translúcida
+  var rgb = hex2rgb(cor);
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba('+rgb+',0.18)'; ctx.fill();
+  ctx.strokeStyle = 'rgba('+rgb+',0.4)'; ctx.lineWidth = 1.5; ctx.stroke();
+  // elétrons embutidos
+  for (var i = 0; i < 10; i++) {
+    var baseAng = i/10*Math.PI*2 + t*0.35;
+    var dist = R * (0.35 + 0.5 * ((i%3)/2));
+    var pulse = 1 + 0.18*Math.sin(t*2 + i);
+    var ex = cx + dist*Math.cos(baseAng)*pulse;
+    var ey = cy + dist*Math.sin(baseAng)*pulse*0.6;
+    drawGlow(ctx, ex, ey, 14, '#ffdd00', 0.5);
+    ctx.beginPath(); ctx.arc(ex, ey, 4.5, 0, Math.PI*2);
+    ctx.fillStyle = '#ffdd00'; ctx.fill();
+  }
+}
+
+// ── Rutherford: núcleo + 3 órbitas elípticas ──
+function drawRutherford(ctx, cor, cx, cy, W, H, t) {
+  var scale = Math.min(W, H) * 0.42;
+  // órbitas
+  var orbits = [
+    { rx: scale*0.32, ry: scale*0.18, rot: 0.3,  sp: 1.1 },
+    { rx: scale*0.52, ry: scale*0.28, rot: -0.8, sp: 0.75 },
+    { rx: scale*0.72, ry: scale*0.22, rot: 1.2,  sp: 0.5 },
+  ];
+  orbits.forEach(function(o) { drawOrbit(ctx, cx, cy, o.rx, o.ry, o.rot, cor, 0.3); });
+  // núcleo
+  drawGlow(ctx, cx, cy, 28, cor, 0.6);
+  drawSphere(ctx, cx, cy, 12, cor, 0.8);
+  // elétrons
+  orbits.forEach(function(o, i) {
+    var ang = t * o.sp + i * 2.1;
+    drawElectron(ctx, cx, cy, o.rx, o.ry, o.rot, ang, '#00cfff', 5);
+  });
+}
+
+// ── Bohr: núcleo + 3 órbitas circulares + elétrons ──
+function drawBohr(ctx, cor, cx, cy, W, H, t) {
+  var scale = Math.min(W, H) * 0.42;
+  var niveis = [
+    { r: scale*0.28, n:2, sp:1.1, ecor: '#ffffff' },
+    { r: scale*0.50, n:4, sp:0.7, ecor: '#aaddff' },
+    { r: scale*0.72, n:6, sp:0.45,ecor: '#8899ff' },
+  ];
+  niveis.forEach(function(nv) {
+    ctx.beginPath(); ctx.arc(cx, cy, nv.r, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba('+hex2rgb(cor)+',0.28)'; ctx.lineWidth=1.2; ctx.stroke();
+  });
+  drawGlow(ctx, cx, cy, 26, cor, 0.65);
+  drawSphere(ctx, cx, cy, 11, cor, 0.9);
+  niveis.forEach(function(nv) {
+    for (var i = 0; i < nv.n; i++) {
+      var ang = t*nv.sp + i/nv.n*Math.PI*2;
+      var ex = cx + nv.r*Math.cos(ang), ey = cy + nv.r*Math.sin(ang);
+      drawGlow(ctx, ex, ey, 12, nv.ecor, 0.5);
+      ctx.beginPath(); ctx.arc(ex, ey, 4, 0, Math.PI*2);
+      ctx.fillStyle = nv.ecor; ctx.fill();
+    }
+  });
+}
+
+// ── Sommerfeld: núcleo + órbitas elípticas multicoloridas ──
+function drawSommerfeld(ctx, cor, cx, cy, W, H, t) {
+  var scale = Math.min(W, H) * 0.42;
+  var cfgs = [
+    { rx: scale*0.28, ry: scale*0.28, rot: 0,            sp: 1.4, hue: 0.0 },
+    { rx: scale*0.50, ry: scale*0.22, rot: Math.PI/4,    sp: 1.0, hue: 0.15 },
+    { rx: scale*0.60, ry: scale*0.30, rot: -Math.PI/3,   sp: 0.72, hue: 0.3 },
+    { rx: scale*0.72, ry: scale*0.18, rot: Math.PI/1.5,  sp: 0.55, hue: 0.55 },
+    { rx: scale*0.40, ry: scale*0.35, rot: Math.PI/2,    sp: 0.9,  hue: 0.7 },
+  ];
+  cfgs.forEach(function(c2, i) {
+    var rgb = hslToRgb(c2.hue, 0.9, 0.62);
+    var ecor = 'rgb('+rgb+')';
+    drawOrbit(ctx, cx, cy, c2.rx, c2.ry, c2.rot + t*0.04, ecor, 0.4);
+    var ang = t*c2.sp + i*1.3;
+    var ex = cx + c2.rx*Math.cos(ang + c2.rot);
+    var ey = cy + c2.ry*Math.sin(ang)*Math.cos(c2.rot) - c2.ry*Math.cos(ang)*Math.sin(c2.rot)*0.5;
+    drawGlow(ctx, ex, ey, 13, ecor, 0.55);
+    ctx.beginPath(); ctx.arc(ex, ey, 4.5, 0, Math.PI*2);
+    ctx.fillStyle = ecor; ctx.fill();
+  });
+  drawGlow(ctx, cx, cy, 22, cor, 0.7);
+  drawSphere(ctx, cx, cy, 10, cor, 0.85);
+}
+
+// ── Quântico: nuvem de pontos + núcleo ──
+function drawQuantum(ctx, cor, cx, cy, W, H, t) {
+  var scale = Math.min(W, H) * 0.42;
+  var rgb = hex2rgb(cor);
+  // nuvem de probabilidade — pontos com posição pseudo-aleatória mas determinística
+  for (var i = 0; i < 320; i++) {
+    var seed = i * 1.618;
+    var r_base = scale * (0.12 + Math.pow(fract(seed * 0.37), 0.5) * 0.88);
+    var r = r_base + Math.sin(t * 0.4 + seed) * scale * 0.04;
+    var th = fract(seed * 0.618) * Math.PI * 2 + t * (0.004 + fract(seed * 0.11) * 0.012);
+    var ph = fract(seed * 0.293) * Math.PI;
+    var x = cx + r * Math.sin(ph) * Math.cos(th);
+    var y = cy + r * Math.sin(ph) * Math.sin(th) * 0.55;
+    var alpha = 0.25 + 0.55 * Math.exp(-r / (scale * 0.5)) + 0.2 * Math.sin(t + seed);
+    var size = 1.2 + 1.4 * Math.exp(-r / (scale * 0.35));
+    ctx.beginPath(); ctx.arc(x, y, size, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba('+rgb+','+Math.max(0.05, Math.min(0.9, alpha))+')';
+    ctx.fill();
+  }
+  drawGlow(ctx, cx, cy, 24, cor, 0.8);
+  drawSphere(ctx, cx, cy, 9, cor, 1.0);
+}
+
+function fract(x) { return x - Math.floor(x); }
+
+function hslToRgb(h, s, l) {
+  var r, g, b;
+  if (s === 0) { r = g = b = l; }
+  else {
+    function hue2rgb(p, q, t) {
+      if (t < 0) t += 1; if (t > 1) t -= 1;
+      if (t < 1/6) return p + (q-p)*6*t;
+      if (t < 1/2) return q;
+      if (t < 2/3) return p + (q-p)*(2/3-t)*6;
+      return p;
+    }
+    var q = l < 0.5 ? l*(1+s) : l+s-l*s, p = 2*l-q;
+    r = hue2rgb(p,q,h+1/3); g = hue2rgb(p,q,h); b = hue2rgb(p,q,h-1/3);
+  }
+  return [Math.round(r*255), Math.round(g*255), Math.round(b*255)];
+}
+
+var DRAWS = {
+  democrito: drawDemocrito, dalton: drawDalton, thomson: drawThomson,
+  rutherford: drawRutherford, bohr: drawBohr, sommerfeld: drawSommerfeld, quantum: drawQuantum
+};
+
+function drawModel(ctx, tipo, cor, cx, cy, W, H, t) {
+  DRAWS[tipo](ctx, cor, cx, cy, W, H, t);
+}
+
+
+var MODELOS = [{"id": "democrito", "tipo": "democrito", "cor": "#00f5d4"}, {"id": "dalton", "tipo": "dalton", "cor": "#f72585"}, {"id": "thomson", "tipo": "thomson", "cor": "#7209b7"}, {"id": "rutherford", "tipo": "rutherford", "cor": "#f77f00"}, {"id": "bohr", "tipo": "bohr", "cor": "#4361ee"}, {"id": "sommerfeld", "tipo": "sommerfeld", "cor": "#e9c46a"}, {"id": "quantum", "tipo": "quantum", "cor": "#06d6a0"}];
 var N = MODELOS.length;
 var _idx = 0;
 var _iniciados = {};
-var _track = null;
+var _track = document.getElementById('track');
 
-function onThreeError() {
-  document.getElementById('loader').innerHTML =
-    '<p style="color:#ff5040;font-family:monospace;padding:28px;text-align:center;max-width:320px">' +
-    '⚠ Não foi possível carregar o Three.js.<br><br>' +
-    '<small>Verifique sua conexão com a internet e recarregue a página.</small></p>';
-}
-
-// Timeout de segurança
-setTimeout(function() {
-  if (!window._threeOk) onThreeError();
-}, 10000);
-
-
-var _cenas = {};
-
-function criarCena(canvasId) {
-    var canvas = document.getElementById(canvasId);
-    if (!canvas) return null;
-    var w = canvas.clientWidth || canvas.offsetWidth || 300;
-    var h = canvas.clientHeight || canvas.offsetHeight || 300;
-    if (w === 0 || h === 0) { w = 300; h = 260; }
-    var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-    renderer.setSize(w, h, false);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = false;
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(52, w / h, 0.1, 1000);
-    camera.position.set(0, 0, 5.5);
-    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-    var pl1 = new THREE.PointLight(0xffffff, 2.0, 100);
-    pl1.position.set(4, 5, 5); scene.add(pl1);
-    var pl2 = new THREE.PointLight(0x4488ff, 0.9, 100);
-    pl2.position.set(-5, -3, -4); scene.add(pl2);
-    var pl3 = new THREE.PointLight(0xff8844, 0.4, 50);
-    pl3.position.set(0, -4, 3); scene.add(pl3);
-    var clock = new THREE.Clock();
-    return { renderer: renderer, scene: scene, camera: camera, clock: clock, w: w, h: h };
-}
-
-function mkSphere(r, c, metal, rough, emI) {
-    return new THREE.Mesh(
-        new THREE.SphereGeometry(r, 48, 48),
-        new THREE.MeshStandardMaterial({
-            color: c, metalness: metal||0, roughness: rough||0.5,
-            emissive: c, emissiveIntensity: emI||0
-        })
-    );
-}
-
-function mkRing(innerR, outerR, cor, opac) {
-    var geo = new THREE.RingGeometry(innerR, outerR, 80);
-    var mat = new THREE.MeshBasicMaterial({ color: cor, side: THREE.DoubleSide, transparent: true, opacity: opac||0.25 });
-    return new THREE.Mesh(geo, mat);
-}
-
-// ── Demócrito: esfera sólida + partículas flutuando ──
-function criarDemocrito(cd, cor) {
-    var c = new THREE.Color(cor);
-    var esfera = mkSphere(1.7, c, 0.25, 0.25, 0.18);
-    cd.scene.add(esfera);
-    // brilho atrás
-    var glow = mkSphere(1.9, c, 0, 1, 0.06);
-    cd.scene.add(glow);
-    // partículas ao redor
-    var parts = [];
-    for (var i = 0; i < 60; i++) {
-        var p = new THREE.Mesh(new THREE.SphereGeometry(0.04+Math.random()*0.05, 6, 6),
-            new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.4+Math.random()*0.4 }));
-        var th = Math.random()*Math.PI*2, ph = Math.random()*Math.PI;
-        var rv = 2.3 + Math.random()*1.2;
-        p.position.set(rv*Math.sin(ph)*Math.cos(th), rv*Math.sin(ph)*Math.sin(th), rv*Math.cos(ph));
-        p.userData = { th: th, ph: ph, rv: rv, spTh: (Math.random()-0.5)*0.008, spPh: (Math.random()-0.5)*0.004 };
-        cd.scene.add(p); parts.push(p);
-    }
-    return function(t) {
-        esfera.rotation.y = t*0.45;
-        esfera.rotation.x = t*0.18;
-        glow.rotation.y = -t*0.2;
-        parts.forEach(function(p) {
-            p.userData.th += p.userData.spTh;
-            p.userData.ph += p.userData.spPh;
-            var d = p.userData;
-            p.position.set(d.rv*Math.sin(d.ph)*Math.cos(d.th), d.rv*Math.sin(d.ph)*Math.sin(d.th), d.rv*Math.cos(d.ph));
-        });
-    };
-}
-
-// ── Dalton: esfera maciça + wireframe + anéis de grade ──
-function criarDalton(cd, cor) {
-    var c = new THREE.Color(cor);
-    var esfera = mkSphere(1.75, c, 0.75, 0.12, 0.18);
-    cd.scene.add(esfera);
-    var wire = new THREE.Mesh(new THREE.SphereGeometry(1.78, 16, 16),
-        new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.06 }));
-    cd.scene.add(wire);
-    // linhas de latitude/longitude
-    [0, Math.PI/3, -Math.PI/3, Math.PI/2].forEach(function(ang) {
-        var r = mkRing(1.8, 1.82, 0xffffff, 0.12);
-        r.rotation.x = ang; cd.scene.add(r);
-    });
-    return function(t) {
-        esfera.rotation.y = t*0.38;
-        esfera.rotation.x = Math.sin(t*0.2)*0.15;
-        wire.rotation.y = t*0.38;
-        wire.rotation.x = Math.sin(t*0.2)*0.15;
-    };
-}
-
-// ── Thomson: esfera translúcida + elétrons embutidos pulsando ──
-function criarThomson(cd, cor) {
-    var c = new THREE.Color(cor);
-    var esfera = new THREE.Mesh(new THREE.SphereGeometry(1.75, 48, 48),
-        new THREE.MeshStandardMaterial({
-            color: c, transparent: true, opacity: 0.22,
-            emissive: c, emissiveIntensity: 0.3, side: THREE.DoubleSide
-        }));
-    cd.scene.add(esfera);
-    // camada externa fina
-    var outer = new THREE.Mesh(new THREE.SphereGeometry(1.8, 32, 32),
-        new THREE.MeshBasicMaterial({ color: c, wireframe: true, transparent: true, opacity: 0.08 }));
-    cd.scene.add(outer);
-    var eles = [];
-    var auraCors = [0xffdd00, 0xffaa00, 0xfff080];
-    for (var i = 0; i < 12; i++) {
-        var ec = auraCors[i % auraCors.length];
-        var e = mkSphere(0.14, new THREE.Color(ec), 0.2, 0.3, 0.9);
-        var th = Math.random()*Math.PI*2, ph = Math.acos(2*Math.random()-1);
-        var rv = Math.random()*1.45;
-        e.position.set(rv*Math.sin(ph)*Math.cos(th), rv*Math.sin(ph)*Math.sin(th), rv*Math.cos(ph));
-        e.userData = { th: th, ph: ph, rv: rv, sp: 0.25+Math.random()*0.45, phase: Math.random()*Math.PI*2 };
-        cd.scene.add(e); eles.push(e);
-    }
-    return function(t) {
-        esfera.rotation.y = t*0.28;
-        outer.rotation.y = -t*0.15;
-        eles.forEach(function(e) {
-            e.userData.th += e.userData.sp*0.011;
-            var d = e.userData;
-            var pulse = d.rv + Math.sin(t*1.5 + d.phase)*0.08;
-            e.position.set(pulse*Math.sin(d.ph)*Math.cos(d.th), pulse*Math.sin(d.ph)*Math.sin(d.th), pulse*Math.cos(d.ph));
-            var sc = 1.0 + Math.sin(t*2+d.phase)*0.15;
-            e.scale.setScalar(sc);
-        });
-    };
-}
-
-// ── Rutherford: núcleo pulsante + elétrons em órbitas elípticas 3D ──
-function criarRutherford(cd, cor) {
-    var c = new THREE.Color(cor);
-    // núcleo composto
-    var nucleo = mkSphere(0.42, c, 0.85, 0.08, 0.8);
-    cd.scene.add(nucleo);
-    var nucGlow = mkSphere(0.52, c, 0, 1, 0.15);
-    cd.scene.add(nucGlow);
-    // prótons/nêutrons no núcleo
-    for (var k = 0; k < 8; k++) {
-        var np = mkSphere(0.1, new THREE.Color(k%2===0 ? 0xff4444 : 0xaaaaff), 0.5, 0.3, 0.5);
-        var ang = k/8 * Math.PI*2;
-        np.position.set(Math.cos(ang)*0.25, Math.sin(ang)*0.25, (k%3-1)*0.1);
-        cd.scene.add(np);
-    }
-    var orbitas = [], eles = [];
-    var configs = [
-        { raio: 1.2, flat: 0.52, incX: 0.0, incZ: 0.0, sp: 1.1 },
-        { raio: 2.0, flat: 0.6,  incX: 1.1, incZ: 0.5, sp: 0.75 },
-        { raio: 2.7, flat: 0.45, incX: -0.8,incZ: 1.0, sp: 0.5 }
-    ];
-    configs.forEach(function(cfg, i) {
-        var pts = new THREE.EllipseCurve(0,0,cfg.raio,cfg.raio*cfg.flat,0,Math.PI*2).getPoints(100);
-        var orb = new THREE.Line(
-            new THREE.BufferGeometry().setFromPoints(pts.map(function(p){ return new THREE.Vector3(p.x,p.y,0); })),
-            new THREE.LineBasicMaterial({ color: 0x888888, transparent: true, opacity: 0.28 })
-        );
-        orb.rotation.x = cfg.incX; orb.rotation.z = cfg.incZ;
-        cd.scene.add(orb);
-        var e = mkSphere(0.15, new THREE.Color(0x00cfff), 0.3, 0.25, 1.0);
-        cd.scene.add(e);
-        orbitas.push({ raio: cfg.raio, flat: cfg.flat, incX: cfg.incX, incZ: cfg.incZ, sp: cfg.sp, ang: i*2.3 });
-        eles.push(e);
-    });
-    return function(t) {
-        nucleo.rotation.y = t*1.2;
-        var pulse = 1.0 + Math.sin(t*2.5)*0.06;
-        nucGlow.scale.setScalar(pulse);
-        orbitas.forEach(function(o, i) {
-            o.ang += o.sp*0.022;
-            var v = new THREE.Vector3(Math.cos(o.ang)*o.raio, Math.sin(o.ang)*o.raio*o.flat, 0);
-            v.applyEuler(new THREE.Euler(o.incX, 0, o.incZ));
-            eles[i].position.copy(v);
-        });
-    };
-}
-
-// ── Bohr: núcleo + órbitas circulares + elétrons com trail ──
-function criarBohr(cd, cor) {
-    var c = new THREE.Color(cor);
-    var nucleo = mkSphere(0.38, c, 0.85, 0.08, 0.95);
-    cd.scene.add(nucleo);
-    var nucGlow = mkSphere(0.48, c, 0, 1, 0.12);
-    cd.scene.add(nucGlow);
-    var niveis = [
-        { r:1.05, n:2, inc:0, cor: new THREE.Color(0xffffff) },
-        { r:1.85, n:4, inc:Math.PI/3.5, cor: new THREE.Color(0xaaddff) },
-        { r:2.55, n:6, inc:Math.PI/7, cor: new THREE.Color(0x88aaff) }
-    ];
-    var todos = [];
-    niveis.forEach(function(nv, ni) {
-        // anel/disco colorido
-        var ring = mkRing(nv.r-0.01, nv.r+0.01, nv.cor, 0.3);
-        ring.rotation.x = nv.inc; cd.scene.add(ring);
-        for (var i = 0; i < nv.n; i++) {
-            var e = mkSphere(0.11, nv.cor, 0.15, 0.3, 1.0);
-            e.userData = { r: nv.r, ang: (i/nv.n)*Math.PI*2, sp: 1.1-ni*0.3, inc: nv.inc };
-            cd.scene.add(e); todos.push(e);
-        }
-    });
-    return function(t) {
-        nucleo.rotation.y = t*0.9;
-        nucGlow.scale.setScalar(1.0 + Math.sin(t*3)*0.05);
-        todos.forEach(function(e) {
-            e.userData.ang += e.userData.sp * 0.027;
-            var v = new THREE.Vector3(
-                Math.cos(e.userData.ang)*e.userData.r,
-                Math.sin(e.userData.ang)*e.userData.r, 0);
-            v.applyEuler(new THREE.Euler(e.userData.inc, 0, 0));
-            e.position.copy(v);
-        });
-    };
-}
-
-// ── Sommerfeld: órbitas elípticas multicoloridas ──
-function criarSommerfeld(cd, cor) {
-    var c = new THREE.Color(cor);
-    var nucleo = mkSphere(0.33, c, 0.85, 0.08, 0.85);
-    cd.scene.add(nucleo);
-    var cfgs = [
-        { rx:1.1, ry:1.1, ix:0,          iy:0,          iz:0,          sp:1.4 },
-        { rx:1.9, ry:0.85,ix:Math.PI/4,   iy:0,          iz:0,          sp:1.0 },
-        { rx:2.3, ry:1.05,ix:Math.PI/6,   iy:Math.PI/3,  iz:0,          sp:0.72 },
-        { rx:2.65,ry:0.65,ix:-Math.PI/3,  iy:Math.PI/5,  iz:Math.PI/6,  sp:0.55 },
-        { rx:1.5, ry:1.3, ix:Math.PI/2,   iy:Math.PI/4,  iz:-Math.PI/5, sp:0.9 }
-    ];
-    var eles = [];
-    cfgs.forEach(function(cfg, i) {
-        var pts = new THREE.EllipseCurve(0,0,cfg.rx,cfg.ry,0,Math.PI*2).getPoints(90);
-        var clr = new THREE.Color().setHSL(i/cfgs.length, 0.9, 0.62);
-        var orb = new THREE.Line(
-            new THREE.BufferGeometry().setFromPoints(pts.map(function(p){ return new THREE.Vector3(p.x,p.y,0); })),
-            new THREE.LineBasicMaterial({ color: clr, transparent: true, opacity: 0.42 })
-        );
-        orb.rotation.set(cfg.ix, cfg.iy, cfg.iz); cd.scene.add(orb);
-        var e = mkSphere(0.13, clr, 0.2, 0.22, 1.0);
-        e.userData = { cfg: cfg, ang: i*1.3, rot: new THREE.Euler(cfg.ix, cfg.iy, cfg.iz) };
-        cd.scene.add(e); eles.push(e);
-    });
-    return function(t) {
-        nucleo.rotation.y = t*0.55;
-        eles.forEach(function(e) {
-            e.userData.ang += e.userData.cfg.sp * 0.022;
-            var v = new THREE.Vector3(
-                Math.cos(e.userData.ang)*e.userData.cfg.rx,
-                Math.sin(e.userData.ang)*e.userData.cfg.ry, 0);
-            v.applyEuler(e.userData.rot);
-            e.position.copy(v);
-        });
-    };
-}
-
-// ── Quântico: nuvem de probabilidade animada ──
-function criarQuantum(cd, cor) {
-    var c = new THREE.Color(cor);
-    var nucleo = mkSphere(0.26, c, 0.6, 0.1, 1.0);
-    cd.scene.add(nucleo);
-    var nucGlow = mkSphere(0.38, c, 0, 1, 0.18);
-    cd.scene.add(nucGlow);
-    // nuvem de pontos — orbitais s, p
-    var NPTS = 2200;
-    var pos = new Float32Array(NPTS*3), cols = new Float32Array(NPTS*3), vels = [];
-    var shells = [
-        { prob: 0.3, rMin: 0.5, rMax: 1.1, hue: 0.48 },
-        { prob: 0.5, rMin: 1.0, rMax: 1.9, hue: 0.52 },
-        { prob: 0.2, rMin: 1.8, rMax: 2.8, hue: 0.56 }
-    ];
-    for (var i = 0; i < NPTS; i++) {
-        var rnd = Math.random(); var shell = shells[0];
-        if (rnd > 0.3 && rnd <= 0.8) shell = shells[1];
-        else if (rnd > 0.8) shell = shells[2];
-        var r = shell.rMin + Math.pow(Math.random(), 0.5)*(shell.rMax - shell.rMin);
-        var th = Math.random()*Math.PI*2, ph = Math.acos(2*Math.random()-1);
-        pos[i*3]  =r*Math.sin(ph)*Math.cos(th);
-        pos[i*3+1]=r*Math.sin(ph)*Math.sin(th);
-        pos[i*3+2]=r*Math.cos(ph);
-        var bright = 0.3 + Math.random()*0.7;
-        var clr = new THREE.Color().setHSL(shell.hue, 0.8, bright*0.6);
-        cols[i*3]=clr.r; cols[i*3+1]=clr.g; cols[i*3+2]=clr.b;
-        vels.push({ th: th, baseR: r, phase: Math.random()*Math.PI*2, spTh: 0.001+Math.random()*0.004 });
-    }
-    var geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
-    var cloud = new THREE.Points(geo, new THREE.PointsMaterial({
-        size: 0.065, vertexColors: true, transparent: true, opacity: 0.82
-    }));
-    cd.scene.add(cloud);
-    return function(t) {
-        nucleo.rotation.y = t*1.1;
-        nucGlow.scale.setScalar(1.0 + Math.sin(t*2.2)*0.07);
-        var p = cloud.geometry.attributes.position.array;
-        for (var i = 0; i < NPTS; i++) {
-            vels[i].th += vels[i].spTh;
-            var r = vels[i].baseR + Math.sin(t*0.45+vels[i].phase)*0.12;
-            var ph2 = Math.acos(Math.max(-1, Math.min(1, p[i*3+1]/(r||0.001))));
-            p[i*3]   = r*Math.sin(ph2)*Math.cos(vels[i].th);
-            p[i*3+2] = r*Math.sin(ph2)*Math.sin(vels[i].th);
-        }
-        cloud.geometry.attributes.position.needsUpdate = true;
-        cloud.rotation.y = t*0.035;
-    };
-}
-
-var CRIADORES = {
-    esfera_solida: criarDemocrito,
-    esfera_dalton:  criarDalton,
-    pudim_passas:   criarThomson,
-    rutherford:     criarRutherford,
-    bohr:           criarBohr,
-    sommerfeld:     criarSommerfeld,
-    quantum:        criarQuantum
-};
-
-function iniciarCena3D(id, tipo, cor) {
-    var cd = criarCena('canvas-'+id);
-    if (!cd) { console.warn('Canvas nao encontrado:', id); return; }
-    _cenas[id] = cd;
-    var animFn = CRIADORES[tipo](cd, cor);
-    var running = true;
-    (function loop() {
-        if (!running) return;
-        requestAnimationFrame(loop);
-        animFn(cd.clock.getElapsedTime());
-        cd.renderer.render(cd.scene, cd.camera);
-    })();
-}
-
-
-// ── Navegação ──────────────────────────────────────────────────────────────
-function ir(i, animado) {
+function ir(i, anim) {
   if (i < 0 || i >= N) return;
   _idx = i;
-  _track.style.transition = animado === false ? 'none' : 'transform .42s cubic-bezier(.4,0,.2,1)';
+  _track.style.transition = anim === false ? 'none' : 'transform .42s cubic-bezier(.4,0,.2,1)';
   _track.style.transform = 'translateX(' + (-_idx * 100) + 'vw)';
-  document.querySelectorAll('.dot').forEach(function(d, j) {
-    d.classList.toggle('active', j === _idx);
-  });
+  document.querySelectorAll('.dot').forEach(function(d, j) { d.classList.toggle('active', j === _idx); });
   var pf = document.getElementById('pf');
-  pf.style.width = ((_idx + 1) / N * 100) + '%';
+  pf.style.width = ((_idx+1)/N*100) + '%';
   pf.style.background = MODELOS[_idx].cor;
-  // pré-carregar vizinhos
-  [_idx, _idx+1, _idx-1].forEach(carregar);
+  [_idx, _idx+1, _idx-1].forEach(function(k) {
+    if (k < 0 || k >= N || _iniciados[MODELOS[k].id]) return;
+    _iniciados[MODELOS[k].id] = true;
+    var m = MODELOS[k];
+    setTimeout(function() { startCanvas(m.id, m.tipo, m.cor); }, 60);
+  });
 }
 
-function carregar(i) {
-  if (i < 0 || i >= N) return;
-  var m = MODELOS[i];
-  if (_iniciados[m.id]) return;
-  _iniciados[m.id] = true;
-  // delay para garantir que o canvas está no DOM e tem dimensões
-  setTimeout(function() { iniciarCena3D(m.id, m.tipo, m.cor); }, 80);
-}
-
-// ── Touch swipe ────────────────────────────────────────────────────────────
+// Touch
 (function() {
-  var tx0 = 0, ty0 = 0, swiping = false, baseX = 0;
+  var tx0=0, ty0=0, sw=false, bx=0;
   var wrap = document.getElementById('wrap');
-  wrap.addEventListener('touchstart', function(e) {
-    tx0 = e.touches[0].clientX; ty0 = e.touches[0].clientY;
-    swiping = true; baseX = -_idx * window.innerWidth;
-  }, {passive: true});
+  wrap.addEventListener('touchstart', function(e) { tx0=e.touches[0].clientX; ty0=e.touches[0].clientY; sw=true; bx=-_idx*window.innerWidth; }, {passive:true});
   wrap.addEventListener('touchmove', function(e) {
-    if (!swiping) return;
-    var dx = e.touches[0].clientX - tx0;
-    var dy = e.touches[0].clientY - ty0;
-    if (Math.abs(dx) > Math.abs(dy)) {
-      e.preventDefault();
-      _track.style.transition = 'none';
-      _track.style.transform = 'translateX(' + (baseX + dx) + 'px)';
-    }
-  }, {passive: false});
+    if(!sw) return;
+    var dx=e.touches[0].clientX-tx0, dy=e.touches[0].clientY-ty0;
+    if(Math.abs(dx)>Math.abs(dy)) { e.preventDefault(); _track.style.transition='none'; _track.style.transform='translateX('+(bx+dx)+'px)'; }
+  }, {passive:false});
   wrap.addEventListener('touchend', function(e) {
-    if (!swiping) return; swiping = false;
-    var dx = e.changedTouches[0].clientX - tx0;
-    ir(Math.abs(dx) > 48 ? (dx < 0 ? Math.min(_idx+1, N-1) : Math.max(_idx-1, 0)) : _idx);
+    if(!sw) return; sw=false;
+    var dx=e.changedTouches[0].clientX-tx0;
+    ir(Math.abs(dx)>48?(dx<0?Math.min(_idx+1,N-1):Math.max(_idx-1,0)):_idx);
   });
 })();
 
-// ── Teclado ────────────────────────────────────────────────────────────────
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') ir(_idx+1);
-  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   ir(_idx-1);
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') ir(_idx+1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')    ir(_idx-1);
 });
-
-// ── Dots ───────────────────────────────────────────────────────────────────
-document.querySelectorAll('.dot').forEach(function(d) {
-  d.addEventListener('click', function() { ir(+d.dataset.idx); });
-});
-
-// ── Setas desktop ──────────────────────────────────────────────────────────
+document.querySelectorAll('.dot').forEach(function(d) { d.addEventListener('click', function() { ir(+d.dataset.idx); }); });
 document.getElementById('arr-l').addEventListener('click', function() { ir(_idx-1); });
 document.getElementById('arr-r').addEventListener('click', function() { ir(_idx+1); });
-
-// ── Resize ─────────────────────────────────────────────────────────────────
 window.addEventListener('resize', function() {
   ir(_idx, false);
-  Object.keys(_cenas).forEach(function(id) {
-    var cd = _cenas[id];
-    var canvas = document.getElementById('canvas-'+id);
-    if (!cd || !canvas) return;
-    var w = canvas.clientWidth || 300;
-    var h = canvas.clientHeight || 300;
-    cd.renderer.setSize(w, h, false);
-    cd.camera.aspect = w / h;
-    cd.camera.updateProjectionMatrix();
+  Object.keys(_animHandles).forEach(function(id) {
+    var c = document.getElementById('c-'+id);
+    if(c) { c.width=c.offsetWidth||280; c.height=c.offsetHeight||220; }
   });
 });
 
-// ── Init ───────────────────────────────────────────────────────────────────
-function appInit() {
-  _track = document.getElementById('track');
-  var loader = document.getElementById('loader');
-  loader.style.opacity = '0';
-  loader.style.pointerEvents = 'none';
-  setTimeout(function() { loader.style.display = 'none'; }, 500);
-  ir(0, false);
-}
+// Inicia imediatamente — sem esperar CDN
+ir(0, false);
 </script>
 </body>
 </html>
