@@ -216,23 +216,26 @@ function startCanvas(id, tipo, cor) {
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
   var t = 0;
-  var particles = buildParticles(tipo, cor);
   var RAF = null;
 
   function resize() {
-    canvas.width  = canvas.offsetWidth  || canvas.parentElement.offsetWidth  || 280;
-    canvas.height = canvas.offsetHeight || canvas.parentElement.offsetHeight || 220;
+    // canvas tem position:absolute, offsetWidth é 0 — usar o pai
+    var parent = canvas.parentElement;
+    var w = parent.getBoundingClientRect().width  || parent.offsetWidth  || 280;
+    var h = parent.getBoundingClientRect().height || parent.offsetHeight || 220;
+    if (w > 0) canvas.width  = w;
+    if (h > 0) canvas.height = h;
   }
-  resize();
-  window.addEventListener('resize', resize);
 
   function loop() {
     RAF = requestAnimationFrame(loop);
+    resize(); // mantém canvas sempre no tamanho certo
     t += 0.016;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     var cx = canvas.width / 2, cy = canvas.height / 2;
-    drawModel(ctx, tipo, cor, cx, cy, canvas.width, canvas.height, t);
+    if (cx > 0 && cy > 0) drawModel(ctx, tipo, cor, cx, cy, canvas.width, canvas.height, t);
   }
+
   if (_animHandles[id]) cancelAnimationFrame(_animHandles[id]);
   RAF = requestAnimationFrame(loop);
   _animHandles[id] = RAF;
