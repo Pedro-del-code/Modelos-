@@ -1,6 +1,6 @@
 """
 Gerador de Slides 3D - Modelos Atômicos
-Executa este script para gerar o arquivo index.html
+Layout: Stories/Carrossel mobile-first com swipe
 """
 
 modelos = [
@@ -9,12 +9,11 @@ modelos = [
         "nome": "Demócrito",
         "ano": "460–370 a.C.",
         "cor": "#00f5d4",
-        "descricao": "O filósofo grego Demócrito propôs que toda matéria era composta de partículas indivisíveis e eternas chamadas <b>átomos</b> (do grego <i>atomos</i> = indivisível). Ele imaginou que, ao cortar um objeto infinitas vezes, chegaria a uma partícula que não poderia mais ser dividida.",
+        "descricao": "O filósofo grego Demócrito propôs que toda matéria era composta de partículas indivisíveis chamadas <b>átomos</b> (do grego <i>atomos</i> = indivisível).",
         "caracteristicas": [
             "Átomos são indivisíveis e eternos",
             "Existem diferentes tipos de átomos",
             "Átomos se movem no vazio",
-            "Diferenças entre materiais = diferenças nos átomos",
             "Modelo puramente filosófico, sem experimentos"
         ],
         "limitacoes": "Sem base experimental. Aristóteles rejeitou a ideia, atrasando o desenvolvimento por séculos.",
@@ -25,15 +24,14 @@ modelos = [
         "nome": "John Dalton",
         "ano": "1803",
         "cor": "#f72585",
-        "descricao": "O químico inglês John Dalton retomou a ideia atômica com base científica. Sua <b>Teoria Atômica</b> foi a primeira com suporte experimental, baseada nas leis de conservação da massa e proporções definidas.",
+        "descricao": "Dalton retomou o átomo com base científica. Sua <b>Teoria Atômica</b> foi a primeira com suporte experimental, baseada nas leis de conservação da massa.",
         "caracteristicas": [
             "Átomos são esferas maciças e indivisíveis",
             "Átomos do mesmo elemento são idênticos",
-            "Átomos de elementos diferentes têm massas diferentes",
-            "Compostos se formam pela união de átomos",
+            "Compostos = união de átomos diferentes",
             "Reações químicas reorganizam átomos"
         ],
-        "limitacoes": "Não explicava eletricidade, luz emitida por gases, ou a existência de partículas subatômicas.",
+        "limitacoes": "Não explicava eletricidade, luz emitida por gases, nem partículas subatômicas.",
         "tipo_3d": "esfera_dalton"
     },
     {
@@ -41,31 +39,29 @@ modelos = [
         "nome": "J.J. Thomson",
         "ano": "1897",
         "cor": "#7209b7",
-        "descricao": "Com a descoberta do <b>elétron</b> em 1897 usando tubos de raios catódicos, Thomson propôs o modelo do <b>Pudim de Passas</b> (Plum Pudding). O átomo seria uma esfera de carga positiva com elétrons embutidos.",
+        "descricao": "Com a descoberta do <b>elétron</b> em tubos de raios catódicos, Thomson propôs o modelo do <b>Pudim de Passas</b>: esfera positiva com elétrons embutidos.",
         "caracteristicas": [
             "Átomo é divisível — contém elétrons",
             "Elétrons têm carga negativa",
             "Carga positiva distribuída uniformemente",
-            "Átomo é eletricamente neutro",
-            "Elétrons estão embutidos na massa positiva"
+            "Átomo é eletricamente neutro"
         ],
-        "limitacoes": "O experimento de Rutherford (1909) derrubou este modelo ao mostrar que a carga positiva é concentrada.",
+        "limitacoes": "Derrubado pelo experimento de Rutherford (1909), que mostrou a carga positiva concentrada.",
         "tipo_3d": "pudim_passas"
     },
     {
         "id": "rutherford",
-        "nome": "Ernest Rutherford",
+        "nome": "Rutherford",
         "ano": "1911",
         "cor": "#f77f00",
-        "descricao": "No famoso <b>Experimento da Folha de Ouro</b>, Rutherford bombardeou folha de ouro com partículas alfa. A maioria passou, mas algumas desviaram muito. Concluiu que o átomo tem um <b>núcleo</b> pequeno, denso e positivo.",
+        "descricao": "No <b>Experimento da Folha de Ouro</b>, bombardeou ouro com partículas alfa. Algumas desviaram muito, provando existência de um <b>núcleo</b> pequeno e denso.",
         "caracteristicas": [
-            "Núcleo central pequeno e denso (prótons)",
+            "Núcleo central pequeno e denso",
             "Núcleo concentra quase toda a massa",
             "Elétrons giram ao redor do núcleo",
-            "O átomo é majoritariamente vazio",
-            "Carga positiva concentrada no núcleo"
+            "O átomo é majoritariamente vazio"
         ],
-        "limitacoes": "Pela eletrodinâmica clássica, elétrons em órbita irradiariam energia e colidiriam com o núcleo em ~10⁻⁸ s.",
+        "limitacoes": "Elétrons em órbita irradiariam energia e colidiriam com o núcleo em ~10⁻⁸ s.",
         "tipo_3d": "rutherford"
     },
     {
@@ -73,15 +69,14 @@ modelos = [
         "nome": "Niels Bohr",
         "ano": "1913",
         "cor": "#4361ee",
-        "descricao": "Bohr aplicou a <b>teoria quântica</b> ao modelo de Rutherford. Elétrons só podem existir em <b>órbitas estacionárias definidas</b>, com energias específicas. Ao saltar entre órbitas, emitem ou absorvem fótons.",
+        "descricao": "Bohr aplicou a <b>teoria quântica</b> ao modelo de Rutherford. Elétrons só existem em <b>órbitas fixas com energias definidas</b>. Saltos entre órbitas emitem luz.",
         "caracteristicas": [
-            "Elétrons em órbitas circulares fixas (níveis de energia)",
+            "Elétrons em órbitas circulares fixas",
             "Cada órbita tem energia quantizada",
-            "Elétrons não irradiam energia na órbita",
             "Saltos entre órbitas → emissão/absorção de luz",
-            "Explica o espectro do Hidrogênio perfeitamente"
+            "Explica o espectro do Hidrogênio"
         ],
-        "limitacoes": "Falha para átomos multieletrônicos. Não explica a forma dos orbitais nem o Princípio da Incerteza.",
+        "limitacoes": "Falha para átomos multieletrônicos. Não explica orbitais nem o Princípio da Incerteza.",
         "tipo_3d": "bohr"
     },
     {
@@ -89,397 +84,234 @@ modelos = [
         "nome": "Sommerfeld",
         "ano": "1916",
         "cor": "#e9c46a",
-        "descricao": "Arnold Sommerfeld aprimorou o modelo de Bohr adicionando <b>órbitas elípticas</b> e efeitos relativísticos. Introduziu os números quânticos secundários para explicar a estrutura fina dos espectros atômicos.",
+        "descricao": "Sommerfeld aprimorou Bohr adicionando <b>órbitas elípticas</b> e efeitos relativísticos para explicar a estrutura fina dos espectros atômicos.",
         "caracteristicas": [
             "Órbitas elípticas além das circulares",
-            "Números quânticos: n (principal) e l (azimutal)",
+            "Números quânticos: n e l (azimutal)",
             "Correções relativísticas para elétrons rápidos",
-            "Explica desdobramento de linhas espectrais",
-            "Transição entre Bohr e Mecânica Quântica"
+            "Explica desdobramento de linhas espectrais"
         ],
         "limitacoes": "Ainda não explicava o spin do elétron nem o Princípio da Incerteza de Heisenberg.",
         "tipo_3d": "sommerfeld"
     },
     {
         "id": "quantum",
-        "nome": "Modelo Quântico / Orbital",
+        "nome": "Modelo Quântico",
         "ano": "1926",
         "cor": "#06d6a0",
-        "descricao": "Schrödinger, Heisenberg e De Broglie desenvolveram a <b>Mecânica Quântica</b>. O elétron não tem posição definida — existe como uma <b>nuvem de probabilidade</b> (orbital). A equação de Schrödinger descreve matematicamente essa distribuição.",
+        "descricao": "Schrödinger, Heisenberg e De Broglie desenvolveram a <b>Mecânica Quântica</b>. O elétron existe como <b>nuvem de probabilidade</b> — não tem posição exata.",
         "caracteristicas": [
-            "Princípio da Incerteza de Heisenberg (Δx·Δp ≥ ℏ/2)",
-            "Elétron tem natureza onda-partícula (De Broglie)",
-            "Orbitais: regiões de maior probabilidade (s, p, d, f)",
-            "4 números quânticos: n, l, ml, ms (spin)",
-            "Equação de Schrödinger — Ψ² = probabilidade"
+            "Princípio da Incerteza: Δx·Δp ≥ ℏ/2",
+            "Elétron tem natureza onda-partícula",
+            "Orbitais s, p, d, f — regiões de probabilidade",
+            "4 números quânticos: n, l, ml, ms"
         ],
-        "limitacoes": "Modelo atual. Extremamente preciso, mas matematicamente complexo. Relatividade quântica = Equação de Dirac.",
+        "limitacoes": "Modelo atual. Extremamente preciso, mas matematicamente muito complexo.",
         "tipo_3d": "quantum"
     }
 ]
 
-def gerar_js_3d():
-    return """
-// ========== MOTOR 3D COM THREE.JS ==========
-
+JS_3D = r"""
 let cenas = {};
-let animacoes = {};
-let modeloAtivo = null;
+let animFns = {};
 
 function criarCena(canvasId) {
     const canvas = document.getElementById(canvasId);
-    if (!canvas) return null;
-    
+    if (!canvas || canvas.clientWidth === 0) return null;
+    const w = canvas.clientWidth, h = canvas.clientHeight;
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.shadowMap.enabled = true;
-
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 1000);
     camera.position.set(0, 0, 6);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-    scene.add(ambientLight);
-
-    const pointLight1 = new THREE.PointLight(0xffffff, 1.5, 100);
-    pointLight1.position.set(5, 5, 5);
-    scene.add(pointLight1);
-
-    const pointLight2 = new THREE.PointLight(0x4488ff, 0.8, 100);
-    pointLight2.position.set(-5, -3, -5);
-    scene.add(pointLight2);
-
-    return { renderer, scene, camera, objects: [], clock: new THREE.Clock() };
+    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+    const pl1 = new THREE.PointLight(0xffffff, 1.8, 100); pl1.position.set(5, 5, 5); scene.add(pl1);
+    const pl2 = new THREE.PointLight(0x4488ff, 0.7, 100); pl2.position.set(-5, -3, -5); scene.add(pl2);
+    const clock = new THREE.Clock();
+    return { renderer, scene, camera, clock };
 }
 
-// ===== MODELO: DEMÓCRITO - Esfera sólida =====
-function criarModeloDemocrito(cenaData, cor) {
-    const hexCor = new THREE.Color(cor);
-    
-    const geo = new THREE.SphereGeometry(2, 64, 64);
-    const mat = new THREE.MeshStandardMaterial({
-        color: hexCor,
-        metalness: 0.3,
-        roughness: 0.2,
-        emissive: hexCor,
-        emissiveIntensity: 0.1
-    });
-    const esfera = new THREE.Mesh(geo, mat);
-    cenaData.scene.add(esfera);
-    cenaData.objects.push(esfera);
-
-    // Partículas ao redor
-    for (let i = 0; i < 80; i++) {
-        const pg = new THREE.SphereGeometry(0.04, 8, 8);
-        const pm = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.6 });
-        const p = new THREE.Mesh(pg, pm);
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.random() * Math.PI;
-        const r = 2.5 + Math.random() * 1.5;
-        p.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.sin(phi) * Math.sin(theta), r * Math.cos(phi));
-        cenaData.scene.add(p);
-        cenaData.objects.push(p);
+function criarModeloDemocrito(cd, cor) {
+    const c = new THREE.Color(cor);
+    const esfera = new THREE.Mesh(new THREE.SphereGeometry(1.8, 64, 64),
+        new THREE.MeshStandardMaterial({ color: c, metalness: 0.3, roughness: 0.2, emissive: c, emissiveIntensity: 0.12 }));
+    cd.scene.add(esfera);
+    for (let i = 0; i < 60; i++) {
+        const p = new THREE.Mesh(new THREE.SphereGeometry(0.04, 6, 6),
+            new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 }));
+        const th = Math.random()*Math.PI*2, ph = Math.random()*Math.PI, r = 2.4+Math.random()*1.2;
+        p.position.set(r*Math.sin(ph)*Math.cos(th), r*Math.sin(ph)*Math.sin(th), r*Math.cos(ph));
+        cd.scene.add(p);
     }
-
-    return (t) => { esfera.rotation.y = t * 0.5; esfera.rotation.x = t * 0.2; };
+    return t => { esfera.rotation.y = t*0.5; esfera.rotation.x = t*0.2; };
 }
 
-// ===== MODELO: DALTON - Esfera com textura =====
-function criarModeloDalton(cenaData, cor) {
-    const hexCor = new THREE.Color(cor);
-    const geo = new THREE.SphereGeometry(2, 128, 128);
-    const mat = new THREE.MeshStandardMaterial({
-        color: hexCor,
-        metalness: 0.6,
-        roughness: 0.1,
-        emissive: hexCor,
-        emissiveIntensity: 0.15,
-        wireframe: false
-    });
-    const esfera = new THREE.Mesh(geo, mat);
-    cenaData.scene.add(esfera);
-
-    const wireGeo = new THREE.SphereGeometry(2.02, 24, 24);
-    const wireMat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.08 });
-    const wire = new THREE.Mesh(wireGeo, wireMat);
-    cenaData.scene.add(wire);
-    cenaData.objects.push(esfera, wire);
-
-    return (t) => {
-        esfera.rotation.y = t * 0.4;
-        esfera.rotation.x = Math.sin(t * 0.3) * 0.2;
-        wire.rotation.y = t * 0.4;
-    };
+function criarModeloDalton(cd, cor) {
+    const c = new THREE.Color(cor);
+    const esfera = new THREE.Mesh(new THREE.SphereGeometry(1.8, 64, 64),
+        new THREE.MeshStandardMaterial({ color: c, metalness: 0.7, roughness: 0.1, emissive: c, emissiveIntensity: 0.15 }));
+    cd.scene.add(esfera);
+    const wire = new THREE.Mesh(new THREE.SphereGeometry(1.82, 20, 20),
+        new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.07 }));
+    cd.scene.add(wire);
+    return t => { esfera.rotation.y = t*0.4; esfera.rotation.x = Math.sin(t*0.3)*0.2; wire.rotation.y = t*0.4; };
 }
 
-// ===== MODELO: THOMSON - Pudim de Passas =====
-function criarModeloThomson(cenaData, cor) {
-    const hexCor = new THREE.Color(cor);
-    
-    const geo = new THREE.SphereGeometry(2, 64, 64);
-    const mat = new THREE.MeshStandardMaterial({
-        color: hexCor,
-        transparent: true,
-        opacity: 0.35,
-        metalness: 0.1,
-        roughness: 0.8,
-        emissive: hexCor,
-        emissiveIntensity: 0.2
-    });
-    const esfera = new THREE.Mesh(geo, mat);
-    cenaData.scene.add(esfera);
-    cenaData.objects.push(esfera);
-
-    // Elétrons embutidos
+function criarModeloThomson(cd, cor) {
+    const c = new THREE.Color(cor);
+    const esfera = new THREE.Mesh(new THREE.SphereGeometry(1.8, 48, 48),
+        new THREE.MeshStandardMaterial({ color: c, transparent: true, opacity: 0.32, emissive: c, emissiveIntensity: 0.25 }));
+    cd.scene.add(esfera);
     const eletrons = [];
-    for (let i = 0; i < 12; i++) {
-        const eg = new THREE.SphereGeometry(0.18, 16, 16);
-        const em = new THREE.MeshStandardMaterial({ color: 0xffff00, emissive: 0xffaa00, emissiveIntensity: 0.8, metalness: 0.5, roughness: 0.2 });
-        const e = new THREE.Mesh(eg, em);
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(2 * Math.random() - 1);
-        const r = Math.random() * 1.6;
-        e.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.sin(phi) * Math.sin(theta), r * Math.cos(phi));
-        e.userData = { theta, phi, r, speed: 0.3 + Math.random() * 0.5 };
-        cenaData.scene.add(e);
+    for (let i = 0; i < 10; i++) {
+        const e = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 12),
+            new THREE.MeshStandardMaterial({ color: 0xffff00, emissive: 0xffaa00, emissiveIntensity: 0.9 }));
+        const th = Math.random()*Math.PI*2, ph = Math.acos(2*Math.random()-1), r = Math.random()*1.4;
+        e.position.set(r*Math.sin(ph)*Math.cos(th), r*Math.sin(ph)*Math.sin(th), r*Math.cos(ph));
+        e.userData = { th, ph, r, sp: 0.3+Math.random()*0.5 };
+        cd.scene.add(e); eletrons.push(e);
+    }
+    return t => {
+        esfera.rotation.y = t*0.3;
+        eletrons.forEach(e => { e.userData.th += e.userData.sp*0.012; const {r,ph,th} = e.userData;
+            e.position.set(r*Math.sin(ph)*Math.cos(th), r*Math.sin(ph)*Math.sin(th), r*Math.cos(ph)); });
+    };
+}
+
+function criarModeloRutherford(cd, cor) {
+    const c = new THREE.Color(cor);
+    const nucleo = new THREE.Mesh(new THREE.SphereGeometry(0.45, 24, 24),
+        new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.7, metalness: 0.8 }));
+    cd.scene.add(nucleo);
+    const orbitas = [], eletrons = [];
+    [1.2, 2.0, 2.8].forEach((raio, i) => {
+        const pts = new THREE.EllipseCurve(0,0,raio,raio*0.55,0,Math.PI*2).getPoints(80);
+        const orb = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts.map(p=>new THREE.Vector3(p.x,p.y,0))),
+            new THREE.LineBasicMaterial({ color: 0x888888, transparent: true, opacity: 0.3 }));
+        orb.rotation.x = (i*0.7 - 0.5); orb.rotation.z = i*0.4;
+        cd.scene.add(orb);
+        const e = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 12),
+            new THREE.MeshStandardMaterial({ color: 0x00cfff, emissive: 0x0088ff, emissiveIntensity: 0.9 }));
+        cd.scene.add(e);
+        orbitas.push({ raio, incX: orb.rotation.x, incZ: orb.rotation.z, sp: 0.9-i*0.25, ang: i*2.1 });
         eletrons.push(e);
-        cenaData.objects.push(e);
-    }
-
-    return (t) => {
-        esfera.rotation.y = t * 0.3;
-        eletrons.forEach((e, i) => {
-            e.userData.theta += e.userData.speed * 0.01;
-            const { r, phi, theta } = e.userData;
-            e.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.sin(phi) * Math.sin(theta), r * Math.cos(phi));
-        });
-    };
-}
-
-// ===== MODELO: RUTHERFORD - Núcleo + elétrons =====
-function criarModeloRutherford(cenaData, cor) {
-    const hexCor = new THREE.Color(cor);
-    
-    const nucGeo = new THREE.SphereGeometry(0.5, 32, 32);
-    const nucMat = new THREE.MeshStandardMaterial({ color: hexCor, emissive: hexCor, emissiveIntensity: 0.6, metalness: 0.8, roughness: 0.1 });
-    const nucleo = new THREE.Mesh(nucGeo, nucMat);
-    cenaData.scene.add(nucleo);
-    cenaData.objects.push(nucleo);
-
-    // Raios ao redor do núcleo
-    for (let i = 0; i < 8; i++) {
-        const rg = new THREE.SphereGeometry(0.15, 8, 8);
-        const rm = new THREE.MeshStandardMaterial({ color: 0xff6600, emissive: 0xff3300, emissiveIntensity: 0.5 });
-        const r = new THREE.Mesh(rg, rm);
-        const a = (i / 8) * Math.PI * 2;
-        r.position.set(Math.cos(a) * 0.5, Math.sin(a) * 0.5, (Math.random() - 0.5) * 0.4);
-        cenaData.scene.add(r);
-        cenaData.objects.push(r);
-    }
-
-    const orbitas = [];
-    const eletronsMesh = [];
-    const numOrbitas = 3;
-
-    for (let i = 0; i < numOrbitas; i++) {
-        const raio = 1.2 + i * 0.9;
-        const curve = new THREE.EllipseCurve(0, 0, raio, raio * 0.6, 0, 2 * Math.PI);
-        const pts = curve.getPoints(80);
-        const geo = new THREE.BufferGeometry().setFromPoints(pts.map(p => new THREE.Vector3(p.x, p.y, 0)));
-        const mat = new THREE.LineBasicMaterial({ color: 0x888888, transparent: true, opacity: 0.3 });
-        const orbita = new THREE.Line(geo, mat);
-        orbita.rotation.x = (Math.random() - 0.5) * Math.PI;
-        orbita.rotation.z = (Math.random() - 0.5) * Math.PI;
-        cenaData.scene.add(orbita);
-        orbitas.push({ mesh: orbita, raio, speed: 0.8 - i * 0.2, angle: Math.random() * Math.PI * 2 });
-
-        const eg = new THREE.SphereGeometry(0.18, 16, 16);
-        const em = new THREE.MeshStandardMaterial({ color: 0x00cfff, emissive: 0x0088ff, emissiveIntensity: 0.9 });
-        const e = new THREE.Mesh(eg, em);
-        cenaData.scene.add(e);
-        eletronsMesh.push({ mesh: e, orbitaIdx: i });
-        cenaData.objects.push(e);
-    }
-
-    return (t) => {
+    });
+    return t => {
         nucleo.rotation.y = t;
-        orbitas.forEach((orb, i) => {
-            orb.angle += orb.speed * 0.02;
-            const e = eletronsMesh[i];
-            const raioElip = orb.raio;
-            const local = new THREE.Vector3(Math.cos(orb.angle) * raioElip, Math.sin(orb.angle) * raioElip * 0.6, 0);
-            local.applyEuler(orb.mesh.rotation);
-            e.mesh.position.copy(local);
+        orbitas.forEach((o, i) => {
+            o.ang += o.sp*0.022;
+            const v = new THREE.Vector3(Math.cos(o.ang)*o.raio, Math.sin(o.ang)*o.raio*0.55, 0);
+            v.applyEuler(new THREE.Euler(o.incX, 0, o.incZ));
+            eletrons[i].position.copy(v);
         });
     };
 }
 
-// ===== MODELO: BOHR - Órbitas circulares =====
-function criarModeloBohr(cenaData, cor) {
-    const hexCor = new THREE.Color(cor);
-    
-    const nucGeo = new THREE.SphereGeometry(0.45, 32, 32);
-    const nucMat = new THREE.MeshStandardMaterial({ color: hexCor, emissive: hexCor, emissiveIntensity: 0.8, metalness: 0.9, roughness: 0.05 });
-    const nucleo = new THREE.Mesh(nucGeo, nucMat);
-    cenaData.scene.add(nucleo);
-
-    // Glow do núcleo
-    const glowGeo = new THREE.SphereGeometry(0.7, 32, 32);
-    const glowMat = new THREE.MeshBasicMaterial({ color: hexCor, transparent: true, opacity: 0.15 });
-    const glow = new THREE.Mesh(glowGeo, glowMat);
-    cenaData.scene.add(glow);
-
-    const niveis = [
-        { raio: 1.2, elétrons: 2, incl: 0 },
-        { raio: 2.0, elétrons: 8, incl: Math.PI / 3 },
-        { raio: 2.8, elétrons: 8, incl: Math.PI / 6 },
-    ];
-
-    const todosEletrons = [];
-
-    niveis.forEach((nivel, ni) => {
-        const curve = new THREE.EllipseCurve(0, 0, nivel.raio, nivel.raio, 0, 2 * Math.PI);
-        const pts = curve.getPoints(100);
-        const geo = new THREE.BufferGeometry().setFromPoints(pts.map(p => new THREE.Vector3(p.x, p.y, 0)));
-        const mat = new THREE.LineBasicMaterial({ color: hexCor, transparent: true, opacity: 0.4 });
-        const orbita = new THREE.Line(geo, mat);
-        orbita.rotation.x = nivel.incl;
-        cenaData.scene.add(orbita);
-
-        for (let i = 0; i < nivel.elétrons; i++) {
-            const eg = new THREE.SphereGeometry(0.13, 12, 12);
-            const em = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: hexCor, emissiveIntensity: 1.0 });
-            const e = new THREE.Mesh(eg, em);
-            const angle0 = (i / nivel.elétrons) * Math.PI * 2;
-            e.userData = { raio: nivel.raio, angle: angle0, speed: 0.9 - ni * 0.25, incl: nivel.incl };
-            cenaData.scene.add(e);
-            todosEletrons.push(e);
+function criarModeloBohr(cd, cor) {
+    const c = new THREE.Color(cor);
+    const nucleo = new THREE.Mesh(new THREE.SphereGeometry(0.4, 24, 24),
+        new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.9 }));
+    cd.scene.add(nucleo);
+    const glow = new THREE.Mesh(new THREE.SphereGeometry(0.65, 24, 24),
+        new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.12 }));
+    cd.scene.add(glow);
+    const niveis = [{r:1.1,n:2,inc:0},{r:1.9,n:8,inc:Math.PI/3},{r:2.6,n:8,inc:Math.PI/6}];
+    const todos = [];
+    niveis.forEach((nv, ni) => {
+        const pts = new THREE.EllipseCurve(0,0,nv.r,nv.r,0,Math.PI*2).getPoints(80);
+        const orb = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts.map(p=>new THREE.Vector3(p.x,p.y,0))),
+            new THREE.LineBasicMaterial({ color: c, transparent: true, opacity: 0.35 }));
+        orb.rotation.x = nv.inc; cd.scene.add(orb);
+        for (let i=0; i<Math.min(nv.n,4); i++) {
+            const e = new THREE.Mesh(new THREE.SphereGeometry(0.12, 10, 10),
+                new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: c, emissiveIntensity: 1.0 }));
+            e.userData = { r: nv.r, ang: (i/Math.min(nv.n,4))*Math.PI*2, sp: 1.0-ni*0.28, inc: nv.inc };
+            cd.scene.add(e); todos.push(e);
         }
     });
-
-    return (t) => {
+    return t => {
         nucleo.rotation.y = t;
-        todosEletrons.forEach(e => {
-            e.userData.angle += e.userData.speed * 0.025;
-            const { raio, angle, incl } = e.userData;
-            const local = new THREE.Vector3(Math.cos(angle) * raio, Math.sin(angle) * raio, 0);
-            const euler = new THREE.Euler(incl, 0, 0);
-            local.applyEuler(euler);
-            e.position.copy(local);
+        todos.forEach(e => {
+            e.userData.ang += e.userData.sp*0.026;
+            const v = new THREE.Vector3(Math.cos(e.userData.ang)*e.userData.r, Math.sin(e.userData.ang)*e.userData.r, 0);
+            v.applyEuler(new THREE.Euler(e.userData.inc, 0, 0));
+            e.position.copy(v);
         });
     };
 }
 
-// ===== MODELO: SOMMERFELD - Órbitas elípticas =====
-function criarModeloSommerfeld(cenaData, cor) {
-    const hexCor = new THREE.Color(cor);
-
-    const nucGeo = new THREE.SphereGeometry(0.4, 32, 32);
-    const nucMat = new THREE.MeshStandardMaterial({ color: hexCor, emissive: hexCor, emissiveIntensity: 0.8 });
-    const nucleo = new THREE.Mesh(nucGeo, nucMat);
-    cenaData.scene.add(nucleo);
-
-    const orbConfigs = [
-        { rx: 1.4, ry: 1.4, incX: 0, incY: 0, incZ: 0, speed: 1.2 },
-        { rx: 2.0, ry: 1.0, incX: Math.PI / 4, incY: 0, incZ: 0, speed: 0.8 },
-        { rx: 2.4, ry: 1.2, incX: Math.PI / 6, incY: Math.PI / 3, incZ: 0, speed: 0.6 },
-        { rx: 2.8, ry: 0.8, incX: -Math.PI / 3, incY: Math.PI / 5, incZ: Math.PI / 6, speed: 0.5 },
+function criarModeloSommerfeld(cd, cor) {
+    const c = new THREE.Color(cor);
+    const nucleo = new THREE.Mesh(new THREE.SphereGeometry(0.35, 24, 24),
+        new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 0.8 }));
+    cd.scene.add(nucleo);
+    const cfgs = [
+        {rx:1.2, ry:1.2, ix:0,    iy:0,         iz:0,         sp:1.3},
+        {rx:1.9, ry:0.9, ix:Math.PI/4, iy:0,     iz:0,         sp:0.9},
+        {rx:2.3, ry:1.1, ix:Math.PI/6, iy:Math.PI/3, iz:0,     sp:0.65},
+        {rx:2.7, ry:0.7, ix:-Math.PI/3,iy:Math.PI/5, iz:Math.PI/6, sp:0.5},
     ];
-
-    const eletrons = [];
-
-    orbConfigs.forEach((cfg, i) => {
-        const curve = new THREE.EllipseCurve(0, 0, cfg.rx, cfg.ry, 0, 2 * Math.PI);
-        const pts = curve.getPoints(100);
-        const geo = new THREE.BufferGeometry().setFromPoints(pts.map(p => new THREE.Vector3(p.x, p.y, 0)));
-        const clr = new THREE.Color().setHSL(i / orbConfigs.length, 0.8, 0.6);
-        const mat = new THREE.LineBasicMaterial({ color: clr, transparent: true, opacity: 0.5 });
-        const orbita = new THREE.Line(geo, mat);
-        orbita.rotation.set(cfg.incX, cfg.incY, cfg.incZ);
-        cenaData.scene.add(orbita);
-
-        const eg = new THREE.SphereGeometry(0.15, 12, 12);
-        const em = new THREE.MeshStandardMaterial({ color: clr, emissive: clr, emissiveIntensity: 1.0 });
-        const e = new THREE.Mesh(eg, em);
-        e.userData = { cfg, angle: i * Math.PI / 2, rotation: orbita.rotation };
-        cenaData.scene.add(e);
-        eletrons.push(e);
+    const eles = [];
+    cfgs.forEach((cfg, i) => {
+        const pts = new THREE.EllipseCurve(0,0,cfg.rx,cfg.ry,0,Math.PI*2).getPoints(80);
+        const clr = new THREE.Color().setHSL(i/cfgs.length, 0.85, 0.6);
+        const orb = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts.map(p=>new THREE.Vector3(p.x,p.y,0))),
+            new THREE.LineBasicMaterial({ color: clr, transparent: true, opacity: 0.45 }));
+        orb.rotation.set(cfg.ix, cfg.iy, cfg.iz); cd.scene.add(orb);
+        const e = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 10),
+            new THREE.MeshStandardMaterial({ color: clr, emissive: clr, emissiveIntensity: 1.0 }));
+        e.userData = { cfg, ang: i*1.5, rot: {x:cfg.ix, y:cfg.iy, z:cfg.iz} };
+        cd.scene.add(e); eles.push(e);
     });
-
-    return (t) => {
-        nucleo.rotation.y = t * 0.5;
-        eletrons.forEach(e => {
-            e.userData.angle += e.userData.cfg.speed * 0.022;
-            const { cfg, angle, rotation } = e.userData;
-            const local = new THREE.Vector3(Math.cos(angle) * cfg.rx, Math.sin(angle) * cfg.ry, 0);
-            local.applyEuler(new THREE.Euler(rotation.x, rotation.y, rotation.z));
-            e.position.copy(local);
+    return t => {
+        nucleo.rotation.y = t*0.5;
+        eles.forEach(e => {
+            e.userData.ang += e.userData.cfg.sp*0.022;
+            const {cfg, ang, rot} = e.userData;
+            const v = new THREE.Vector3(Math.cos(ang)*cfg.rx, Math.sin(ang)*cfg.ry, 0);
+            v.applyEuler(new THREE.Euler(rot.x, rot.y, rot.z));
+            e.position.copy(v);
         });
     };
 }
 
-// ===== MODELO: QUÂNTICO - Nuvem de probabilidade =====
-function criarModeloQuantum(cenaData, cor) {
-    const hexCor = new THREE.Color(cor);
-
-    const nucGeo = new THREE.SphereGeometry(0.3, 32, 32);
-    const nucMat = new THREE.MeshStandardMaterial({ color: hexCor, emissive: hexCor, emissiveIntensity: 1.0 });
-    const nucleo = new THREE.Mesh(nucGeo, nucMat);
-    cenaData.scene.add(nucleo);
-
-    const particles = [];
-    const count = 3000;
-    const geo = new THREE.BufferGeometry();
-    const positions = new Float32Array(count * 3);
-    const colors = new Float32Array(count * 3);
-    const velocities = [];
-
-    for (let i = 0; i < count; i++) {
-        const r = 0.5 + Math.pow(Math.random(), 0.5) * 2.5;
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(2 * Math.random() - 1);
-        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-        positions[i * 3 + 2] = r * Math.cos(phi);
-        const alpha = 0.3 + Math.random() * 0.7;
-        colors[i * 3] = hexCor.r * alpha;
-        colors[i * 3 + 1] = hexCor.g * alpha;
-        colors[i * 3 + 2] = hexCor.b * alpha;
-        velocities.push({
-            theta: Math.random() * 0.01 - 0.005,
-            phi: Math.random() * 0.008 - 0.004,
-            r,
-            baseR: r,
-            phase: Math.random() * Math.PI * 2
-        });
+function criarModeloQuantum(cd, cor) {
+    const c = new THREE.Color(cor);
+    const nucleo = new THREE.Mesh(new THREE.SphereGeometry(0.28, 24, 24),
+        new THREE.MeshStandardMaterial({ color: c, emissive: c, emissiveIntensity: 1.0 }));
+    cd.scene.add(nucleo);
+    const N = 2500;
+    const pos = new Float32Array(N*3), cols = new Float32Array(N*3), vels = [];
+    for (let i=0; i<N; i++) {
+        const r = 0.5+Math.pow(Math.random(),0.4)*2.3;
+        const th = Math.random()*Math.PI*2, ph = Math.acos(2*Math.random()-1);
+        pos[i*3]=r*Math.sin(ph)*Math.cos(th); pos[i*3+1]=r*Math.sin(ph)*Math.sin(th); pos[i*3+2]=r*Math.cos(ph);
+        const a = 0.3+Math.random()*0.7;
+        cols[i*3]=c.r*a; cols[i*3+1]=c.g*a; cols[i*3+2]=c.b*a;
+        vels.push({ th, baseR: r, phase: Math.random()*Math.PI*2 });
     }
-
-    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-    const mat = new THREE.PointsMaterial({ size: 0.06, vertexColors: true, transparent: true, opacity: 0.8, sizeAttenuation: true });
-    const cloud = new THREE.Points(geo, mat);
-    cenaData.scene.add(cloud);
-
-    return (t) => {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+    geo.setAttribute('color', new THREE.BufferAttribute(cols,3));
+    const cloud = new THREE.Points(geo, new THREE.PointsMaterial({ size:0.06, vertexColors:true, transparent:true, opacity:0.8 }));
+    cd.scene.add(cloud);
+    return t => {
         nucleo.rotation.y = t;
-        const pos = cloud.geometry.attributes.position.array;
-        for (let i = 0; i < count; i++) {
-            const v = velocities[i];
-            v.theta += 0.002;
-            const r = v.baseR + Math.sin(t * 0.5 + v.phase) * 0.15;
-            const phi = Math.acos(Math.max(-1, Math.min(1, pos[i * 3 + 1] / (r || 0.001))));
-            pos[i * 3] = r * Math.sin(phi) * Math.cos(v.theta);
-            pos[i * 3 + 1] = pos[i * 3 + 1] + Math.sin(t + v.phase) * 0.001;
-            pos[i * 3 + 2] = r * Math.sin(phi) * Math.sin(v.theta);
+        const p = cloud.geometry.attributes.position.array;
+        for (let i=0; i<N; i++) {
+            vels[i].th += 0.003;
+            const r = vels[i].baseR + Math.sin(t*0.5+vels[i].phase)*0.12;
+            const ph2 = Math.acos(Math.max(-1,Math.min(1, p[i*3+1]/(r||0.001))));
+            p[i*3]=r*Math.sin(ph2)*Math.cos(vels[i].th);
+            p[i*3+2]=r*Math.sin(ph2)*Math.sin(vels[i].th);
         }
         cloud.geometry.attributes.position.needsUpdate = true;
-        cloud.rotation.y = t * 0.05;
+        cloud.rotation.y = t*0.04;
     };
 }
 
-const criadoresDe3D = {
+const CRIADORES = {
     esfera_solida: criarModeloDemocrito,
     esfera_dalton: criarModeloDalton,
     pudim_passas: criarModeloThomson,
@@ -489,480 +321,287 @@ const criadoresDe3D = {
     quantum: criarModeloQuantum
 };
 
-function iniciarCena3D(modeloId, tipo3d, cor) {
-    const canvasId = 'canvas-' + modeloId;
-    const cenaData = criarCena(canvasId);
-    if (!cenaData) return;
-
-    const animFn = criadoresDe3D[tipo3d](cenaData, cor);
-    cenas[modeloId] = cenaData;
-
-    let mouse = { x: 0, y: 0 };
-    const canvas = document.getElementById(canvasId);
+function iniciarCena3D(id, tipo, cor) {
+    const cd = criarCena('canvas-'+id);
+    if (!cd) return;
+    cenas[id] = cd;
+    animFns[id] = CRIADORES[tipo](cd, cor);
+    let mx=0, my=0;
+    const canvas = document.getElementById('canvas-'+id);
     if (canvas) {
-        canvas.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouse.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-            mouse.y = -((e.clientY - rect.top) / rect.height - 0.5) * 2;
+        canvas.addEventListener('mousemove', e => {
+            const r = canvas.getBoundingClientRect();
+            mx = ((e.clientX-r.left)/r.width - 0.5)*2;
+            my = -((e.clientY-r.top)/r.height - 0.5)*2;
         });
     }
-
-    function loop() {
-        const handle = requestAnimationFrame(loop);
-        animacoes[modeloId] = handle;
-        const t = cenaData.clock.getElapsedTime();
-        cenaData.camera.position.x += (mouse.x * 0.5 - cenaData.camera.position.x) * 0.05;
-        cenaData.camera.position.y += (mouse.y * 0.5 - cenaData.camera.position.y) * 0.05;
-        cenaData.camera.lookAt(0, 0, 0);
-        if (animFn) animFn(t);
-        cenaData.renderer.render(cenaData.scene, cenaData.camera);
-    }
-    loop();
+    (function loop() {
+        requestAnimationFrame(loop);
+        const t = cd.clock.getElapsedTime();
+        cd.camera.position.x += (mx*0.4 - cd.camera.position.x)*0.05;
+        cd.camera.position.y += (my*0.4 - cd.camera.position.y)*0.05;
+        cd.camera.lookAt(0,0,0);
+        animFns[id](t);
+        cd.renderer.render(cd.scene, cd.camera);
+    })();
 }
 """
 
 def gerar_html(modelos, js_3d):
-    cards_menu = ""
-    for i, m in enumerate(modelos):
-        cards_menu += f"""
-        <button class="menu-card {'active' if i == 0 else ''}" 
-                onclick="navegarPara('{m['id']}')" 
-                data-id="{m['id']}"
-                style="--cor: {m['cor']}">
-            <span class="menu-ano">{m['ano']}</span>
-            <span class="menu-nome">{m['nome']}</span>
-            <span class="menu-dot"></span>
-        </button>"""
+    slides_js = str([{"id": m["id"], "tipo": m["tipo_3d"], "cor": m["cor"]} for m in modelos]).replace("'", '"')
 
     slides_html = ""
     for i, m in enumerate(modelos):
-        caracteristicas_html = "".join([f'<li><span class="check">✦</span> {c}</li>' for c in m['caracteristicas']])
+        chars = "".join([f'<li><span class="ck">✦</span>{c}</li>' for c in m["caracteristicas"]])
         slides_html += f"""
-        <div class="slide {'active' if i == 0 else ''}" id="slide-{m['id']}" style="--cor: {m['cor']}">
-            <div class="slide-left">
-                <div class="slide-header">
-                    <span class="slide-numero">0{i+1}</span>
-                    <div class="slide-titulo-wrap">
-                        <h2 class="slide-titulo">{m['nome']}</h2>
-                        <span class="slide-ano">{m['ano']}</span>
-                    </div>
-                </div>
-                <p class="slide-descricao">{m['descricao']}</p>
-                <div class="slide-section">
-                    <h3 class="section-label">Características</h3>
-                    <ul class="caracteristicas-list">{caracteristicas_html}</ul>
-                </div>
-                <div class="slide-limitacao">
-                    <span class="lim-label">⚠ Limitações</span>
-                    <p>{m['limitacoes']}</p>
-                </div>
-            </div>
-            <div class="slide-right">
-                <div class="canvas-wrap">
-                    <canvas id="canvas-{m['id']}" class="canvas-3d"></canvas>
-                    <div class="canvas-label">Modelo 3D · Interativo</div>
-                    <div class="canvas-hint">Mova o mouse para rotacionar</div>
-                </div>
-            </div>
-        </div>"""
+<div class="slide" id="slide-{m['id']}" data-idx="{i}" style="--cor:{m['cor']}">
+  <div class="slide-canvas-area">
+    <canvas id="canvas-{m['id']}" class="canvas3d"></canvas>
+    <div class="slide-badge"><span class="badge-num">0{i+1}/{len(modelos)}</span> <span class="badge-nome">{m['nome']}</span></div>
+    <div class="slide-ano-tag">{m['ano']}</div>
+  </div>
+  <div class="slide-info">
+    <h2 class="info-titulo">{m['nome']}</h2>
+    <p class="info-desc">{m['descricao']}</p>
+    <div class="info-section">
+      <div class="section-label">Características</div>
+      <ul class="chars-list">{chars}</ul>
+    </div>
+    <div class="info-lim">
+      <span class="lim-icon">⚠</span>
+      <p>{m['limitacoes']}</p>
+    </div>
+  </div>
+</div>"""
 
-    nav_buttons = ""
-    for m in modelos:
-        nav_buttons += f'<span class="nav-dot" data-id="{m["id"]}" style="--cor: {m["cor"]}"></span>'
+    dots_html = "".join([f'<span class="dot" data-idx="{i}" style="--cor:{m["cor"]}"></span>' for i, m in enumerate(modelos)])
 
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modelos Atômicos — Apresentação 3D</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Modelos Atômicos 3D</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap');
+*,*::before,*::after{{box-sizing:border-box;margin:0;padding:0}}
+:root{{--bg:#080c14;--surface:#0d1420;--text:#e8eaf0;--dim:#6b7280;--cor:#4361ee}}
+html,body{{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;touch-action:pan-y}}
 
-:root {{
-  --bg: #080c14;
-  --surface: #0d1420;
-  --border: rgba(255,255,255,0.06);
-  --text: #e8eaf0;
-  --text-dim: #6b7280;
-  --cor: #4361ee;
-}}
+/* LOADER */
+#loader{{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;transition:opacity .5s}}
+.ld-ring{{width:50px;height:50px;border:3px solid rgba(255,255,255,.08);border-top-color:#4361ee;border-radius:50%;animation:spin .9s linear infinite}}
+.ld-txt{{margin-top:16px;font-size:11px;letter-spacing:3px;color:var(--dim);font-family:'Space Mono',monospace;text-transform:uppercase}}
+@keyframes spin{{to{{transform:rotate(360deg)}}}}
 
-*, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+/* TRACK - carrossel horizontal */
+#track-wrap{{position:fixed;inset:0;overflow:hidden}}
+#track{{display:flex;width:100%;height:100%;transition:transform .45s cubic-bezier(.4,0,.2,1);will-change:transform}}
 
-body {{
-  font-family: 'Syne', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow: hidden;
-  user-select: none;
-}}
-
-/* ---- LOADER ---- */
-#loader {{
-  position: fixed; inset: 0; background: var(--bg);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  z-index: 1000; transition: opacity 0.6s;
-}}
-.loader-ring {{
-  width: 60px; height: 60px; border: 3px solid rgba(255,255,255,0.1);
-  border-top-color: #4361ee; border-radius: 50%;
-  animation: spin 0.9s linear infinite;
-}}
-.loader-text {{ margin-top: 20px; font-size: 13px; letter-spacing: 3px; color: var(--text-dim); text-transform: uppercase; font-family: 'Space Mono', monospace; }}
-@keyframes spin {{ to {{ transform: rotate(360deg); }} }}
-
-/* ---- LAYOUT ---- */
-#app {{
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  grid-template-rows: 100vh;
-  opacity: 0;
-  transition: opacity 0.6s;
-}}
-#app.ready {{ opacity: 1; }}
-
-/* ---- SIDEBAR ---- */
-.sidebar {{
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  display: flex; flex-direction: column;
-  padding: 0;
-  overflow: hidden;
+/* SLIDE */
+.slide{{
+  flex:0 0 100%;width:100%;height:100%;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  position:relative;
 }}
 
-.sidebar-header {{
-  padding: 28px 24px 20px;
-  border-bottom: 1px solid var(--border);
+/* CANVAS AREA - top 45% */
+.slide-canvas-area{{
+  flex:0 0 45%;position:relative;
+  background:radial-gradient(ellipse at center, color-mix(in srgb,var(--cor) 8%,#0a0f1a) 0%, var(--bg) 100%);
+  border-bottom:1px solid rgba(255,255,255,.06);
 }}
-.sidebar-title {{
-  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--text-dim); font-family: 'Space Mono', monospace; margin-bottom: 8px;
+.canvas3d{{width:100%;height:100%;display:block}}
+
+.slide-badge{{
+  position:absolute;top:14px;left:14px;
+  display:flex;align-items:center;gap:8px;
+  background:rgba(0,0,0,.4);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:100px;padding:5px 12px;
 }}
-.sidebar-headline {{
-  font-size: 22px; font-weight: 800; line-height: 1.2;
-  background: linear-gradient(135deg, #fff 30%, #6b7280);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+.badge-num{{font-family:'Space Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:1px}}
+.badge-nome{{font-size:12px;font-weight:700;color:var(--cor)}}
+
+.slide-ano-tag{{
+  position:absolute;bottom:14px;right:14px;
+  font-family:'Space Mono',monospace;font-size:10px;
+  color:rgba(255,255,255,.3);letter-spacing:2px;
 }}
 
-.menu-scroll {{
-  flex: 1; overflow-y: auto; padding: 16px 14px;
-  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+/* INFO AREA - bottom 55% */
+.slide-info{{
+  flex:1;overflow-y:auto;
+  padding:22px 20px 100px;
+  display:flex;flex-direction:column;gap:16px;
+  scrollbar-width:none;
 }}
+.slide-info::-webkit-scrollbar{{display:none}}
 
-.menu-card {{
-  display: flex; flex-direction: column; align-items: flex-start;
-  width: 100%; padding: 14px 16px; border-radius: 10px; border: 1px solid transparent;
-  background: transparent; cursor: pointer; text-align: left;
-  transition: all 0.25s; position: relative; margin-bottom: 6px;
-  font-family: 'Syne', sans-serif;
-}}
-.menu-card:hover {{
-  background: rgba(255,255,255,0.04);
-  border-color: var(--border);
-}}
-.menu-card.active {{
-  background: color-mix(in srgb, var(--cor) 12%, transparent);
-  border-color: color-mix(in srgb, var(--cor) 40%, transparent);
-}}
-.menu-card.active .menu-nome {{ color: var(--cor); }}
-.menu-ano {{ font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-dim); margin-bottom: 4px; letter-spacing: 1px; }}
-.menu-nome {{ font-size: 14px; font-weight: 700; color: var(--text); transition: color 0.25s; }}
-.menu-dot {{
-  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-  width: 6px; height: 6px; border-radius: 50%; background: var(--cor);
-  opacity: 0; transition: opacity 0.25s;
-}}
-.menu-card.active .menu-dot {{ opacity: 1; }}
+.info-titulo{{font-size:26px;font-weight:800;line-height:1.1}}
+.info-desc{{font-size:14px;line-height:1.7;color:rgba(232,234,240,.8)}}
 
-.sidebar-footer {{
-  padding: 18px 24px; border-top: 1px solid var(--border);
-  font-size: 11px; color: var(--text-dim); font-family: 'Space Mono', monospace;
-}}
+.section-label{{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--cor);font-family:'Space Mono',monospace;margin-bottom:10px;font-weight:400}}
+.chars-list{{list-style:none;display:flex;flex-direction:column;gap:7px}}
+.chars-list li{{font-size:13px;display:flex;align-items:flex-start;gap:9px;line-height:1.5}}
+.ck{{color:var(--cor);flex-shrink:0;margin-top:1px;font-size:10px}}
 
-/* ---- SLIDES ---- */
-.slides-area {{
-  position: relative; overflow: hidden;
+.info-lim{{
+  background:rgba(255,80,60,.07);border:1px solid rgba(255,80,60,.18);
+  border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;
 }}
+.lim-icon{{color:#ff5040;flex-shrink:0;font-size:14px;margin-top:1px}}
+.info-lim p{{font-size:12.5px;color:rgba(232,234,240,.7);line-height:1.6}}
 
-.slide {{
-  position: absolute; inset: 0;
-  display: grid; grid-template-columns: 1fr 1fr;
-  padding: 48px;
-  gap: 40px;
-  opacity: 0;
-  transform: translateX(40px);
-  transition: opacity 0.5s, transform 0.5s;
-  pointer-events: none;
-}}
-.slide.active {{
-  opacity: 1; transform: translateX(0); pointer-events: all;
-}}
-.slide.exit {{
-  opacity: 0; transform: translateX(-40px);
-}}
+/* BARRA PROGRESSO */
+#prog{{position:fixed;top:0;left:0;right:0;height:2px;background:rgba(255,255,255,.06);z-index:100}}
+#prog-fill{{height:100%;background:var(--cor,#4361ee);transition:width .4s,background .4s}}
 
-/* ---- SLIDE LEFT ---- */
-.slide-left {{ display: flex; flex-direction: column; gap: 20px; overflow-y: auto; scrollbar-width: none; }}
-.slide-left::-webkit-scrollbar {{ display: none; }}
-
-.slide-header {{ display: flex; align-items: flex-start; gap: 16px; }}
-.slide-numero {{
-  font-family: 'Space Mono', monospace; font-size: 48px; font-weight: 700;
-  color: var(--cor); opacity: 0.25; line-height: 1; flex-shrink: 0;
+/* DOTS */
+#dots{{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.05);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.08);
+  padding:10px 16px;border-radius:100px;z-index:100;
 }}
-.slide-titulo-wrap {{ padding-top: 6px; }}
-.slide-titulo {{ font-size: 36px; font-weight: 800; line-height: 1; }}
-.slide-ano {{ font-family: 'Space Mono', monospace; font-size: 12px; color: var(--text-dim); letter-spacing: 2px; margin-top: 6px; display: block; }}
-
-.slide-descricao {{ font-size: 15px; line-height: 1.75; color: rgba(232,234,240,0.85); }}
-
-.section-label {{
-  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--cor); font-family: 'Space Mono', monospace; margin-bottom: 12px; font-weight: 400;
+.dot{{
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(255,255,255,.2);cursor:pointer;
+  transition:all .3s;
 }}
-.caracteristicas-list {{ list-style: none; display: flex; flex-direction: column; gap: 8px; }}
-.caracteristicas-list li {{ font-size: 13.5px; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }}
-.check {{ color: var(--cor); flex-shrink: 0; margin-top: 1px; }}
+.dot.active{{background:var(--cor);transform:scale(1.35)}}
 
-.slide-limitacao {{
-  background: rgba(255, 100, 80, 0.08);
-  border: 1px solid rgba(255, 100, 80, 0.2);
-  border-radius: 10px; padding: 14px 16px;
+/* SWIPE HINT */
+#hint{{
+  position:fixed;bottom:72px;left:50%;transform:translateX(-50%);
+  font-family:'Space Mono',monospace;font-size:10px;
+  color:rgba(255,255,255,.2);letter-spacing:2px;
+  animation:fadeHint 3s forwards;pointer-events:none;z-index:100;white-space:nowrap;
 }}
-.lim-label {{ font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #ff6450; display: block; margin-bottom: 6px; font-family: 'Space Mono', monospace; }}
-.slide-limitacao p {{ font-size: 13px; color: rgba(232,234,240,0.75); line-height: 1.6; }}
-
-/* ---- SLIDE RIGHT ---- */
-.slide-right {{ display: flex; align-items: center; justify-content: center; }}
-
-.canvas-wrap {{
-  position: relative; width: 100%; max-width: 480px;
-  aspect-ratio: 1 / 1;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  overflow: hidden;
-  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--cor) 6%, #0a0f1a) 0%, #080c14 100%);
-}}
-
-.canvas-3d {{ width: 100% !important; height: 100% !important; display: block; }}
-
-.canvas-label {{
-  position: absolute; top: 16px; left: 16px;
-  font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px;
-  text-transform: uppercase; color: rgba(255,255,255,0.3);
-}}
-.canvas-hint {{
-  position: absolute; bottom: 16px; right: 16px;
-  font-family: 'Space Mono', monospace; font-size: 10px;
-  color: rgba(255,255,255,0.2);
-}}
-
-/* ---- NAV ---- */
-.nav-bar {{
-  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 8px; align-items: center;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: 10px 16px; border-radius: 100px;
-  z-index: 50;
-}}
-.nav-dot {{
-  width: 8px; height: 8px; border-radius: 50%;
-  background: rgba(255,255,255,0.2); cursor: pointer;
-  transition: all 0.3s;
-}}
-.nav-dot.active {{ background: var(--cor); transform: scale(1.3); }}
-
-.nav-btn {{
-  background: none; border: none; color: rgba(255,255,255,0.4);
-  cursor: pointer; font-size: 16px; padding: 2px 6px;
-  transition: color 0.2s;
-}}
-.nav-btn:hover {{ color: white; }}
-
-/* ---- BARRA PROGRESSO ---- */
-.progress-bar {{
-  position: fixed; top: 0; left: 260px; right: 0; height: 2px;
-  background: rgba(255,255,255,0.06); z-index: 60;
-}}
-.progress-fill {{
-  height: 100%; background: var(--cor, #4361ee);
-  transition: width 0.4s ease, background 0.4s;
-}}
-
-/* ---- RESPONSIVO ---- */
-@media (max-width: 900px) {{
-  #app {{ grid-template-columns: 1fr; grid-template-rows: auto 1fr; }}
-  .sidebar {{ max-height: 200px; }}
-  .slide {{ grid-template-columns: 1fr; padding: 24px; }}
-  .slide-right {{ display: none; }}
-  .progress-bar {{ left: 0; }}
-}}
+@keyframes fadeHint{{0%{{opacity:0}}20%{{opacity:1}}80%{{opacity:1}}100%{{opacity:0}}}}
 </style>
 </head>
 <body>
 
 <div id="loader">
-  <div class="loader-ring"></div>
-  <div class="loader-text">Iniciando Modelos 3D…</div>
+  <div class="ld-ring"></div>
+  <div class="ld-txt">Carregando modelos 3D…</div>
 </div>
 
-<div id="app">
-  <aside class="sidebar">
-    <div class="sidebar-header">
-      <div class="sidebar-title">Química · Estrutura da Matéria</div>
-      <div class="sidebar-headline">Modelos<br>Atômicos</div>
-    </div>
-    <div class="menu-scroll">
-      {cards_menu}
-    </div>
-    <div class="sidebar-footer">
-      {len(modelos)} modelos · Visualização 3D
-    </div>
-  </aside>
+<div id="prog"><div id="prog-fill"></div></div>
 
-  <main class="slides-area">
+<div id="track-wrap">
+  <div id="track">
     {slides_html}
-  </main>
+  </div>
 </div>
 
-<div class="progress-bar">
-  <div class="progress-fill" id="progress-fill"></div>
-</div>
-
-<div class="nav-bar">
-  <button class="nav-btn" onclick="navAnterior()">←</button>
-  {nav_buttons}
-  <button class="nav-btn" onclick="navProximo()">→</button>
-</div>
+<div id="dots">{dots_html}</div>
+<div id="hint">← deslize →</div>
 
 <script>
-const modelos = {[f'"{m["id"]}"' for m in modelos]};
-const modelos_js = {str([{"id": m["id"], "tipo": m["tipo_3d"], "cor": m["cor"]} for m in modelos]).replace("'", '"')};
-
-let indiceAtual = 0;
-let cenasInicializadas = new Set();
-
-function navegarPara(id) {{
-  const idx = modelos.indexOf(id);
-  if (idx === -1 || idx === indiceAtual) return;
-
-  const slideAtual = document.querySelector('.slide.active');
-  if (slideAtual) {{
-    slideAtual.classList.remove('active');
-    slideAtual.classList.add('exit');
-    setTimeout(() => slideAtual.classList.remove('exit'), 500);
-  }}
-
-  indiceAtual = idx;
-  const novoSlide = document.getElementById('slide-' + id);
-  if (novoSlide) {{
-    setTimeout(() => novoSlide.classList.add('active'), 50);
-  }}
-
-  document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('active'));
-  const btn = document.querySelector('.menu-card[data-id="' + id + '"]');
-  if (btn) btn.classList.add('active');
-
-  document.querySelectorAll('.nav-dot').forEach(d => d.classList.remove('active'));
-  const dot = document.querySelector('.nav-dot[data-id="' + id + '"]');
-  if (dot) dot.classList.add('active');
-
-  const fill = document.getElementById('progress-fill');
-  if (fill) {{
-    const pct = ((indiceAtual + 1) / modelos.length) * 100;
-    fill.style.width = pct + '%';
-    const mod = modelos_js[idx];
-    fill.style.background = mod.cor;
-  }}
-
-  inicializarCenaSeNecessario(idx);
-  inicializarCenaSeNecessario(idx + 1);
-}}
-
-function navProximo() {{
-  if (indiceAtual < modelos.length - 1) navegarPara(modelos[indiceAtual + 1]);
-}}
-function navAnterior() {{
-  if (indiceAtual > 0) navegarPara(modelos[indiceAtual - 1]);
-}}
-
-document.querySelectorAll('.nav-dot').forEach(dot => {{
-  dot.addEventListener('click', () => navegarPara(dot.dataset.id));
-}});
-
-document.addEventListener('keydown', e => {{
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navProximo();
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navAnterior();
-}});
-
-function inicializarCenaSeNecessario(idx) {{
-  if (idx < 0 || idx >= modelos_js.length) return;
-  const m = modelos_js[idx];
-  if (cenasInicializadas.has(m.id)) return;
-  cenasInicializadas.add(m.id);
-  setTimeout(() => iniciarCena3D(m.id, m.tipo, m.cor), 100);
-}}
+const MODELOS = {slides_js};
+const N = MODELOS.length;
+let idx = 0;
+let cenasOk = new Set();
+let cenas = {{}};
 
 // ===== 3D ENGINE =====
 {js_3d}
 
-// ===== INIT =====
-window.addEventListener('load', () => {{
-  setTimeout(() => {{
-    const loader = document.getElementById('loader');
-    loader.style.opacity = '0';
-    setTimeout(() => {{ loader.style.display = 'none'; }}, 600);
+// ===== NAVEGAÇÃO =====
+const track = document.getElementById('track');
 
-    const app = document.getElementById('app');
-    app.classList.add('ready');
+function irPara(i, anim=true) {{
+  if (i < 0 || i >= N) return;
+  idx = i;
+  track.style.transition = anim ? 'transform .45s cubic-bezier(.4,0,.2,1)' : 'none';
+  track.style.transform = `translateX(${{-idx*100}}%)`;
 
-    // Inicializar primeiro e segundo slides
-    inicializarCenaSeNecessario(0);
-    inicializarCenaSeNecessario(1);
+  document.querySelectorAll('.dot').forEach((d,j) => d.classList.toggle('active', j===idx));
 
-    // Nav dots iniciais
-    const firstDot = document.querySelector('.nav-dot');
-    if (firstDot) firstDot.classList.add('active');
+  const fill = document.getElementById('prog-fill');
+  fill.style.width = ((idx+1)/N*100)+'%';
+  fill.style.background = MODELOS[idx].cor;
 
-    const fill = document.getElementById('progress-fill');
-    if (fill) {{
-      fill.style.width = (1 / modelos.length * 100) + '%';
-      fill.style.background = modelos_js[0].cor;
-    }}
-  }}, 800);
+  preload(idx); preload(idx+1); preload(idx-1);
+}}
+
+function preload(i) {{
+  if (i<0||i>=N) return;
+  const m = MODELOS[i];
+  if (cenasOk.has(m.id)) return;
+  cenasOk.add(m.id);
+  setTimeout(() => iniciarCena3D(m.id, m.tipo, m.cor), 80);
+}}
+
+document.querySelectorAll('.dot').forEach(d => {{
+  d.addEventListener('click', () => irPara(+d.dataset.idx));
 }});
 
-// Resize handler
+// SWIPE / TOUCH
+let tx=0, startX=0, dragging=false, moved=false;
+track.addEventListener('touchstart', e => {{
+  startX = e.touches[0].clientX; dragging=true; moved=false;
+  track.style.transition='none';
+}}, {{passive:true}});
+track.addEventListener('touchmove', e => {{
+  if (!dragging) return;
+  const dx = e.touches[0].clientX - startX;
+  if (Math.abs(dx)>5) moved=true;
+  tx = -idx*window.innerWidth + dx;
+  track.style.transform = `translateX(${{tx}}px)`;
+}}, {{passive:true}});
+track.addEventListener('touchend', e => {{
+  if (!dragging) return; dragging=false;
+  const dx = e.changedTouches[0].clientX - startX;
+  if (moved && Math.abs(dx)>50) {{
+    irPara(dx<0 ? Math.min(idx+1,N-1) : Math.max(idx-1,0));
+  }} else {{
+    irPara(idx);
+  }}
+}});
+
+// TECLADO
+document.addEventListener('keydown', e => {{
+  if (e.key==='ArrowRight') irPara(idx+1);
+  if (e.key==='ArrowLeft') irPara(idx-1);
+}});
+
+// RESIZE
 window.addEventListener('resize', () => {{
+  irPara(idx, false);
   Object.keys(cenas).forEach(id => {{
-    const cd = cenas[id];
-    const canvas = document.getElementById('canvas-' + id);
-    if (!canvas || !cd) return;
-    cd.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-    cd.camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    const cd=cenas[id], c=document.getElementById('canvas-'+id);
+    if(!cd||!c) return;
+    cd.renderer.setSize(c.clientWidth, c.clientHeight);
+    cd.camera.aspect=c.clientWidth/c.clientHeight;
     cd.camera.updateProjectionMatrix();
   }});
+}});
+
+// INIT
+window.addEventListener('load', () => {{
+  setTimeout(() => {{
+    document.getElementById('loader').style.opacity='0';
+    setTimeout(()=>document.getElementById('loader').style.display='none',500);
+    irPara(0, false);
+  }}, 700);
 }});
 </script>
 </body>
 </html>"""
 
 if __name__ == "__main__":
-    print("🔬 Gerando apresentação 3D dos Modelos Atômicos...")
-    js_3d = gerar_js_3d()
-    html = gerar_html(modelos, js_3d)
-    output_path = "/home/claude/modelos_atomicos/index.html"
-    with open(output_path, "w", encoding="utf-8") as f:
+    print("🔬 Gerando apresentação mobile 3D...")
+    html = gerar_html(modelos, JS_3D)
+    out = "/home/claude/modelos_atomicos/index.html"
+    with open(out, "w", encoding="utf-8") as f:
         f.write(html)
-    size_kb = len(html.encode()) / 1024
-    print(f"✅ Arquivo gerado: {output_path}")
-    print(f"📦 Tamanho: {size_kb:.1f} KB")
-    print(f"🧪 Modelos incluídos: {len(modelos)}")
+    print(f"✅ Gerado: {out} ({len(html.encode())//1024} KB)")
     for m in modelos:
         print(f"   · {m['nome']} ({m['ano']})")
-    print("\n🚀 Abra o index.html no seu navegador para visualizar!")
