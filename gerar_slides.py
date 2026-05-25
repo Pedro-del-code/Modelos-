@@ -1,6 +1,21 @@
 """
-Gerador de Slides — Modelos Atômicos
+Gerador de Slides — Modelos Atômicos (v2)
 Canvas 2D puro — zero dependências externas, funciona offline e no Render
+
+Melhorias v2:
+  - Slide de intro com timeline interativa
+  - Tipografia upgrade: Playfair Display + IBM Plex Mono + DM Sans
+  - Transição de cor de fundo por modelo (overlay radial animado)
+  - Trail de elétrons nas órbitas (Rutherford/Bohr)
+  - Botão fullscreen
+  - Indicador de swipe (mobile)
+  - Nav label com nome do modelo
+  - Animações canvas mais ricas: pulse no núcleo, emissão de fóton (Bohr), shimmer (Dalton)
+  - Órbitas pontilhadas (dashed)
+  - Starfield decorativo no background
+  - Scan-line overlay sutil no canvas
+  - Dots com hover state
+  - Fade opacity entre slides
 """
 import json, os
 
@@ -8,543 +23,623 @@ MODELOS = [
     {
         "id": "democrito", "nome": "Demócrito", "subtitulo": "O Filósofo do Átomo",
         "ano": "460–370 a.C.", "cor": "#00f5d4", "cor_rgb": "0,245,212", "tipo_2d": "democrito",
-        "descricao": "O filósofo grego Demócrito propôs que toda a matéria era composta de partículas indivisíveis chamadas <b>átomos</b> (do grego <i>atomos</i> = indivisível). Ele imaginou que entre os átomos existiria apenas o <b>vazio</b>.",
-        "contexto": "Grécia Antiga, escola atomista fundada por Leucipo. Ideia puramente filosófica, sem instrumentos científicos.",
-        "caracteristicas": ["Átomos são indivisíveis e eternos","Existem diferentes formas e tamanhos","Átomos se movem livremente no vazio","Modelo puramente filosófico"],
+        "tl_ano": "460 a.C.",
+        "descricao": "O filósofo grego Demócrito propôs que toda a matéria era composta de partículas indivisíveis chamadas <b>átomos</b> (do grego <i>atomos</i> = indivisível). Entre os átomos existiria apenas o <b>vazio</b> — nada mais.",
+        "contexto": "Grécia Antiga — escola atomista fundada por Leucipo. Ideia puramente filosófica, sem instrumentos científicos.",
+        "caracteristicas": [
+            "Átomos são indivisíveis e eternos",
+            "Existem em diferentes formas e tamanhos",
+            "Átomos se movem livremente no vazio",
+            "Modelo puramente filosófico",
+        ],
         "limitacoes": "Sem base experimental. Aristóteles rejeitou a ideia, atrasando o desenvolvimento por quase 2.000 anos.",
         "legado": "Primeiro a usar o conceito de átomo — base de toda a química moderna.",
     },
     {
         "id": "dalton", "nome": "John Dalton", "subtitulo": "A Teoria Atômica Científica",
         "ano": "1803", "cor": "#f72585", "cor_rgb": "247,37,133", "tipo_2d": "dalton",
+        "tl_ano": "1803",
         "descricao": "Dalton retomou o átomo com base científica. Sua <b>Teoria Atômica</b> foi a primeira com suporte experimental, fundamentada nas leis de conservação da massa e das proporções definidas.",
         "contexto": "Revolução Industrial na Inglaterra. Dalton era meteorologista e chegou ao átomo estudando a composição dos gases.",
-        "caracteristicas": ["Átomos são esferas maciças e indivisíveis","Átomos do mesmo elemento são idênticos em massa","Compostos = união de átomos diferentes","Reações químicas apenas reorganizam átomos"],
+        "caracteristicas": [
+            "Átomos são esferas maciças e indivisíveis",
+            "Átomos do mesmo elemento são idênticos em massa",
+            "Compostos = união de átomos diferentes",
+            "Reações químicas apenas reorganizam átomos",
+        ],
         "limitacoes": "Não explicava eletricidade, luz emitida por gases nem partículas subatômicas.",
         "legado": "Fundou a química moderna como ciência quantitativa.",
     },
     {
-        "id": "thomson", "nome": "J.J. Thomson", "subtitulo": "Pudim de Passas",
+        "id": "thomson", "nome": "J.J. Thomson", "subtitulo": "O Pudim de Passas",
         "ano": "1897", "cor": "#7209b7", "cor_rgb": "114,9,183", "tipo_2d": "thomson",
-        "descricao": "Com a descoberta do <b>elétron</b> em tubos de raios catódicos, Thomson provou que o átomo <b>é divisível</b>. Propôs o Pudim de Passas: esfera de carga positiva com elétrons embutidos.",
+        "tl_ano": "1897",
+        "descricao": "Com a descoberta do <b>elétron</b> em tubos de raios catódicos, Thomson provou que o átomo <b>é divisível</b>. Propôs o modelo \"Pudim de Passas\": esfera de carga positiva com elétrons embutidos.",
         "contexto": "Era da eletricidade. Experimentos com tubos de vidro a vácuo revelaram os raios catódicos.",
-        "caracteristicas": ["Átomo contém elétrons de carga negativa","Carga positiva distribuída uniformemente","Elétrons embutidos na carga positiva","Átomo é eletricamente neutro"],
+        "caracteristicas": [
+            "Átomo contém elétrons de carga negativa",
+            "Carga positiva distribuída uniformemente",
+            "Elétrons embutidos na carga positiva",
+            "Átomo é eletricamente neutro",
+        ],
         "limitacoes": "Derrubado por Rutherford (1909), que mostrou a carga positiva concentrada em um núcleo minúsculo.",
-        "legado": "Primeira prova de que o átomo tem estrutura interna. Nobel de 1906.",
+        "legado": "Primeira prova de que o átomo tem estrutura interna. Nobel de Física, 1906.",
     },
     {
         "id": "rutherford", "nome": "Rutherford", "subtitulo": "Experimento da Folha de Ouro",
         "ano": "1911", "cor": "#f77f00", "cor_rgb": "247,127,0", "tipo_2d": "rutherford",
+        "tl_ano": "1911",
         "descricao": "No <b>Experimento da Folha de Ouro</b>, bombardeou ouro com partículas alfa. A maioria atravessou, mas algumas desviaram drasticamente — provando a existência de um <b>núcleo</b> pequeno, denso e positivo.",
         "contexto": "Universidade de Manchester. O resultado surpreendeu até o próprio Rutherford.",
-        "caracteristicas": ["Núcleo central pequeno, denso e positivo","Núcleo concentra quase toda a massa","Elétrons orbitam ao redor do núcleo","Átomo é majoritariamente espaço vazio"],
+        "caracteristicas": [
+            "Núcleo central pequeno, denso e positivo",
+            "Núcleo concentra quase toda a massa",
+            "Elétrons orbitam ao redor do núcleo",
+            "Átomo é majoritariamente espaço vazio",
+        ],
         "limitacoes": "Pela física clássica, elétrons irradiariam energia e colidiriam com o núcleo em ~10⁻⁸ s.",
         "legado": "Descoberta do núcleo atômico. Base de toda a física nuclear.",
     },
     {
         "id": "bohr", "nome": "Niels Bohr", "subtitulo": "Órbitas Quantizadas",
         "ano": "1913", "cor": "#4361ee", "cor_rgb": "67,97,238", "tipo_2d": "bohr",
+        "tl_ano": "1913",
         "descricao": "Bohr aplicou a <b>teoria quântica</b> ao modelo de Rutherford. Elétrons só existem em <b>órbitas fixas com energias definidas</b>. Saltos entre órbitas emitem ou absorvem fótons de luz.",
         "contexto": "Copenhagen. Bohr trabalhou com Rutherford em Manchester e se inspirou na teoria quântica de Planck.",
-        "caracteristicas": ["Elétrons em órbitas circulares fixas","Cada órbita tem energia quantizada","Salto para órbita menor → emissão de fóton","Explica o espectro de emissão do Hidrogênio"],
+        "caracteristicas": [
+            "Elétrons em órbitas circulares fixas",
+            "Cada órbita tem energia quantizada",
+            "Salto para órbita menor → emissão de fóton",
+            "Explica o espectro de emissão do Hidrogênio",
+        ],
         "limitacoes": "Falha para átomos com mais de um elétron. Não explica orbitais nem o Princípio da Incerteza.",
-        "legado": "Introduziu a quantização de energia nos átomos. Nobel de 1922.",
+        "legado": "Introduziu a quantização de energia nos átomos. Nobel de Física, 1922.",
     },
     {
         "id": "sommerfeld", "nome": "Sommerfeld", "subtitulo": "Órbitas Elípticas e Relatividade",
         "ano": "1916", "cor": "#e9c46a", "cor_rgb": "233,196,106", "tipo_2d": "sommerfeld",
+        "tl_ano": "1916",
         "descricao": "Sommerfeld aprimorou Bohr adicionando <b>órbitas elípticas</b> e efeitos relativísticos para explicar a <b>estrutura fina</b> dos espectros atômicos.",
         "contexto": "Munique. Sommerfeld foi mentor de Heisenberg, Pauli e outros gigantes da física quântica.",
-        "caracteristicas": ["Órbitas elípticas além das circulares","Número quântico azimutal (l)","Correções relativísticas para elétrons rápidos","Explica o desdobramento de linhas espectrais"],
+        "caracteristicas": [
+            "Órbitas elípticas além das circulares",
+            "Número quântico azimutal (l)",
+            "Correções relativísticas para elétrons rápidos",
+            "Explica o desdobramento de linhas espectrais",
+        ],
         "limitacoes": "Ainda baseado em trajetórias definidas. Não explica o spin do elétron.",
         "legado": "Transição entre o modelo clássico e a mecânica quântica moderna.",
     },
     {
         "id": "quantum", "nome": "Modelo Quântico", "subtitulo": "A Nuvem de Probabilidade",
         "ano": "1926", "cor": "#06d6a0", "cor_rgb": "6,214,160", "tipo_2d": "quantum",
+        "tl_ano": "1926",
         "descricao": "Schrödinger, Heisenberg e De Broglie desenvolveram a <b>Mecânica Quântica</b>. O elétron não tem posição definida — existe como <b>nuvem de probabilidade</b> descrita pela função de onda ψ.",
-        "contexto": "Europa 1925–1927. Em dois anos, Einstein, Bohr e Heisenberg redefiniriam a física para sempre.",
-        "caracteristicas": ["Princípio da Incerteza: Δx·Δp ≥ ℏ/2","Elétron tem natureza dual: onda e partícula","Orbitais s, p, d, f — regiões de probabilidade","4 números quânticos: n, l, mₗ, mₛ"],
-        "limitacoes": "Modelo atual — extremamente preciso. Matematicamente muito complexo.",
+        "contexto": "Europa, 1925–1927. Em dois anos, Einstein, Bohr e Heisenberg redefiniriam a física para sempre.",
+        "caracteristicas": [
+            "Princípio da Incerteza: Δx·Δp ≥ ℏ/2",
+            "Elétron tem natureza dual: onda e partícula",
+            "Orbitais s, p, d, f — regiões de probabilidade",
+            "4 números quânticos: n, l, mₗ, mₛ",
+        ],
+        "limitacoes": "Modelo atual — extremamente preciso, mas matematicamente muito complexo.",
         "legado": "Base de toda a eletrônica, lasers, semicondutores e tecnologia quântica.",
     },
 ]
 
+# ─────────────────────────────────────────────────────────────────────────────
+CSS = """
+:root{
+  --bg:#040812;--fg:#e8eaf0;--cor:#4361ee;--cor-rgb:67,97,238;
+  --trans:.48s cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--fg);font-family:'DM Sans',sans-serif}
+
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--dur,3s) ease-in-out infinite;opacity:0}
+@keyframes twinkle{0%,100%{opacity:0}50%{opacity:var(--op,.4)}}
+
+#prog{position:fixed;top:0;left:0;right:0;height:2px;background:rgba(255,255,255,.06);z-index:300}
+#pf{height:100%;width:0;background:var(--cor);transition:width .5s var(--trans),background .6s ease;box-shadow:0 0 12px var(--cor)}
+
+#bg-overlay{position:fixed;inset:0;z-index:0;pointer-events:none;transition:background 1s ease;background:radial-gradient(ellipse at 20% 50%,rgba(var(--cor-rgb),.055) 0%,transparent 65%)}
+
+#wrap{position:fixed;inset:0;overflow:hidden;z-index:1}
+#track{display:flex;height:100%;will-change:transform;transition:transform .48s cubic-bezier(.4,0,.2,1)}
+
+.slide{flex:0 0 100vw;width:100vw;height:100%;display:flex;flex-direction:column;overflow:hidden;opacity:0;transition:opacity .35s ease .1s}
+.slide.visible{opacity:1}
+
+.canvas-area{flex:0 0 42%;position:relative;overflow:hidden}
+@media(min-height:700px){.canvas-area{flex:0 0 44%}}
+@media(min-width:768px){.slide{flex-direction:row}.canvas-area{flex:0 0 48%;height:100%}}
+@media(min-width:1100px){.canvas-area{flex:0 0 50%}}
+
+.canvas2d{position:absolute;inset:0;width:100%;height:100%;display:block}
+.canvas-area::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.04) 2px,rgba(0,0,0,.04) 4px)}
+@media(min-width:768px){.canvas-area::after{content:'';position:absolute;top:10%;right:0;bottom:10%;width:1px;background:linear-gradient(180deg,transparent,rgba(var(--cor-rgb),.45),transparent);z-index:2}}
+
+.badge{position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:8px;background:rgba(4,8,18,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 13px;z-index:3;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.bnum{font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(255,255,255,.3);letter-spacing:1px}
+.bsep{color:rgba(255,255,255,.15);font-size:10px}
+.bnome{font-size:11px;font-weight:500;color:var(--cor);letter-spacing:.5px}
+.ano-tag{position:absolute;bottom:13px;right:14px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.25);letter-spacing:3px;z-index:3}
+
+.divider{height:1px;background:linear-gradient(90deg,transparent 5%,rgba(var(--cor-rgb),.35) 50%,transparent 95%);flex-shrink:0}
+@media(min-width:768px){.divider{display:none}}
+
+.info-area{flex:1;overflow-y:auto;padding:22px 20px 110px;display:flex;flex-direction:column;gap:16px;scrollbar-width:none}
+.info-area::-webkit-scrollbar{display:none}
+@media(min-width:768px){.info-area{padding:32px 40px 48px;gap:18px}}
+@media(min-width:1100px){.info-area{padding:40px 56px 56px}}
+
+.subtitulo{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:3.5px;text-transform:uppercase;color:var(--cor);margin-bottom:6px;opacity:.9}
+.titulo{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;line-height:1.05;letter-spacing:-.5px;background:linear-gradient(135deg,#fff 30%,rgba(var(--cor-rgb),.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+@media(min-width:768px){.titulo{font-size:36px}}
+@media(min-width:1100px){.titulo{font-size:44px}}
+
+.desc{font-size:13.5px;line-height:1.85;color:rgba(232,234,240,.72);font-weight:300}
+.desc b{color:var(--fg);font-weight:500}
+@media(min-width:768px){.desc{font-size:14.5px}}
+
+.contexto-box{background:rgba(255,255,255,.03);border-left:2px solid rgba(var(--cor-rgb),.5);border-radius:0 8px 8px 0;padding:10px 14px}
+.contexto-box p{font-size:12px;color:rgba(232,234,240,.45);line-height:1.65;font-style:italic;font-family:'DM Sans',sans-serif}
+
+.bloco-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(var(--cor-rgb),.7);margin-bottom:10px}
+.chars{list-style:none;display:flex;flex-direction:column;gap:7px}
+.chars li{font-size:13px;display:flex;gap:10px;line-height:1.5;align-items:flex-start;color:rgba(232,234,240,.8)}
+.ck{color:var(--cor);flex-shrink:0;font-size:8px;margin-top:5px;font-family:'IBM Plex Mono',monospace}
+
+.lim-box{background:rgba(255,60,40,.05);border:1px solid rgba(255,80,60,.15);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
+.lim-i{color:#ff5a45;flex-shrink:0;font-size:13px;margin-top:1px;font-family:'IBM Plex Mono',monospace}
+.lim-box p{font-size:12px;color:rgba(232,234,240,.6);line-height:1.7}
+
+.legado-box{background:rgba(var(--cor-rgb),.05);border:1px solid rgba(var(--cor-rgb),.2);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
+.legado-i{color:var(--cor);flex-shrink:0;font-size:13px;margin-top:1px}
+.legado-box p{font-size:12px;color:rgba(232,234,240,.65);line-height:1.7}
+
+#swipe-hint{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,.3);z-index:300;animation:hintfade 3s ease 1.5s forwards;pointer-events:none}
+#swipe-hint span{animation:swipearrow 1.2s ease-in-out infinite}
+@keyframes hintfade{0%{opacity:1}80%{opacity:.3}100%{opacity:0}}
+@keyframes swipearrow{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+
+#nav-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;background:rgba(4,8,18,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);padding:10px 18px;border-radius:99px;z-index:300;box-shadow:0 8px 40px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04)}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15);cursor:pointer;transition:all .35s;flex-shrink:0}
+.dot.active{background:var(--cor);transform:scale(1.6);box-shadow:0 0 10px var(--cor)}
+.dot:hover:not(.active){background:rgba(255,255,255,.35);transform:scale(1.2)}
+#nav-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.3);margin-left:4px;text-transform:uppercase;min-width:90px;text-align:center;transition:opacity .3s}
+
+.nav-arrow{display:none;position:fixed;top:50%;transform:translateY(-50%);background:rgba(4,8,18,.75);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:46px;height:46px;font-size:20px;color:rgba(255,255,255,.5);cursor:pointer;align-items:center;justify-content:center;transition:all .2s;z-index:300;letter-spacing:0}
+.nav-arrow:hover{background:rgba(var(--cor-rgb),.25);border-color:rgba(var(--cor-rgb),.4);color:#fff;transform:translateY(-50%) scale(1.08)}
+#arr-l{left:18px}#arr-r{right:18px}
+@media(min-width:768px){.nav-arrow{display:flex}}
+
+#fs-btn{position:fixed;top:14px;right:14px;z-index:300;background:rgba(4,8,18,.72);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,.4);font-size:14px;transition:all .2s}
+#fs-btn:hover{color:#fff;border-color:rgba(var(--cor-rgb),.5);background:rgba(var(--cor-rgb),.15)}
+
+#slide-intro{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;position:relative}
+.intro-kicker{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(var(--cor-rgb),.7);margin-bottom:20px;animation:fadein .8s ease .2s both}
+.intro-title{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;line-height:1.0;background:linear-gradient(150deg,#fff 0%,rgba(180,200,255,.8) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;animation:fadein .8s ease .4s both}
+@media(min-width:600px){.intro-title{font-size:52px}}
+.intro-sub{font-size:14px;color:rgba(232,234,240,.45);font-weight:300;line-height:1.7;max-width:500px;margin-bottom:36px;animation:fadein .8s ease .6s both}
+.intro-timeline{display:flex;align-items:center;gap:0;margin-bottom:40px;overflow-x:auto;padding:8px 4px;scrollbar-width:none;animation:fadein .8s ease .8s both}
+.intro-timeline::-webkit-scrollbar{display:none}
+.tl-item{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;padding:0 10px;cursor:pointer}
+.tl-dot{width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.15);transition:all .3s}
+.tl-item:hover .tl-dot{transform:scale(1.4);border-color:var(--item-cor)}
+.tl-line{width:28px;height:1px;background:rgba(255,255,255,.1);margin-top:-7px}
+.tl-nome{font-family:'IBM Plex Mono',monospace;font-size:8px;color:rgba(255,255,255,.3);letter-spacing:1px;white-space:nowrap}
+.tl-ano{font-size:9px;color:rgba(255,255,255,.18);font-family:'IBM Plex Mono',monospace}
+.start-btn{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:13px 32px;border-radius:6px;cursor:pointer;background:rgba(var(--cor-rgb),.12);border:1px solid rgba(var(--cor-rgb),.35);color:rgba(var(--cor-rgb),1);transition:all .25s;animation:fadein .8s ease 1s both}
+.start-btn:hover{background:rgba(var(--cor-rgb),.22);box-shadow:0 0 24px rgba(var(--cor-rgb),.3)}
+@keyframes fadein{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+"""
+
 JS_ANIMATIONS = r"""
-// ── Canvas 2D — sem dependências externas ─────────────────────────────────────
+// ── Canvas helpers ─────────────────────────────────────────────────────────────
 var _animHandles = {};
+var _trails = {};
 
 function startCanvas(id, tipo, cor) {
   var canvas = document.getElementById('c-' + id);
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
   var t = 0;
-  var RAF = null;
-
   function resize() {
-    // canvas tem position:absolute, offsetWidth é 0 — usar o pai
-    var parent = canvas.parentElement;
-    var w = parent.getBoundingClientRect().width  || parent.offsetWidth  || 280;
-    var h = parent.getBoundingClientRect().height || parent.offsetHeight || 220;
+    var p = canvas.parentElement;
+    var w = p.getBoundingClientRect().width  || p.offsetWidth  || 280;
+    var h = p.getBoundingClientRect().height || p.offsetHeight || 220;
     if (w > 0) canvas.width  = w;
     if (h > 0) canvas.height = h;
   }
-
   function loop() {
-    RAF = requestAnimationFrame(loop);
-    resize(); // mantém canvas sempre no tamanho certo
-    t += 0.016;
+    _animHandles[id] = requestAnimationFrame(loop);
+    resize(); t += 0.016;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    var cx = canvas.width / 2, cy = canvas.height / 2;
-    if (cx > 0 && cy > 0) drawModel(ctx, tipo, cor, cx, cy, canvas.width, canvas.height, t);
+    var cx = canvas.width/2, cy = canvas.height/2;
+    if (cx > 0 && cy > 0) drawModel(ctx, tipo, cor, cx, cy, canvas.width, canvas.height, t, id);
   }
-
   if (_animHandles[id]) cancelAnimationFrame(_animHandles[id]);
-  RAF = requestAnimationFrame(loop);
-  _animHandles[id] = RAF;
+  _animHandles[id] = requestAnimationFrame(loop);
 }
 
 function hex2rgb(hex) {
-  var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
-  return [r, g, b];
+  return [parseInt(hex.slice(1,3),16), parseInt(hex.slice(3,5),16), parseInt(hex.slice(5,7),16)];
 }
-
 function drawGlow(ctx, x, y, r, cor, alpha) {
-  var grad = ctx.createRadialGradient(x, y, 0, x, y, r);
+  var grad = ctx.createRadialGradient(x,y,0,x,y,r);
   var rgb = hex2rgb(cor);
-  grad.addColorStop(0,   'rgba('+rgb+','+alpha+')');
-  grad.addColorStop(0.5, 'rgba('+rgb+','+(alpha*0.4)+')');
-  grad.addColorStop(1,   'rgba('+rgb+',0)');
-  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
-  ctx.fillStyle = grad; ctx.fill();
+  grad.addColorStop(0,'rgba('+rgb+','+alpha+')');
+  grad.addColorStop(.5,'rgba('+rgb+','+(alpha*.35)+')');
+  grad.addColorStop(1,'rgba('+rgb+',0)');
+  ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2);
+  ctx.fillStyle=grad; ctx.fill();
 }
-
 function drawSphere(ctx, x, y, r, cor, emissive) {
-  var grad = ctx.createRadialGradient(x-r*0.3, y-r*0.3, r*0.05, x, y, r);
+  var grad = ctx.createRadialGradient(x-r*.3,y-r*.3,r*.05,x,y,r);
   var rgb = hex2rgb(cor);
-  grad.addColorStop(0,   'rgba('+rgb.map(v=>Math.min(255,v+80))+',1)');
-  grad.addColorStop(0.5, 'rgba('+rgb+',1)');
-  grad.addColorStop(1,   'rgba('+rgb.map(v=>Math.max(0,v-60))+',1)');
-  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
-  ctx.fillStyle = grad; ctx.fill();
-  if (emissive) {
-    ctx.beginPath(); ctx.arc(x, y, r*1.35, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba('+hex2rgb(cor)+','+(emissive*0.18)+')';
-    ctx.fill();
+  grad.addColorStop(0,'rgba('+rgb.map(function(v){return Math.min(255,v+90);})+',1)');
+  grad.addColorStop(.5,'rgba('+rgb+',1)');
+  grad.addColorStop(1,'rgba('+rgb.map(function(v){return Math.max(0,v-70);})+',1)');
+  ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2);
+  ctx.fillStyle=grad; ctx.fill();
+  if(emissive){
+    ctx.beginPath(); ctx.arc(x,y,r*1.4,0,Math.PI*2);
+    ctx.fillStyle='rgba('+hex2rgb(cor)+','+(emissive*.16)+')'; ctx.fill();
   }
 }
-
 function drawOrbit(ctx, cx, cy, rx, ry, rot, cor, alpha) {
   ctx.save();
-  ctx.translate(cx, cy); ctx.rotate(rot);
-  ctx.beginPath(); ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI*2);
-  ctx.strokeStyle = 'rgba('+hex2rgb(cor)+','+alpha+')';
-  ctx.lineWidth = 1.2; ctx.stroke();
+  ctx.translate(cx,cy); ctx.rotate(rot);
+  ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,0,Math.PI*2);
+  ctx.strokeStyle='rgba('+hex2rgb(cor)+','+alpha+')';
+  ctx.lineWidth=1; ctx.setLineDash([4,4]); ctx.stroke();
+  ctx.setLineDash([]);
   ctx.restore();
 }
-
-function drawElectron(ctx, cx, cy, rx, ry, rot, ang, cor, r) {
-  var ex = cx + rx * Math.cos(ang);
-  var ey = cy + ry * Math.sin(ang);
-  // rotacionar
-  var dx = ex - cx, dy = ey - cy;
-  var nx = dx * Math.cos(rot) - dy * Math.sin(rot) + cx;
-  var ny = dx * Math.sin(rot) + dy * Math.cos(rot) + cy;
-  drawGlow(ctx, nx, ny, r*3.5, cor, 0.55);
-  drawSphere(ctx, nx, ny, r, cor, 0);
-  return { x: nx, y: ny };
+function pushTrail(id, x, y) {
+  if (!_trails[id]) _trails[id] = [];
+  _trails[id].push({x:x,y:y});
+  if (_trails[id].length > 18) _trails[id].shift();
+}
+function drawTrail(ctx, id, cor) {
+  if (!_trails[id]) return;
+  var t2 = _trails[id];
+  for (var i=0; i<t2.length; i++) {
+    var pt=t2[i]; var frac=i/t2.length;
+    ctx.beginPath(); ctx.arc(pt.x,pt.y,1.5+frac*2.5,0,Math.PI*2);
+    ctx.fillStyle='rgba('+hex2rgb(cor)+','+(frac*.4)+')'; ctx.fill();
+  }
+}
+function drawElectron(ctx, cx, cy, rx, ry, rot, ang, cor, r, trailId) {
+  var ex=cx+rx*Math.cos(ang), ey=cy+ry*Math.sin(ang);
+  var dx=ex-cx, dy=ey-cy;
+  var nx=dx*Math.cos(rot)-dy*Math.sin(rot)+cx;
+  var ny=dx*Math.sin(rot)+dy*Math.cos(rot)+cy;
+  if(trailId){pushTrail(trailId,nx,ny);drawTrail(ctx,trailId,cor);}
+  drawGlow(ctx,nx,ny,r*3.5,cor,.5);
+  drawSphere(ctx,nx,ny,r,cor,0);
 }
 
-// ── Demócrito: esfera grande + partículas ao redor ──
-function drawDemocrito(ctx, cor, cx, cy, W, H, t) {
-  var R = Math.min(W, H) * 0.28;
-  drawGlow(ctx, cx, cy, R*2.2, cor, 0.12);
-  drawSphere(ctx, cx, cy, R, cor, 0.4);
-  // grade wireframe sobre a esfera
-  ctx.save();
-  ctx.globalAlpha = 0.09;
-  ctx.strokeStyle = '#ffffff';
-  ctx.lineWidth = 1;
-  for (var i = 0; i < 6; i++) {
-    var a = i / 6 * Math.PI;
-    ctx.beginPath();
-    ctx.ellipse(cx, cy, R, R * Math.abs(Math.cos(a + t*0.3)), a + t*0.3, 0, Math.PI*2);
-    ctx.stroke();
-  }
+// ── Demócrito ─────────────────────────────────────────────────────────────────
+function drawDemocrito(ctx,cor,cx,cy,W,H,t) {
+  var R=Math.min(W,H)*.27;
+  drawGlow(ctx,cx,cy,R*2.4,cor,.1);
+  drawSphere(ctx,cx,cy,R,cor,.35);
+  ctx.save(); ctx.globalAlpha=.07; ctx.strokeStyle='#fff'; ctx.lineWidth=1;
+  for(var i=0;i<6;i++){var a=i/6*Math.PI;ctx.beginPath();ctx.ellipse(cx,cy,R,R*Math.abs(Math.cos(a+t*.25)),a+t*.25,0,Math.PI*2);ctx.stroke();}
   ctx.restore();
-  // partículas orbitando
-  for (var i = 0; i < 32; i++) {
-    var baseAng = i / 32 * Math.PI * 2 + t * 0.4;
-    var dist = R * (1.55 + 0.35 * Math.sin(i * 2.3 + t));
-    var px = cx + dist * Math.cos(baseAng);
-    var py = cy + dist * Math.sin(baseAng) * 0.45;
-    var pr = 2 + Math.sin(i + t*1.5) * 1;
-    var alpha = 0.4 + 0.4 * Math.sin(i * 1.7 + t);
-    ctx.beginPath(); ctx.arc(px, py, pr, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba('+hex2rgb(cor)+','+alpha+')'; ctx.fill();
+  for(var i=0;i<36;i++){
+    var ba=i/36*Math.PI*2+t*.38, dist=R*(1.5+.4*Math.sin(i*2.1+t));
+    var px=cx+dist*Math.cos(ba), py=cy+dist*Math.sin(ba)*.42;
+    var pr=1.5+Math.sin(i+t*1.4)*.8, alpha=.35+.45*Math.sin(i*1.6+t);
+    ctx.beginPath();ctx.arc(px,py,pr,0,Math.PI*2);
+    ctx.fillStyle='rgba('+hex2rgb(cor)+','+alpha+')';ctx.fill();
   }
+  var pulse=1+.06*Math.sin(t*1.5);
+  ctx.beginPath();ctx.arc(cx,cy,R*pulse*1.08,0,Math.PI*2);
+  ctx.strokeStyle='rgba('+hex2rgb(cor)+',.12)';ctx.lineWidth=2;ctx.stroke();
 }
 
-// ── Dalton: esfera maciça + latitudes ──
-function drawDalton(ctx, cor, cx, cy, W, H, t) {
-  var R = Math.min(W, H) * 0.28;
-  drawGlow(ctx, cx, cy, R*1.8, cor, 0.14);
-  drawSphere(ctx, cx, cy, R, cor, 0.3);
-  ctx.save(); ctx.globalAlpha = 0.18; ctx.strokeStyle = '#fff'; ctx.lineWidth = 1;
-  for (var i = 0; i < 5; i++) {
-    var lat = (i / 4 - 0.5) * Math.PI;
-    var ry = R * Math.cos(lat);
-    var yy = cy + R * Math.sin(lat);
-    ctx.beginPath(); ctx.ellipse(cx, yy, ry, ry * 0.25, t*0.2, 0, Math.PI*2); ctx.stroke();
-  }
-  for (var j = 0; j < 4; j++) {
-    var rot = j / 4 * Math.PI + t*0.15;
-    ctx.beginPath(); ctx.ellipse(cx, cy, R*0.5, R, rot, 0, Math.PI*2); ctx.stroke();
-  }
+// ── Dalton ────────────────────────────────────────────────────────────────────
+function drawDalton(ctx,cor,cx,cy,W,H,t) {
+  var R=Math.min(W,H)*.27;
+  drawGlow(ctx,cx,cy,R*1.9,cor,.13);
+  drawSphere(ctx,cx,cy,R,cor,.28);
+  ctx.save();ctx.globalAlpha=.15;ctx.strokeStyle='#fff';ctx.lineWidth=1;
+  for(var i=0;i<5;i++){var lat=(i/4-.5)*Math.PI,ry2=R*Math.cos(lat),yy=cy+R*Math.sin(lat);ctx.beginPath();ctx.ellipse(cx,yy,ry2,ry2*.22,t*.18,0,Math.PI*2);ctx.stroke();}
+  for(var j=0;j<5;j++){var rot2=j/5*Math.PI+t*.12;ctx.beginPath();ctx.ellipse(cx,cy,R*.5,R,rot2,0,Math.PI*2);ctx.stroke();}
   ctx.restore();
+  var sg=ctx.createRadialGradient(cx-R*.4,cy-R*.4,0,cx,cy,R);
+  sg.addColorStop(0,'rgba(255,255,255,.14)');sg.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.fillStyle=sg;ctx.fill();
 }
 
-// ── Thomson: esfera translúcida + elétrons pulsando ──
-function drawThomson(ctx, cor, cx, cy, W, H, t) {
-  var R = Math.min(W, H) * 0.28;
-  drawGlow(ctx, cx, cy, R*2.0, cor, 0.1);
-  // esfera translúcida
-  var rgb = hex2rgb(cor);
-  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
-  ctx.fillStyle = 'rgba('+rgb+',0.18)'; ctx.fill();
-  ctx.strokeStyle = 'rgba('+rgb+',0.4)'; ctx.lineWidth = 1.5; ctx.stroke();
-  // elétrons embutidos
-  for (var i = 0; i < 10; i++) {
-    var baseAng = i/10*Math.PI*2 + t*0.35;
-    var dist = R * (0.35 + 0.5 * ((i%3)/2));
-    var pulse = 1 + 0.18*Math.sin(t*2 + i);
-    var ex = cx + dist*Math.cos(baseAng)*pulse;
-    var ey = cy + dist*Math.sin(baseAng)*pulse*0.6;
-    drawGlow(ctx, ex, ey, 14, '#ffdd00', 0.5);
-    ctx.beginPath(); ctx.arc(ex, ey, 4.5, 0, Math.PI*2);
-    ctx.fillStyle = '#ffdd00'; ctx.fill();
+// ── Thomson ───────────────────────────────────────────────────────────────────
+function drawThomson(ctx,cor,cx,cy,W,H,t) {
+  var R=Math.min(W,H)*.27, rgb=hex2rgb(cor);
+  drawGlow(ctx,cx,cy,R*2.1,cor,.09);
+  ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);
+  ctx.fillStyle='rgba('+rgb+',.15)';ctx.fill();
+  ctx.strokeStyle='rgba('+rgb+',.35)';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,R*.7,0,Math.PI*2);
+  ctx.strokeStyle='rgba('+rgb+',.1)';ctx.lineWidth=1;ctx.stroke();
+  for(var i=0;i<10;i++){
+    var ba2=i/10*Math.PI*2+t*.32, dist=R*(.3+.55*((i%3)/2));
+    var pulse=1+.15*Math.sin(t*2+i);
+    var ex=cx+dist*Math.cos(ba2)*pulse, ey=cy+dist*Math.sin(ba2)*pulse*.58;
+    drawGlow(ctx,ex,ey,16,'#ffdd00',.45);
+    ctx.beginPath();ctx.arc(ex,ey,4,0,Math.PI*2);ctx.fillStyle='#ffdd00';ctx.fill();
   }
 }
 
-// ── Rutherford: núcleo + 3 órbitas elípticas ──
-function drawRutherford(ctx, cor, cx, cy, W, H, t) {
-  var scale = Math.min(W, H) * 0.42;
-  // órbitas
-  var orbits = [
-    { rx: scale*0.32, ry: scale*0.18, rot: 0.3,  sp: 1.1 },
-    { rx: scale*0.52, ry: scale*0.28, rot: -0.8, sp: 0.75 },
-    { rx: scale*0.72, ry: scale*0.22, rot: 1.2,  sp: 0.5 },
-  ];
-  orbits.forEach(function(o) { drawOrbit(ctx, cx, cy, o.rx, o.ry, o.rot, cor, 0.3); });
-  // núcleo
-  drawGlow(ctx, cx, cy, 28, cor, 0.6);
-  drawSphere(ctx, cx, cy, 12, cor, 0.8);
-  // elétrons
-  orbits.forEach(function(o, i) {
-    var ang = t * o.sp + i * 2.1;
-    drawElectron(ctx, cx, cy, o.rx, o.ry, o.rot, ang, '#00cfff', 5);
-  });
+// ── Rutherford ────────────────────────────────────────────────────────────────
+function drawRutherford(ctx,cor,cx,cy,W,H,t,id) {
+  var scale=Math.min(W,H)*.42;
+  var orbits=[{rx:scale*.32,ry:scale*.17,rot:.3,sp:1.1},{rx:scale*.52,ry:scale*.27,rot:-.8,sp:.72},{rx:scale*.72,ry:scale*.21,rot:1.2,sp:.48}];
+  orbits.forEach(function(o){drawOrbit(ctx,cx,cy,o.rx,o.ry,o.rot,cor,.25);});
+  drawGlow(ctx,cx,cy,30,cor,.65);
+  var np=1+.08*Math.sin(t*2.5);drawSphere(ctx,cx,cy,12*np,cor,.85);
+  orbits.forEach(function(o,i){var ang=t*o.sp+i*2.1;drawElectron(ctx,cx,cy,o.rx,o.ry,o.rot,ang,'#00cfff',5,id+'_e'+i);});
 }
 
-// ── Bohr: núcleo + 3 órbitas circulares + elétrons ──
-function drawBohr(ctx, cor, cx, cy, W, H, t) {
-  var scale = Math.min(W, H) * 0.42;
-  var niveis = [
-    { r: scale*0.28, n:2, sp:1.1, ecor: '#ffffff' },
-    { r: scale*0.50, n:4, sp:0.7, ecor: '#aaddff' },
-    { r: scale*0.72, n:6, sp:0.45,ecor: '#8899ff' },
-  ];
-  niveis.forEach(function(nv) {
-    ctx.beginPath(); ctx.arc(cx, cy, nv.r, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba('+hex2rgb(cor)+',0.28)'; ctx.lineWidth=1.2; ctx.stroke();
-  });
-  drawGlow(ctx, cx, cy, 26, cor, 0.65);
-  drawSphere(ctx, cx, cy, 11, cor, 0.9);
-  niveis.forEach(function(nv) {
-    for (var i = 0; i < nv.n; i++) {
-      var ang = t*nv.sp + i/nv.n*Math.PI*2;
-      var ex = cx + nv.r*Math.cos(ang), ey = cy + nv.r*Math.sin(ang);
-      drawGlow(ctx, ex, ey, 12, nv.ecor, 0.5);
-      ctx.beginPath(); ctx.arc(ex, ey, 4, 0, Math.PI*2);
-      ctx.fillStyle = nv.ecor; ctx.fill();
-    }
-  });
+// ── Bohr ──────────────────────────────────────────────────────────────────────
+function drawBohr(ctx,cor,cx,cy,W,H,t,id) {
+  var scale=Math.min(W,H)*.42;
+  var niveis=[{r:scale*.27,n:2,sp:1.15,ecor:'#ffffff'},{r:scale*.49,n:4,sp:.7,ecor:'#aaddff'},{r:scale*.71,n:6,sp:.44,ecor:'#8899ff'}];
+  niveis.forEach(function(nv){ctx.beginPath();ctx.arc(cx,cy,nv.r,0,Math.PI*2);ctx.strokeStyle='rgba('+hex2rgb(cor)+',.22)';ctx.lineWidth=1;ctx.stroke();});
+  drawGlow(ctx,cx,cy,28,cor,.68);
+  var np=1+.07*Math.sin(t*2);drawSphere(ctx,cx,cy,11*np,cor,.92);
+  if(Math.sin(t*3.7)>.9){var ang2=Math.random()*Math.PI*2,r2=niveis[0].r+Math.random()*(niveis[2].r-niveis[0].r);drawGlow(ctx,cx+r2*Math.cos(ang2),cy+r2*Math.sin(ang2),10,'#ffff88',.8);}
+  niveis.forEach(function(nv){for(var i=0;i<nv.n;i++){var ang3=t*nv.sp+i/nv.n*Math.PI*2;var ex2=cx+nv.r*Math.cos(ang3),ey2=cy+nv.r*Math.sin(ang3);drawGlow(ctx,ex2,ey2,12,nv.ecor,.48);ctx.beginPath();ctx.arc(ex2,ey2,4,0,Math.PI*2);ctx.fillStyle=nv.ecor;ctx.fill();}});
 }
 
-// ── Sommerfeld: núcleo + órbitas elípticas multicoloridas ──
-function drawSommerfeld(ctx, cor, cx, cy, W, H, t) {
-  var scale = Math.min(W, H) * 0.42;
-  var cfgs = [
-    { rx: scale*0.28, ry: scale*0.28, rot: 0,            sp: 1.4, hue: 0.0 },
-    { rx: scale*0.50, ry: scale*0.22, rot: Math.PI/4,    sp: 1.0, hue: 0.15 },
-    { rx: scale*0.60, ry: scale*0.30, rot: -Math.PI/3,   sp: 0.72, hue: 0.3 },
-    { rx: scale*0.72, ry: scale*0.18, rot: Math.PI/1.5,  sp: 0.55, hue: 0.55 },
-    { rx: scale*0.40, ry: scale*0.35, rot: Math.PI/2,    sp: 0.9,  hue: 0.7 },
-  ];
-  cfgs.forEach(function(c2, i) {
-    var rgb = hslToRgb(c2.hue, 0.9, 0.62);
-    var ecor = 'rgb('+rgb+')';
-    drawOrbit(ctx, cx, cy, c2.rx, c2.ry, c2.rot + t*0.04, ecor, 0.4);
-    var ang = t*c2.sp + i*1.3;
-    var ex = cx + c2.rx*Math.cos(ang + c2.rot);
-    var ey = cy + c2.ry*Math.sin(ang)*Math.cos(c2.rot) - c2.ry*Math.cos(ang)*Math.sin(c2.rot)*0.5;
-    drawGlow(ctx, ex, ey, 13, ecor, 0.55);
-    ctx.beginPath(); ctx.arc(ex, ey, 4.5, 0, Math.PI*2);
-    ctx.fillStyle = ecor; ctx.fill();
-  });
-  drawGlow(ctx, cx, cy, 22, cor, 0.7);
-  drawSphere(ctx, cx, cy, 10, cor, 0.85);
-}
-
-// ── Quântico: nuvem de pontos + núcleo ──
-function drawQuantum(ctx, cor, cx, cy, W, H, t) {
-  var scale = Math.min(W, H) * 0.42;
-  var rgb = hex2rgb(cor);
-  // nuvem de probabilidade — pontos com posição pseudo-aleatória mas determinística
-  for (var i = 0; i < 320; i++) {
-    var seed = i * 1.618;
-    var r_base = scale * (0.12 + Math.pow(fract(seed * 0.37), 0.5) * 0.88);
-    var r = r_base + Math.sin(t * 0.4 + seed) * scale * 0.04;
-    var th = fract(seed * 0.618) * Math.PI * 2 + t * (0.004 + fract(seed * 0.11) * 0.012);
-    var ph = fract(seed * 0.293) * Math.PI;
-    var x = cx + r * Math.sin(ph) * Math.cos(th);
-    var y = cy + r * Math.sin(ph) * Math.sin(th) * 0.55;
-    var alpha = 0.25 + 0.55 * Math.exp(-r / (scale * 0.5)) + 0.2 * Math.sin(t + seed);
-    var size = 1.2 + 1.4 * Math.exp(-r / (scale * 0.35));
-    ctx.beginPath(); ctx.arc(x, y, size, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba('+rgb+','+Math.max(0.05, Math.min(0.9, alpha))+')';
-    ctx.fill();
+// ── Sommerfeld ────────────────────────────────────────────────────────────────
+function hslToRgb(h,s,l){
+  var r,g,b;
+  if(s===0){r=g=b=l;}
+  else{
+    function hue2rgb(p,q,t2){if(t2<0)t2+=1;if(t2>1)t2-=1;if(t2<1/6)return p+(q-p)*6*t2;if(t2<1/2)return q;if(t2<2/3)return p+(q-p)*(2/3-t2)*6;return p;}
+    var q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;
+    r=hue2rgb(p,q,h+1/3);g=hue2rgb(p,q,h);b=hue2rgb(p,q,h-1/3);
   }
-  drawGlow(ctx, cx, cy, 24, cor, 0.8);
-  drawSphere(ctx, cx, cy, 9, cor, 1.0);
+  return [Math.round(r*255),Math.round(g*255),Math.round(b*255)];
+}
+function drawSommerfeld(ctx,cor,cx,cy,W,H,t) {
+  var scale=Math.min(W,H)*.42;
+  var cfgs=[{rx:scale*.28,ry:scale*.28,rot:0,sp:1.4,hue:.0},{rx:scale*.50,ry:scale*.21,rot:Math.PI/4,sp:1.0,hue:.15},{rx:scale*.60,ry:scale*.29,rot:-Math.PI/3,sp:.72,hue:.3},{rx:scale*.72,ry:scale*.17,rot:Math.PI/1.5,sp:.55,hue:.55},{rx:scale*.40,ry:scale*.34,rot:Math.PI/2,sp:.9,hue:.7}];
+  cfgs.forEach(function(c2,i){
+    var rgb=hslToRgb(c2.hue,.9,.62),ecor='rgb('+rgb+')';
+    drawOrbit(ctx,cx,cy,c2.rx,c2.ry,c2.rot+t*.035,ecor,.35);
+    var ang=t*c2.sp+i*1.3;
+    var ex=cx+c2.rx*Math.cos(ang+c2.rot),ey=cy+c2.ry*Math.sin(ang)*Math.cos(c2.rot)-c2.ry*Math.cos(ang)*Math.sin(c2.rot)*.5;
+    drawGlow(ctx,ex,ey,14,ecor,.5);ctx.beginPath();ctx.arc(ex,ey,4.5,0,Math.PI*2);ctx.fillStyle=ecor;ctx.fill();
+  });
+  drawGlow(ctx,cx,cy,24,cor,.72);var np=1+.06*Math.sin(t*2.2);drawSphere(ctx,cx,cy,10*np,cor,.88);
 }
 
-function fract(x) { return x - Math.floor(x); }
-
-function hslToRgb(h, s, l) {
-  var r, g, b;
-  if (s === 0) { r = g = b = l; }
-  else {
-    function hue2rgb(p, q, t) {
-      if (t < 0) t += 1; if (t > 1) t -= 1;
-      if (t < 1/6) return p + (q-p)*6*t;
-      if (t < 1/2) return q;
-      if (t < 2/3) return p + (q-p)*(2/3-t)*6;
-      return p;
-    }
-    var q = l < 0.5 ? l*(1+s) : l+s-l*s, p = 2*l-q;
-    r = hue2rgb(p,q,h+1/3); g = hue2rgb(p,q,h); b = hue2rgb(p,q,h-1/3);
+// ── Quântico ──────────────────────────────────────────────────────────────────
+function fract(x){return x-Math.floor(x);}
+function drawQuantum(ctx,cor,cx,cy,W,H,t) {
+  var scale=Math.min(W,H)*.42,rgb=hex2rgb(cor);
+  for(var i=0;i<380;i++){
+    var seed=i*1.618,r_base=scale*(.1+Math.pow(fract(seed*.37),.48)*.9);
+    var r2=r_base+Math.sin(t*.38+seed)*scale*.045;
+    var th=fract(seed*.618)*Math.PI*2+t*(.004+fract(seed*.11)*.012);
+    var ph=fract(seed*.293)*Math.PI;
+    var x2=cx+r2*Math.sin(ph)*Math.cos(th),y2=cy+r2*Math.sin(ph)*Math.sin(th)*.5;
+    var alpha=.22+.55*Math.exp(-r2/(scale*.48))+.18*Math.sin(t+seed);
+    var size=1+1.6*Math.exp(-r2/(scale*.32));
+    ctx.beginPath();ctx.arc(x2,y2,size,0,Math.PI*2);
+    ctx.fillStyle='rgba('+rgb+','+Math.max(.04,Math.min(.88,alpha))+')';ctx.fill();
   }
-  return [Math.round(r*255), Math.round(g*255), Math.round(b*255)];
+  drawGlow(ctx,cx,cy,26,cor,.82);drawSphere(ctx,cx,cy,9,cor,1);
 }
 
-var DRAWS = {
-  democrito: drawDemocrito, dalton: drawDalton, thomson: drawThomson,
-  rutherford: drawRutherford, bohr: drawBohr, sommerfeld: drawSommerfeld, quantum: drawQuantum
-};
-
-function drawModel(ctx, tipo, cor, cx, cy, W, H, t) {
-  DRAWS[tipo](ctx, cor, cx, cy, W, H, t);
-}
+var DRAWS={democrito:drawDemocrito,dalton:drawDalton,thomson:drawThomson,rutherford:drawRutherford,bohr:drawBohr,sommerfeld:drawSommerfeld,quantum:drawQuantum};
+function drawModel(ctx,tipo,cor,cx,cy,W,H,t,id){DRAWS[tipo](ctx,cor,cx,cy,W,H,t,id);}
 """
 
-CSS = r"""
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;background:#070b12;color:#e8eaf0;font-family:'Syne',sans-serif}
+JS_NAV = r"""
+var MODELOS_DATA = __MODELOS_JSON__;
+var N = MODELOS_DATA.length;
+var _idx = 0;
+var _iniciados = {};
+var _track = document.getElementById('track');
+var _overlay = document.getElementById('bg-overlay');
+var _pf = document.getElementById('pf');
 
-#prog{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.05);z-index:200}
-#pf{height:100%;width:0;background:#4361ee;transition:width .4s ease,background .4s ease}
+// Build intro timeline
+(function(){
+  var tl = document.getElementById('tl');
+  MODELOS_DATA.slice(1).forEach(function(m, i){
+    var item = document.createElement('div');
+    item.className = 'tl-item';
+    item.style.setProperty('--item-cor', m.cor);
+    item.innerHTML = '<div class="tl-dot" style="background:'+m.cor+';border-color:'+m.cor+'"></div>'
+      + (i < MODELOS_DATA.length-2 ? '<div class="tl-line"></div>' : '')
+      + '<div class="tl-nome">'+m.nome+'</div>'
+      + '<div class="tl-ano">'+m.tl_ano+'</div>';
+    item.addEventListener('click', function(){ ir(i+1); });
+    tl.appendChild(item);
+  });
+})();
 
-#wrap{position:fixed;inset:0;overflow:hidden}
-#track{display:flex;height:100%;will-change:transform;transition:transform .42s cubic-bezier(.4,0,.2,1)}
+document.getElementById('start-btn').addEventListener('click', function(){ ir(1); });
 
-.slide{flex:0 0 100vw;width:100vw;height:100%;display:flex;flex-direction:column;overflow:hidden}
-
-.canvas-area{
-  flex:0 0 42%;position:relative;overflow:hidden;
-  background:radial-gradient(ellipse at 50% 55%, rgba(var(--cor-rgb),.1) 0%, #070b12 72%);
+function ir(i, anim) {
+  if(i < 0 || i >= N) return;
+  _idx = i;
+  _track.style.transition = anim === false ? 'none' : 'transform .48s cubic-bezier(.4,0,.2,1)';
+  _track.style.transform = 'translateX(' + (-_idx * 100) + 'vw)';
+  document.querySelectorAll('.slide').forEach(function(s, j){ s.classList.toggle('visible', j === _idx); });
+  document.querySelectorAll('.dot').forEach(function(d, j){ d.classList.toggle('active', j === _idx); });
+  _pf.style.width = ((_idx)/Math.max(1,N-1)*100) + '%';
+  _pf.style.background = MODELOS_DATA[_idx].cor;
+  _pf.style.boxShadow = '0 0 12px ' + MODELOS_DATA[_idx].cor;
+  var rgb = MODELOS_DATA[_idx].cor.replace('#','');
+  var r=parseInt(rgb.slice(0,2),16), g2=parseInt(rgb.slice(2,4),16), b2=parseInt(rgb.slice(4,6),16);
+  _overlay.style.background = 'radial-gradient(ellipse at 20% 50%, rgba('+r+','+g2+','+b2+',.06) 0%, transparent 65%)';
+  document.documentElement.style.setProperty('--cor', MODELOS_DATA[_idx].cor);
+  document.documentElement.style.setProperty('--cor-rgb', r+','+g2+','+b2);
+  document.getElementById('nav-label').textContent = MODELOS_DATA[_idx].nome.toUpperCase().slice(0,12);
+  [_idx, _idx+1, _idx-1].forEach(function(k){
+    if(k <= 0 || k >= N || _iniciados[MODELOS_DATA[k].id]) return;
+    _iniciados[MODELOS_DATA[k].id] = true;
+    var m = MODELOS_DATA[k];
+    setTimeout(function(){ startCanvas(m.id, m.tipo, m.cor); }, 60);
+  });
 }
-@media(min-height:700px){.canvas-area{flex:0 0 44%}}
-@media(min-width:768px){
-  .slide{flex-direction:row}
-  .canvas-area{flex:0 0 50%;height:100%}
-}
 
-.canvas2d{position:absolute;inset:0;width:100%;height:100%;display:block}
+(function(){
+  var tx0=0,ty0=0,sw=false,bx=0, wrap=document.getElementById('wrap');
+  wrap.addEventListener('touchstart',function(e){tx0=e.touches[0].clientX;ty0=e.touches[0].clientY;sw=true;bx=-_idx*window.innerWidth;},{passive:true});
+  wrap.addEventListener('touchmove',function(e){if(!sw)return;var dx=e.touches[0].clientX-tx0,dy=e.touches[0].clientY-ty0;if(Math.abs(dx)>Math.abs(dy)){e.preventDefault();_track.style.transition='none';_track.style.transform='translateX('+(bx+dx)+'px)';}},{passive:false});
+  wrap.addEventListener('touchend',function(e){if(!sw)return;sw=false;var dx=e.changedTouches[0].clientX-tx0;ir(Math.abs(dx)>52?(dx<0?Math.min(_idx+1,N-1):Math.max(_idx-1,0)):_idx);});
+})();
 
-.badge{
-  position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:8px;
-  background:rgba(0,0,0,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:6px 14px;z-index:2;
-}
-.bnum{font-family:'Space Mono',monospace;font-size:10px;color:#6b7280}
-.bnome{font-size:12px;font-weight:700;color:var(--cor)}
-.ano-tag{position:absolute;bottom:12px;right:14px;font-family:'Space Mono',monospace;font-size:10px;color:rgba(255,255,255,.22);letter-spacing:2px;z-index:2}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') ir(_idx+1);
+  if(e.key==='ArrowLeft' ||e.key==='ArrowUp')   ir(_idx-1);
+});
+document.querySelectorAll('.dot').forEach(function(d){ d.addEventListener('click',function(){ir(+d.dataset.idx);}); });
+document.getElementById('arr-l').addEventListener('click',function(){ir(_idx-1);});
+document.getElementById('arr-r').addEventListener('click',function(){ir(_idx+1);});
 
-.divider{height:1px;background:linear-gradient(90deg,transparent,var(--cor),transparent);opacity:.3;flex-shrink:0}
-@media(min-width:768px){
-  .divider{display:none}
-  .canvas-area::after{content:'';position:absolute;top:0;right:0;width:1px;height:100%;background:linear-gradient(180deg,transparent,var(--cor),transparent);opacity:.3}
-}
+document.getElementById('fs-btn').addEventListener('click',function(){
+  if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}
+  else{document.exitFullscreen&&document.exitFullscreen();}
+});
 
-.info-area{flex:1;overflow-y:auto;padding:20px 18px 100px;display:flex;flex-direction:column;gap:14px;scrollbar-width:none}
-.info-area::-webkit-scrollbar{display:none}
-@media(min-width:768px){.info-area{padding:28px 32px 40px}}
+window.addEventListener('resize',function(){
+  ir(_idx,false);
+  Object.keys(_animHandles).forEach(function(id){var c=document.getElementById('c-'+id);if(c){c.width=c.offsetWidth||280;c.height=c.offsetHeight||220;}});
+});
 
-.subtitulo{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--cor);font-family:'Space Mono',monospace;margin-bottom:4px}
-.titulo{font-size:25px;font-weight:800;line-height:1.1;letter-spacing:-.4px}
-@media(min-width:768px){.titulo{font-size:30px}}
-.desc{font-size:13px;line-height:1.8;color:rgba(232,234,240,.75)}
-
-.contexto-box{background:rgba(255,255,255,.04);border-left:2px solid var(--cor);border-radius:0 8px 8px 0;padding:10px 14px}
-.contexto-box p{font-size:12px;color:rgba(232,234,240,.55);line-height:1.6;font-style:italic}
-
-.bloco-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--cor);font-family:'Space Mono',monospace;margin-bottom:10px}
-.chars{list-style:none;display:flex;flex-direction:column;gap:8px}
-.chars li{font-size:12.5px;display:flex;gap:9px;line-height:1.55;align-items:flex-start}
-.ck{color:var(--cor);flex-shrink:0;font-size:9px;margin-top:4px}
-
-.lim-box{background:rgba(255,70,50,.06);border:1px solid rgba(255,70,50,.18);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
-.lim-i{color:#ff5040;flex-shrink:0;font-size:14px;margin-top:1px}
-.lim-box p{font-size:12px;color:rgba(232,234,240,.65);line-height:1.65}
-
-.legado-box{background:rgba(var(--cor-rgb),.06);border:1px solid rgba(var(--cor-rgb),.22);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
-.legado-i{color:var(--cor);flex-shrink:0;font-size:14px;margin-top:1px}
-.legado-box p{font-size:12px;color:rgba(232,234,240,.65);line-height:1.65}
-
-#nav-bar{
-  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-  display:flex;align-items:center;gap:8px;
-  background:rgba(7,11,18,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  border:1px solid rgba(255,255,255,.1);padding:10px 20px;border-radius:99px;z-index:200;
-  box-shadow:0 8px 32px rgba(0,0,0,.5);
-}
-.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer;transition:all .3s;flex-shrink:0}
-.dot.active{background:var(--cor,#4361ee);transform:scale(1.45);box-shadow:0 0 8px var(--cor,#4361ee)}
-
-.nav-arrow{display:none;position:fixed;top:50%;transform:translateY(-50%);background:rgba(7,11,18,.7);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:44px;height:44px;font-size:20px;color:rgba(255,255,255,.6);cursor:pointer;align-items:center;justify-content:center;transition:all .2s;z-index:200}
-.nav-arrow:hover{background:rgba(67,97,238,.3);color:#fff}
-#arr-l{left:16px} #arr-r{right:16px}
-@media(min-width:768px){.nav-arrow{display:flex}}
+ir(0, false);
 """
 
-def gerar_html(modelos, js_anim):
-    total = len(modelos)
-    slides_js = json.dumps([{"id": m["id"], "tipo": m["tipo_2d"], "cor": m["cor"]} for m in modelos])
+STARFIELD_JS = r"""
+(function(){
+  var c=document.getElementById('stars');
+  for(var i=0;i<120;i++){
+    var s=document.createElement('div'); s.className='star';
+    var sz=Math.random()<.7?1:Math.random()<.6?1.5:2;
+    s.style.cssText='width:'+sz+'px;height:'+sz+'px;left:'+(Math.random()*100)+'%;top:'+(Math.random()*100)+'%;--dur:'+(2+Math.random()*4)+'s;--op:'+(0.2+Math.random()*.5)+';animation-delay:'+(Math.random()*5)+'s';
+    c.appendChild(s);
+  }
+})();
+"""
 
-    slides_html = ""
-    for i, m in enumerate(modelos):
-        chars = "".join([f'<li><span class="ck">✦</span>{c}</li>' for c in m["caracteristicas"]])
-        num = str(i+1).zfill(2)
-        slides_html += f"""
+
+def gerar_slide_html(m, total, num):
+    chars = "".join([f'<li><span class="ck">◆</span>{c}</li>' for c in m["caracteristicas"]])
+    nn = str(num).zfill(2)
+    tt = str(total).zfill(2)
+    return f"""
 <div class="slide" id="slide-{m['id']}" style="--cor:{m['cor']};--cor-rgb:{m['cor_rgb']}">
   <div class="canvas-area">
     <canvas id="c-{m['id']}" class="canvas2d"></canvas>
-    <div class="badge"><span class="bnum">{num}/{str(total).zfill(2)}</span><span class="bnome">{m['nome']}</span></div>
+    <div class="badge">
+      <span class="bnum">{nn}</span><span class="bsep">/</span><span class="bnum">{tt}</span>
+      &nbsp;&nbsp;<span class="bnome">{m['nome']}</span>
+    </div>
     <div class="ano-tag">{m['ano']}</div>
   </div>
   <div class="divider"></div>
   <div class="info-area">
-    <div><div class="subtitulo">{m['subtitulo']}</div><h2 class="titulo">{m['nome']}</h2></div>
+    <div>
+      <div class="subtitulo">{m['subtitulo']}</div>
+      <h2 class="titulo">{m['nome']}</h2>
+    </div>
     <p class="desc">{m['descricao']}</p>
     <div class="contexto-box"><p>📍 {m['contexto']}</p></div>
-    <div class="bloco"><div class="bloco-label">Características</div><ul class="chars">{chars}</ul></div>
+    <div class="bloco">
+      <div class="bloco-label">Características</div>
+      <ul class="chars">{chars}</ul>
+    </div>
     <div class="lim-box"><span class="lim-i">⚠</span><p>{m['limitacoes']}</p></div>
     <div class="legado-box"><span class="legado-i">★</span><p>{m['legado']}</p></div>
   </div>
 </div>"""
 
-    dots_html = "".join([
-        f'<span class="dot {"active" if i==0 else ""}" data-idx="{i}" style="--cor:{m["cor"]}"></span>'
-        for i, m in enumerate(modelos)
-    ])
+
+def gerar_html(modelos):
+    total = len(modelos)
+
+    # Build JSON for nav JS (includes intro)
+    all_modelos = [{"id":"intro","tipo":None,"cor":"#4361ee","nome":"Intro","tl_ano":""}]
+    for m in modelos:
+        all_modelos.append({
+            "id": m["id"], "tipo": m["tipo_2d"], "cor": m["cor"],
+            "nome": m["nome"], "tl_ano": m["tl_ano"]
+        })
+    modelos_json = json.dumps(all_modelos, ensure_ascii=False)
+
+    slides_html = "\n".join([gerar_slide_html(m, total, i+1) for i, m in enumerate(modelos)])
+
+    dots_html = '<span class="dot active" data-idx="0" style="--cor:#4361ee"></span>\n'
+    for i, m in enumerate(modelos):
+        dots_html += f'  <span class="dot" data-idx="{i+1}" style="--cor:{m["cor"]}"></span>\n'
+
+    js_nav = JS_NAV.replace("__MODELOS_JSON__", modelos_json)
 
     return f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#070b12">
-<title>Modelos Atômicos</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#040812">
+<title>Modelos Atômicos — Da Filosofia à Mecânica Quântica</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>{CSS}</style>
 </head>
 <body>
 
+<div id="stars"></div>
+<div id="bg-overlay"></div>
 <div id="prog"><div id="pf"></div></div>
-<div id="wrap"><div id="track">{slides_html}</div></div>
-<div id="nav-bar">{dots_html}</div>
+<button id="fs-btn" title="Tela cheia">⛶</button>
+
+<div id="wrap"><div id="track">
+
+<!-- Intro -->
+<div class="slide visible" id="slide-intro">
+  <div class="intro-kicker">Física &amp; Química · Ensino Médio</div>
+  <h1 class="intro-title">Modelos<br>Atômicos</h1>
+  <p class="intro-sub">Da filosofia grega à mecânica quântica — 2.400 anos de evolução do conceito de átomo em {total} slides interativos.</p>
+  <div class="intro-timeline" id="tl"></div>
+  <button class="start-btn" id="start-btn">Começar →</button>
+</div>
+
+{slides_html}
+
+</div></div>
+
+<div id="swipe-hint"><span>←</span>&nbsp;DESLIZE&nbsp;<span>→</span></div>
+
+<div id="nav-bar">
+  {dots_html}
+  <span id="nav-label">INTRO</span>
+</div>
 <button class="nav-arrow" id="arr-l">‹</button>
 <button class="nav-arrow" id="arr-r">›</button>
 
 <script>
-{js_anim}
-
-var MODELOS = {slides_js};
-var N = MODELOS.length;
-var _idx = 0;
-var _iniciados = {{}};
-var _track = document.getElementById('track');
-
-function ir(i, anim) {{
-  if (i < 0 || i >= N) return;
-  _idx = i;
-  _track.style.transition = anim === false ? 'none' : 'transform .42s cubic-bezier(.4,0,.2,1)';
-  _track.style.transform = 'translateX(' + (-_idx * 100) + 'vw)';
-  document.querySelectorAll('.dot').forEach(function(d, j) {{ d.classList.toggle('active', j === _idx); }});
-  var pf = document.getElementById('pf');
-  pf.style.width = ((_idx+1)/N*100) + '%';
-  pf.style.background = MODELOS[_idx].cor;
-  [_idx, _idx+1, _idx-1].forEach(function(k) {{
-    if (k < 0 || k >= N || _iniciados[MODELOS[k].id]) return;
-    _iniciados[MODELOS[k].id] = true;
-    var m = MODELOS[k];
-    setTimeout(function() {{ startCanvas(m.id, m.tipo, m.cor); }}, 60);
-  }});
-}}
-
-// Touch
-(function() {{
-  var tx0=0, ty0=0, sw=false, bx=0;
-  var wrap = document.getElementById('wrap');
-  wrap.addEventListener('touchstart', function(e) {{ tx0=e.touches[0].clientX; ty0=e.touches[0].clientY; sw=true; bx=-_idx*window.innerWidth; }}, {{passive:true}});
-  wrap.addEventListener('touchmove', function(e) {{
-    if(!sw) return;
-    var dx=e.touches[0].clientX-tx0, dy=e.touches[0].clientY-ty0;
-    if(Math.abs(dx)>Math.abs(dy)) {{ e.preventDefault(); _track.style.transition='none'; _track.style.transform='translateX('+(bx+dx)+'px)'; }}
-  }}, {{passive:false}});
-  wrap.addEventListener('touchend', function(e) {{
-    if(!sw) return; sw=false;
-    var dx=e.changedTouches[0].clientX-tx0;
-    ir(Math.abs(dx)>48?(dx<0?Math.min(_idx+1,N-1):Math.max(_idx-1,0)):_idx);
-  }});
-}})();
-
-document.addEventListener('keydown', function(e) {{
-  if(e.key==='ArrowRight'||e.key==='ArrowDown') ir(_idx+1);
-  if(e.key==='ArrowLeft'||e.key==='ArrowUp')    ir(_idx-1);
-}});
-document.querySelectorAll('.dot').forEach(function(d) {{ d.addEventListener('click', function() {{ ir(+d.dataset.idx); }}); }});
-document.getElementById('arr-l').addEventListener('click', function() {{ ir(_idx-1); }});
-document.getElementById('arr-r').addEventListener('click', function() {{ ir(_idx+1); }});
-window.addEventListener('resize', function() {{
-  ir(_idx, false);
-  Object.keys(_animHandles).forEach(function(id) {{
-    var c = document.getElementById('c-'+id);
-    if(c) {{ c.width=c.offsetWidth||280; c.height=c.offsetHeight||220; }}
-  }});
-}});
-
-// Inicia imediatamente — sem esperar CDN
-ir(0, false);
+{STARFIELD_JS}
+{JS_ANIMATIONS}
+{js_nav}
 </script>
 </body>
 </html>"""
 
+
 if __name__ == "__main__":
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
-    print("Gerando…")
-    html = gerar_html(MODELOS, JS_ANIMATIONS)
+    print("Gerando v2…")
+    html = gerar_html(MODELOS)
     with open(out, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"✓ {out}  ({len(html.encode())//1024} KB)")
+    print(f"  {len(MODELOS)} modelos + intro = {len(MODELOS)+1} slides")
